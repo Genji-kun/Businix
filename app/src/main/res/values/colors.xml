@@ -5,4 +5,5 @@
     <color name="lightPurple">#FF8c45e3</color>
     <color name="mediumPurple">#FF631cba</color>
     <color name="darkPurple">#FF501797</color>
+    <color name="transparent">#00000000</color>
 </resources>
