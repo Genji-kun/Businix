@@ -17,8 +17,9 @@ public class SplashPage extends AppCompatActivity {
             public void run() {
                 Intent i = new Intent(SplashPage.this, LoginActivity.class);
                 startActivity(i);
-
+                finish();
             }
-        }, 5000);
+        }, 3000);
+
     }
 }

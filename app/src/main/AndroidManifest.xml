@@ -13,17 +13,19 @@
         android:theme="@style/Theme.Businix"
         tools:targetApi="31">
         <activity
-            android:name=".SignupActivity"
+            android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashPage"
+            android:name=".IntroduceActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
