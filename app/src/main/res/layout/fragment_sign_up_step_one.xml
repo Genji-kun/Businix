@@ -7,46 +7,63 @@
     android:orientation="vertical"
     tools:context=".SignUpStepOneFragment">
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/mediumfont"
+        android:fontFamily="@font/medium_font"
         android:text="Thông tin cơ bản"
         android:textColor="@color/black"
         android:textSize="16dp"></TextView>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutFullName"
+        android:id="@+id/layout_name"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTextFullName"
+            android:id="@+id/input_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Họ và tên" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutDOB"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <RelativeLayout
+        android:id="@+id/layout_relative_DOB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTextDOB"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_DOB"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_DOB"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Ngày sinh"
+                android:enabled="false"
+                android:textColor="@color/black"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/iv_date_picker"
+            android:layout_centerVertical="true"
+            android:layout_alignEnd="@+id/layout_DOB"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Ngày sinh"
-            android:inputType="date" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:padding="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_calendar"/>
+    </RelativeLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/gender"
+        android:id="@+id/layout_gender"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +78,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutIdentityCard"
+        android:id="@+id/layout_identity_card"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,7 +88,7 @@
         app:helperText="*Bắt buộc*">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtIdentityCard"
+            android:id="@+id/input_identity_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Số CMND/CCCD"

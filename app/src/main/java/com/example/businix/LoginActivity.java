@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent introduce = new Intent(LoginActivity.this, IntroduceActivity.class);
+                Intent introduce = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(introduce);
             }
         });

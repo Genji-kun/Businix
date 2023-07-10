@@ -1,17 +1,20 @@
 <resources>
     <string name="app_name">Businix</string>
-    <string name="title_1">Easy to manage</string>
-    <string name="title_2">Quick check-in</string>
-    <string name="title_3">Comfortable and friendly</string>
-    <string name="title_4">Friendly UI</string>
-    <string name="des_1">Easy to manage means that something is simple and convenient to handle or control. It can be applied to various situations, such as projects, tasks, teams, products, services, etc</string>
-    <string name="des_2">Easy to manage means that something is simple and convenient to handle or control. It can be applied to various situations, such as projects, tasks, teams, products, services, etc</string>
-    <string name="des_3">Easy to manage means that something is simple and convenient to handle or control. It can be applied to various situations, such as projects, tasks, teams, products, services, etc</string>
-    <string name="des_4">Easy to manage means that something is simple and convenient to handle or control. It can be applied to various situations, such as projects, tasks, teams, products, services, etc</string>
+    <!-- introduction-->
+    <string name="introduction_title">Chào mừng bạn đến với </string>
+    <string name="introduction_description">Chúng tôi rất hân hạnh khi bạn tham gia và trở thành một phần của đội ngũ Businix. Hãy hoàn thành quá trình đăng ký để bắt đầu nhé!</string>
+    <!--Dialog-->
     <string name="dialog_title">Bạn có muốn dừng tạo tài khoản không?</string>
     <string name="dialog_description">Nếu dừng ngay bây giờ, bạn sẽ mất toàn bộ tiến trình đã thực hiện.</string>
     <string name="dialog_continue_choice">Tiếp tục tạo tài khoản</string>
     <string name="dialog_cancel_choice">Dừng tạo tài khoản</string>
+    <!--OTP-->
+    <string name="otp_description">Businix sẽ gửi mã OTP đến số điện thoại</string>
+    <string name="phone_number_receive_otp"></string>
+    <string name="confirm_send_otp">Bạn chắc chắn sẽ nhận mã qua số trên không?</string>
+    <string name="press_otp_message">Nhập mã OTP Businix đã gửi đến</string>
+    <string name="do_not_receive_otp">Bạn chưa nhận OTP?</string>
+    <string name="resend_otp">Gửi lại</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

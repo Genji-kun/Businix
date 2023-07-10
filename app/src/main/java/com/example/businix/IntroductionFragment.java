@@ -8,15 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SignUpStepTwoFragment#newInstance} factory method to
+ * Use the {@link IntroductionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignUpStepTwoFragment extends Fragment {
+public class IntroductionFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,28 +23,8 @@ public class SignUpStepTwoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private TextInputLayout layoutPhone, layoutEmail;
-    private TextInputEditText inputPhone, inputEmail;
 
-    public TextInputLayout getLayoutPhone() {
-        return layoutPhone;
-    }
-
-    public TextInputLayout getLayoutEmail() {
-        return layoutEmail;
-    }
-
-    public TextInputEditText getInputPhone() {
-        return inputPhone;
-    }
-
-    public TextInputEditText getInputEmail() {
-        return inputEmail;
-    }
-
-    private SignUpUtils utils;
-
-    public SignUpStepTwoFragment() {
+    public IntroductionFragment() {
         // Required empty public constructor
     }
 
@@ -57,11 +34,11 @@ public class SignUpStepTwoFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SignUpStepTwoFragment.
+     * @return A new instance of fragment IntroductionFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SignUpStepTwoFragment newInstance(String param1, String param2) {
-        SignUpStepTwoFragment fragment = new SignUpStepTwoFragment();
+    public static IntroductionFragment newInstance(String param1, String param2) {
+        IntroductionFragment fragment = new IntroductionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,26 +53,12 @@ public class SignUpStepTwoFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        utils = new SignUpUtils();
-    }
-
-    public int checkStepTwo() {
-        int result = utils.CheckStepTwo(inputPhone.getText().toString(), inputEmail.getText().toString());
-        return result;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sign_up_step_two, container, false);
-
-        layoutPhone = (TextInputLayout) view.findViewById(R.id.layout_phone);
-        layoutEmail = (TextInputLayout) view.findViewById(R.id.layout_email);
-
-        inputPhone = (TextInputEditText) view.findViewById(R.id.input_phone);
-        inputEmail = (TextInputEditText) view.findViewById(R.id.input_email);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_introduction, container, false);
     }
 }
