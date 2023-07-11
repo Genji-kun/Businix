@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_home"
-        android:title="_____"
+        android:title="Home"
         android:icon="@drawable/ic_home"
 
         />
-    <item android:id="@+id/action_work"
-        android:title="_____"
-        android:icon="@drawable/ic_calendar"
-        />
-    <item android:id="@+id/action_notice"
-        android:title="_____"
+    <item android:id="@+id/action_statistical"
+        android:title="Thông báo"
         android:icon="@drawable/ic_chart"
         />
-    <item android:id="@+id/action_personal"
-        android:title="_____"
+    <item android:id="@+id/action_profile"
+        android:title="Cá nhân"
         android:icon="@drawable/ic_person"
         />
 </menu>

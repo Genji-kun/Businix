@@ -1,8 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Businix" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Base.Theme.Businix" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/lightPurple</item>
+        <item name="android:listDivider">@color/dark_gray</item>
     </style>
 
     <style name="Theme.Businix" parent="Base.Theme.Businix" />

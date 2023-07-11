@@ -1,8 +1,10 @@
 package com.example.businix;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 public class LoginActivity extends AppCompatActivity {
     //BlurLayout blurLayout;
@@ -10,16 +12,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //blurLayout = findViewById(R.id.blurLayout);
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //blurLayout.startBlur();
+        MotionLayout motionLayout = findViewById(R.id.animLayout);
+        motionLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                motionLayout.transitionToEnd();
+            }
+        });
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 }
