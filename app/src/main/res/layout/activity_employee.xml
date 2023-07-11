@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/round_top_shape"
-            android:backgroundTint="@color/lightPurple"
+            android:backgroundTint="@color/light_purple"
             android:backgroundTintMode="add"
             android:paddingTop="7dp"
             android:soundEffectsEnabled="true"

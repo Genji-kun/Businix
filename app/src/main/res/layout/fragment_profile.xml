@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:cardBackgroundColor="@color/lightPurple"
+        app:cardBackgroundColor="@color/light_purple"
         app:cardCornerRadius="999dp"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
@@ -58,9 +58,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="60dp"
-                    android:fontFamily="@font/mediumfont"
+                    android:fontFamily="@font/medium_font"
                     android:text="VÕ PHÚ PHÁT"
-                    android:textColor="@color/mediumPurple"
+                    android:textColor="@color/medium_purple"
                     android:textSize="24sp" />
 
                 <LinearLayout
@@ -77,17 +77,17 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/regularfont"
+                            android:fontFamily="@font/regular_font"
                             android:text="THÂM NIÊN"
                             android:paddingBottom="5dp"
                             android:textAlignment="center"
-                            android:textColor="@color/mediumPurple"
+                            android:textColor="@color/medium_purple"
                             android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lightfont"
+                            android:fontFamily="@font/light_font"
                             android:text="12/2/2002"
                             android:textAlignment="center"
                             android:textColor="@color/dark_gray"
@@ -97,7 +97,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@color/mediumPurple" />
+                        android:background="@color/medium_purple" />
 
                     <LinearLayout
                         android:layout_width="0sp"
@@ -108,17 +108,17 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/regularfont"
+                            android:fontFamily="@font/regular_font"
                             android:text="CHỨC VỤ"
                             android:paddingBottom="5dp"
                             android:textAlignment="center"
-                            android:textColor="@color/mediumPurple"
+                            android:textColor="@color/medium_purple"
                             android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lightfont"
+                            android:fontFamily="@font/light_font"
                             android:text="Quản lý"
                             android:textAlignment="center"
                             android:textColor="@color/dark_gray"
@@ -158,8 +158,8 @@
                     android:text="Cá nhân"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:fontFamily="@font/regularfont"
-                    android:backgroundTint="@color/lightPurple"
+                    android:fontFamily="@font/regular_font"
+                    android:backgroundTint="@color/light_purple"
                     android:backgroundTintMode="multiply"
                     android:background="@drawable/round_shape"
                     />
@@ -172,7 +172,7 @@
                     android:text="Công việc"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:backgroundTint="@color/white"
                     android:backgroundTintMode="multiply"
                     android:background="@drawable/round_shape"
@@ -191,8 +191,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Họ tên"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -203,7 +203,7 @@
                     android:padding="10dp"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:enabled="false"
                     android:text="Võ Phú Phát"
                     />
@@ -211,8 +211,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ngày sinh"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -225,7 +225,7 @@
                     android:inputType="date"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:enabled="false"
                     android:text="14/11/2002"
                     />
@@ -233,8 +233,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="CMND"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -246,7 +246,7 @@
 
                     android:inputType="number"
                     android:textSize="16sp"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:enabled="false"
                     android:textColor="@color/black"
                     android:text="098765432345"
@@ -255,8 +255,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Địa chỉ"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -270,15 +270,15 @@
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:enabled="false"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:text="14/11/2002"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SĐT"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -292,15 +292,15 @@
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:enabled="false"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:text="0987654321"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -314,7 +314,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:enabled="false"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:text="BinBin1411@gmail.com"
                     />
             </LinearLayout>
@@ -332,8 +332,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chức vụ"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -344,7 +344,7 @@
                     android:padding="10dp"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:enabled="false"
                     android:text="Developer"
                     />
@@ -352,8 +352,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Phòng ban"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -366,7 +366,7 @@
                     android:inputType="date"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:enabled="false"
                     android:text="IT"
                     />
@@ -374,8 +374,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ngày vào làm"
-                    android:fontFamily="@font/lightfont"
-                    android:textColor="@color/mediumPurple"
+                    android:fontFamily="@font/light_font"
+                    android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
@@ -387,7 +387,7 @@
 
                     android:inputType="number"
                     android:textSize="16sp"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:enabled="false"
                     android:textColor="@color/black"
                     android:text="2/2/2022"

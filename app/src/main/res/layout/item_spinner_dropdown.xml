@@ -3,7 +3,7 @@
     android:id="@+id/txt_spinner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fontFamily="@font/regularfont"
+    android:fontFamily="@font/regular_font"
     android:padding="10dp"
     android:text="simple"
     android:textColor="@color/black"

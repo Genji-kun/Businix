@@ -2,9 +2,16 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Businix" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/lightPurple</item>
+        <item name="colorPrimary">@color/light_purple</item>
         <item name="android:listDivider">@color/dark_gray</item>
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowAnimationStyle">@style/animation</item>
     </style>
-
     <style name="Theme.Businix" parent="Base.Theme.Businix" />
+
+
+    <style name="animation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
 </resources>

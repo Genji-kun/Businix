@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/mediumfont"
+                android:fontFamily="@font/medium_font"
                 android:text="TỔNG QUAN"
                 android:textColor="@color/white"
                 android:textSize="24dp" />
@@ -51,7 +51,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/regularfont"
+                        android:fontFamily="@font/regular_font"
                         android:text="Hiện diện"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
@@ -60,7 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/mediumfont"
+                        android:fontFamily="@font/medium_font"
                         android:gravity="bottom"
                         android:text="14"
                         android:textColor="@color/white"
@@ -82,7 +82,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/regularfont"
+                        android:fontFamily="@font/regular_font"
                         android:text="Overtime"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
@@ -91,7 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/mediumfont"
+                        android:fontFamily="@font/medium_font"
                         android:gravity="bottom"
                         android:text="11"
                         android:textColor="@color/white"
@@ -113,7 +113,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/regularfont"
+                        android:fontFamily="@font/regular_font"
                         android:text="Trễ"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
@@ -122,7 +122,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/mediumfont"
+                        android:fontFamily="@font/medium_font"
                         android:gravity="bottom"
                         android:text="0,2h"
                         android:textColor="@color/white"
@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/mediumfont"
+                android:fontFamily="@font/medium_font"
                 android:text="Ngày 25 tháng 6 năm 2023"
                 android:textColor="@color/black"
                 android:textSize="16dp" />
@@ -205,7 +205,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/mediumfont"
+                        android:fontFamily="@font/medium_font"
                         android:text="8:00 AM"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
@@ -213,7 +213,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/regularfont"
+                        android:fontFamily="@font/regular_font"
                         android:text="check-in"
                         android:textColor="@color/dark_gray"
                         android:textSize="16dp" />
@@ -241,7 +241,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/mediumfont"
+                            android:fontFamily="@font/medium_font"
                             android:text="Check-in"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
@@ -250,7 +250,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:fontFamily="@font/regularfont"
+                            android:fontFamily="@font/regular_font"
                             android:text="16:01"
                             android:textColor="@color/dark_gray"
                             android:textSize="16dp" />
@@ -311,7 +311,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/mediumfont"
+                        android:fontFamily="@font/medium_font"
                         android:text="12:00 AM"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
@@ -319,7 +319,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/regularfont"
+                        android:fontFamily="@font/regular_font"
                         android:text="Break"
                         android:textColor="@color/dark_gray"
                         android:textSize="16dp" />
@@ -347,7 +347,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/mediumfont"
+                            android:fontFamily="@font/medium_font"
                             android:text="Break"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
@@ -356,7 +356,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:fontFamily="@font/regularfont"
+                            android:fontFamily="@font/regular_font"
                             android:text="16:01"
                             android:textColor="@color/dark_gray"
                             android:textSize="16dp" />
@@ -416,7 +416,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/mediumfont"
+                        android:fontFamily="@font/medium_font"
                         android:text="1:00 PM"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
@@ -424,7 +424,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/regularfont"
+                        android:fontFamily="@font/regular_font"
                         android:text="After break"
                         android:textColor="@color/dark_gray"
                         android:textSize="16dp" />
@@ -452,7 +452,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/mediumfont"
+                            android:fontFamily="@font/medium_font"
                             android:text="After break"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
@@ -461,7 +461,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:fontFamily="@font/regularfont"
+                            android:fontFamily="@font/regular_font"
                             android:text="16:01"
                             android:textColor="@color/dark_gray"
                             android:textSize="16dp" />
@@ -528,7 +528,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/mediumfont"
+                        android:fontFamily="@font/medium_font"
                         android:text="5:00 PM"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
@@ -536,7 +536,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/regularfont"
+                        android:fontFamily="@font/regular_font"
                         android:text="Check-out"
                         android:textColor="@color/dark_gray"
                         android:textSize="16dp" />
@@ -564,7 +564,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/mediumfont"
+                            android:fontFamily="@font/medium_font"
                             android:text="Check-out"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
@@ -573,7 +573,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:fontFamily="@font/regularfont"
+                            android:fontFamily="@font/regular_font"
                             android:text="16:01"
                             android:textColor="@color/dark_gray"
                             android:textSize="16dp" />
@@ -616,7 +616,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/mediumfont"
+                            android:fontFamily="@font/medium_font"
                             android:text="Overtime"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
@@ -625,7 +625,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:fontFamily="@font/regularfont"
+                            android:fontFamily="@font/regular_font"
                             android:text="0 hours"
                             android:textColor="@color/dark_gray"
                             android:textSize="16dp" />

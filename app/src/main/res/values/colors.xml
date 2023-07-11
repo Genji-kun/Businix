@@ -10,10 +10,11 @@
     <color name="dark_gray">#FF888888</color>
     <color name="black_purple">#FF4A1C85</color>
     <color name="sub_purple">#FFD1CFFD</color>
-    <color name="lightPurple">#FF7D56E7</color>
-    <color name="lightPurple_75">#C17D56E7</color>
+    <color name="light_purple">#FF7D56E7</color>
+    <color name="light_purple_75">#C17D56E7</color>
     <color name="purple">#FF7D56E7</color>
-    <color name="mediumPurple">#FF5A27BC</color>
-    <color name="darkPurple">#FF4C209A</color>
+    <color name="medium_purple">#FF5A27BC</color>
+    <color name="dark_purple">#FF4C209A</color>
     <color name="transparent">#00000000</color>
+    <color name="success">#FF4ED277</color>
 </resources>

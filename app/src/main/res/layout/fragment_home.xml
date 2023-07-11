@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome"
-            android:fontFamily="@font/mediumfont"
+            android:fontFamily="@font/medium_font"
             android:textColor="@color/black"
             android:textSize="24dp"
             android:id="@+id/txt_welcome"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Võ Phú Phát"
-            android:fontFamily="@font/regularfont"
+            android:fontFamily="@font/regular_font"
             android:textColor="@color/black"
             android:textSize="24dp"
             android:layout_below="@+id/txt_welcome"
@@ -36,7 +36,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/ic_businix"
             android:layout_alignParentRight="true"
             />
     </RelativeLayout>
@@ -68,7 +68,7 @@
             android:textSize="18dp"
             android:lineSpacingMultiplier="1.3"
             android:textColor="@color/white"
-            android:fontFamily="@font/regularfont"
+            android:fontFamily="@font/regular_font"
             />
     </LinearLayout>
 
@@ -102,7 +102,7 @@
                     android:text="Chấm công"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     />
             </LinearLayout>
             <LinearLayout
@@ -129,7 +129,7 @@
                     android:text="Nghỉ phép"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     />
             </LinearLayout>
 
@@ -159,7 +159,7 @@
                     android:text="Xem lương"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     />
             </LinearLayout>
             <LinearLayout
@@ -185,7 +185,7 @@
                     android:text="Thống kê"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     />
             </LinearLayout>
 

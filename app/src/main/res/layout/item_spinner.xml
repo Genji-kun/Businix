@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="18sp"
-    android:fontFamily="@font/regularfont"
+    android:fontFamily="@font/regular_font"
     android:text="simple"
     android:textColor="@color/black" />

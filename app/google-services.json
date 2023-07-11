@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "156560769536",
+    "project_id": "businix",
+    "storage_bucket": "businix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156560769536:android:7a0ee0045fbbcda1eacee5",
+        "android_client_info": {
+          "package_name": "com.example.businix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156560769536-g3mldjkaobotbo3j0lkn1tivp3k6o0p8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.businix",
+            "certificate_hash": "ef86d1ff81480d358ce8bb01db8f83d39188f964"
+          }
+        },
+        {
+          "client_id": "156560769536-pkfng77970umv7pskm9ka9fclp9deo5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZtDELk_oY6gLCKLParvoUPi1y0j1vRyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156560769536-pkfng77970umv7pskm9ka9fclp9deo5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

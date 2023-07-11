@@ -1,8 +1,6 @@
 package com.example.businix;
 
-import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -86,7 +84,7 @@ public class ProfileFragment extends Fragment {
             btnShowPersonal.setTextColor(ResourcesCompat.getColor(getResources(), R.color.dark_gray, null));
 
 
-            btnShowWork.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.lightPurple, null)));
+            btnShowWork.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.light_purple, null)));
             btnShowWork.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
 
             infoWork.setVisibility(View.VISIBLE);
@@ -97,7 +95,7 @@ public class ProfileFragment extends Fragment {
             btnShowWork.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.white, null)));
             btnShowWork.setTextColor(ResourcesCompat.getColor(getResources(), R.color.dark_gray, null));
 
-            btnShowPersonal.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.lightPurple, null)));
+            btnShowPersonal.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.light_purple, null)));
             btnShowPersonal.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
 
             infoPersonal.setVisibility(View.VISIBLE);

@@ -37,7 +37,7 @@
             android:layout_marginStart="20sp"
             android:layout_marginTop="15sp"
             android:layout_marginBottom="10sp"
-            android:fontFamily="@font/regularfont"/>
+            android:fontFamily="@font/regular_font"/>
         <Spinner
             android:id="@+id/spinner_type"
             android:layout_marginHorizontal="20sp"
@@ -57,7 +57,7 @@
             android:layout_marginStart="20sp"
             android:layout_marginTop="15sp"
             android:layout_marginBottom="5sp"
-            android:fontFamily="@font/regularfont"/>
+            android:fontFamily="@font/regular_font"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 android:hint="Ngày đầu"
                 android:background="@drawable/light_round_shape"
                 android:padding="10sp"
-                android:drawableLeft="@drawable/ic_calendar"
+                android:drawableLeft="@drawable/ic_emp_calendar"
                 android:layout_marginEnd="10sp"
                 android:layout_marginVertical="5sp"
                 android:layout_marginStart="5sp"
@@ -79,7 +79,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textColorHint="@color/black"
-                android:fontFamily="@font/regularfont"
+                android:fontFamily="@font/regular_font"
                 android:elevation="5sp"
                 />
             <EditText
@@ -89,7 +89,7 @@
                 android:hint="Ngày cuối"
                 android:background="@drawable/light_round_shape"
                 android:padding="10sp"
-                android:drawableLeft="@drawable/ic_calendar"
+                android:drawableLeft="@drawable/ic_emp_calendar"
                 android:layout_marginStart="10sp"
                 android:layout_marginVertical="5sp"
                 android:layout_marginEnd="5sp"
@@ -97,7 +97,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textColorHint="@color/black"
-                android:fontFamily="@font/regularfont"
+                android:fontFamily="@font/regular_font"
                 android:elevation="5sp"
                 />
         </LinearLayout>
@@ -116,7 +116,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_weight="1"
-                android:fontFamily="@font/regularfont"/>
+                android:fontFamily="@font/regular_font"/>
             <LinearLayout
                 android:id="@+id/show_detail"
                 android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:textSize="16dp"
                     android:textColor="@color/dark_gray"
                     android:text="Tùy chỉnh"/>
@@ -155,8 +155,8 @@
                 android:text="Cả ngày"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:backgroundTint="@color/lightPurple"
-                android:fontFamily="@font/regularfont"
+                android:backgroundTint="@color/light_purple"
+                android:fontFamily="@font/regular_font"
                 android:background="@drawable/light_round_left_shape"
                 />
             <TextView
@@ -167,8 +167,8 @@
                 android:text="Ca sáng"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:backgroundTint="@color/lightPurple"
-                android:fontFamily="@font/regularfont"
+                android:backgroundTint="@color/light_purple"
+                android:fontFamily="@font/regular_font"
                 />
             <TextView
                 android:layout_width="0sp"
@@ -179,7 +179,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:backgroundTint="@color/white"
-                android:fontFamily="@font/regularfont"
+                android:fontFamily="@font/regular_font"
                 android:background="@drawable/light_round_right_shape"
                 />
         </LinearLayout>
@@ -206,7 +206,7 @@
                     android:text="2/7/2023"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:layout_weight="1"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -218,8 +218,8 @@
                         android:layout_height="wrap_content"
                         android:text="Cả ngày"
                         android:textSize="16dp"
-                        android:textColor="@color/lightPurple"
-                        android:fontFamily="@font/regularfont"
+                        android:textColor="@color/light_purple"
+                        android:fontFamily="@font/regular_font"
                         android:textAlignment="center"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"/>
@@ -241,7 +241,7 @@
                     android:text="2/7/2023"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:layout_weight="1"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -253,8 +253,8 @@
                         android:layout_height="wrap_content"
                         android:text="Cả ngày"
                         android:textSize="16dp"
-                        android:textColor="@color/lightPurple"
-                        android:fontFamily="@font/regularfont"
+                        android:textColor="@color/light_purple"
+                        android:fontFamily="@font/regular_font"
                         android:textAlignment="center"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"/>
@@ -276,7 +276,7 @@
                     android:text="2/7/2023"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:layout_weight="1"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -288,8 +288,8 @@
                         android:layout_height="wrap_content"
                         android:text="Cả ngày"
                         android:textSize="16dp"
-                        android:textColor="@color/lightPurple"
-                        android:fontFamily="@font/regularfont"
+                        android:textColor="@color/light_purple"
+                        android:fontFamily="@font/regular_font"
                         android:textAlignment="center"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"/>
@@ -311,7 +311,7 @@
                     android:text="2/7/2023"
                     android:textSize="16dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/regularfont"
+                    android:fontFamily="@font/regular_font"
                     android:layout_weight="1"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -323,8 +323,8 @@
                         android:layout_height="wrap_content"
                         android:text="Cả ngày"
                         android:textSize="16dp"
-                        android:textColor="@color/lightPurple"
-                        android:fontFamily="@font/regularfont"
+                        android:textColor="@color/light_purple"
+                        android:fontFamily="@font/regular_font"
                         android:textAlignment="center"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"/>
@@ -345,7 +345,7 @@
             android:layout_marginStart="20sp"
             android:layout_marginTop="15sp"
             android:layout_marginBottom="10sp"
-            android:fontFamily="@font/regularfont"/>
+            android:fontFamily="@font/regular_font"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -354,7 +354,7 @@
             android:gravity="top"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:fontFamily="@font/regularfont"
+            android:fontFamily="@font/regular_font"
             android:lines="10"
             android:background="@drawable/round_shape"
             android:elevation="5sp"
@@ -368,7 +368,7 @@
             android:padding="13dp"
             android:gravity="center_horizontal"
             android:background="@drawable/light_round_shape"
-            android:backgroundTint="@color/lightPurple"
+            android:backgroundTint="@color/light_purple"
             android:layout_marginHorizontal="20dp"
             android:orientation="horizontal"
             >
@@ -378,7 +378,7 @@
                 android:text="Gửi đơn xin nghỉ"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:fontFamily="@font/regularfont"
+                android:fontFamily="@font/regular_font"
                 android:layout_marginEnd="10dp"
                 />
             <ImageView

@@ -1,15 +1,11 @@
 package com.example.businix;
 
-import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -40,7 +36,7 @@ public class ActionBar extends AppCompatActivity implements NavigationView.OnNav
             TextView titleText = new TextView(this);
             titleText.setText(text);
             titleText.setTextSize(18);
-            titleText.setTypeface(Typeface.defaultFromStyle(R.font.mediumfont));
+            titleText.setTypeface(Typeface.defaultFromStyle(R.font.medium_font));
             titleText.setTextColor(getResources().getColor(R.color.black, getResources().newTheme()));
             getSupportActionBar().setCustomView(titleText);
         }
