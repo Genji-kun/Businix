@@ -35,7 +35,7 @@ public class SendOtpActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         tvBtnSendOTP = (TextView) findViewById(R.id.tv_btn_send_otp);
 
-        tvPhone.setText(String.format("%s", getIntent().getStringExtra("phone_number")));
+        tvPhone.setText(String.format("+84"+ "%s", getIntent().getStringExtra("phone_number")));
         btnSendOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

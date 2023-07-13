@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_home"
         android:title="Home"
         android:icon="@drawable/ic_home"
 
         />
-    <item android:id="@+id/action_statistical"
+    <item android:id="@+id/action_notification"
         android:title="Thông báo"
-        android:icon="@drawable/ic_chart"
+        android:icon="@drawable/ic_bell"
         />
     <item android:id="@+id/action_profile"
         android:title="Cá nhân"

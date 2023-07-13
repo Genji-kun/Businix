@@ -35,19 +35,25 @@ public class EmployeeActivity extends ActionBar {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportMyActionBar("", false);
 
+        //Thêm các fragment vào HashMap
         fragmentMap = new HashMap<>();
         fragmentMap.put(R.id.action_home, new HomeFragment());
         fragmentMap.put(R.id.action_profile, new ProfileFragment());
+        fragmentMap.put(R.id.action_notification, new NotificationFragment());
+
+        //Set fragment mặc định là home
         Fragment homeFragment = fragmentMap.get(R.id.action_home);
         changeFragment(homeFragment);
+
         navBar = findViewById(R.id.nav_bar);
+        //Viết sự kiện bấm vào nav để chuyển fragment
         navBar.setOnItemSelectedListener(item -> {
+
+            //Lấy id của item được chọn
             int itemId = item.getItemId();
-            System.out.print(itemId);
             // Lấy Fragment tương ứng từ HashMap
             Fragment fragment = fragmentMap.get(itemId);
             if (fragment != null) {
-
                 // Thay đổi Fragment
                 changeFragment(fragment);
                 return true;

@@ -65,12 +65,14 @@
             android:layout_marginHorizontal="15sp"
             >
             <EditText
+                android:enabled="false"
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Ngày đầu"
                 android:background="@drawable/light_round_shape"
                 android:padding="10sp"
+                android:inputType="date"
                 android:drawableLeft="@drawable/ic_emp_calendar"
                 android:layout_marginEnd="10sp"
                 android:layout_marginVertical="5sp"
@@ -83,12 +85,14 @@
                 android:elevation="5sp"
                 />
             <EditText
+                android:enabled="false"
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Ngày cuối"
                 android:background="@drawable/light_round_shape"
                 android:padding="10sp"
+                android:inputType="date"
                 android:drawableLeft="@drawable/ic_emp_calendar"
                 android:layout_marginStart="10sp"
                 android:layout_marginVertical="5sp"
@@ -122,20 +126,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="bottom"
-                android:gravity="center_vertical|end">
+                >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/regular_font"
-                    android:textSize="16dp"
+                    android:text="Tùy chỉnh"
+                    android:textSize="16sp"
                     android:textColor="@color/dark_gray"
-                    android:text="Tùy chỉnh"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_small_setting"/>
+                    android:layout_weight="1"
+                    android:fontFamily="@font/regular_font"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -204,7 +203,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="2/7/2023"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/regular_font"
                     android:layout_weight="1"/>
@@ -217,7 +216,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Cả ngày"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textColor="@color/light_purple"
                         android:fontFamily="@font/regular_font"
                         android:textAlignment="center"
@@ -239,7 +238,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="2/7/2023"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/regular_font"
                     android:layout_weight="1"/>
@@ -252,7 +251,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Cả ngày"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textColor="@color/light_purple"
                         android:fontFamily="@font/regular_font"
                         android:textAlignment="center"
@@ -274,7 +273,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="2/7/2023"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/regular_font"
                     android:layout_weight="1"/>
@@ -287,7 +286,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Cả ngày"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textColor="@color/light_purple"
                         android:fontFamily="@font/regular_font"
                         android:textAlignment="center"
@@ -309,7 +308,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="2/7/2023"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/regular_font"
                     android:layout_weight="1"/>
@@ -322,7 +321,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Cả ngày"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textColor="@color/light_purple"
                         android:fontFamily="@font/regular_font"
                         android:textAlignment="center"
@@ -347,6 +346,7 @@
             android:layout_marginBottom="10sp"
             android:fontFamily="@font/regular_font"/>
         <EditText
+            android:contentDescription="Nội dung đơn nghỉ"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
@@ -385,6 +385,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_send"
+                android:contentDescription="icon"
                 />
         </LinearLayout>
     </LinearLayout>
