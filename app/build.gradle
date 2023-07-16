@@ -62,5 +62,5 @@ dependencies {
 
 
     implementation 'com.google.mlkit:face-detection:16.1.5'
-
+    implementation 'com.quickbirdstudios:opencv:4.5.3.0'
 }

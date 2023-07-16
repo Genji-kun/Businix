@@ -1,25 +1,12 @@
 package com.example.businix;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.example.businix.pojo.Employee;
-import com.example.businix.pojo.Position;
-import com.example.businix.repository.EmployeeRepository;
-import com.example.businix.repository.impl.EmployeeRepositoryImpl;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.List;
 
 public class SplashPage extends AppCompatActivity {
     private FirebaseFirestore db;
