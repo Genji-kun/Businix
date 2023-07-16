@@ -1,9 +1,8 @@
-package com.example.businix.repository.impl;
+package com.example.businix.dao;
 
 import android.util.Log;
 
 import com.example.businix.pojo.Employee;
-import com.example.businix.repository.EmployeeRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -12,16 +11,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeRepositoryImpl implements EmployeeRepository {
+public class EmployeeDAO {
     private FirebaseFirestore db;
     private String collectionPath;
 
-    public EmployeeRepositoryImpl() {
+    public EmployeeDAO() {
         db = FirebaseFirestore.getInstance();
         collectionPath = "employees";
     }
 
-    @Override
     public void addEmployee(Employee employee) {
         db.collection(collectionPath)
                 .add(employee)
@@ -33,7 +31,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 });
     }
 
-    @Override
     public void updateEmployee(String id, Employee employee) {
         db.collection(collectionPath).document(id)
                 .set(employee)
@@ -45,7 +42,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 });
     }
 
-    @Override
     public void deleteEmployee(String id) {
         db.collection(collectionPath).document(id).delete()
                 .addOnSuccessListener(aVoid -> {
@@ -56,7 +52,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 });
     }
 
-    @Override
     public Task<List<Employee>> getEmployeeList() {
         TaskCompletionSource<List<Employee>> taskCompletionSource = new TaskCompletionSource<>();
         List<Employee> employeeList = new ArrayList<>();
