@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -86,6 +87,10 @@ public class SignUpActivity extends AppCompatActivity {
         Fragment stepThree = new SignUpStepThreeFragment();
         SignUpStepThreeFragment stepThreeFragment = (SignUpStepThreeFragment) stepThree;
 
+        // Step Three
+        Fragment stepFour = new SignUpStepFourFragment();
+        SignUpStepFourFragment stepFourFragment = (SignUpStepFourFragment) stepFour;
+
         // Change fragment to introduction
         changeFragment(intro);
         Intent i = new Intent(SignUpActivity.this, SendOtpActivity.class);
@@ -122,6 +127,14 @@ public class SignUpActivity extends AppCompatActivity {
                     case 4:
                         int rs3 = stepThreeFragment.checkStepThree();
                         if (rs3 == 0) {
+                            changeFragment(stepFour);
+                        } else {
+                            stepIndex--;
+                        }
+                        break;
+                    case 5:
+                        int rs4 = 0;
+                        if (rs4 == 0) {
                             startActivity(i);
                         } else {
                             stepIndex--;
@@ -154,6 +167,9 @@ public class SignUpActivity extends AppCompatActivity {
                 case 3:
                     changeFragment(stepThree);
                     break;
+                case 4:
+                    changeFragment(stepFour);
+                    break;
                 default:
                     dialogAlert.show();
                     break;
@@ -176,4 +192,15 @@ public class SignUpActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.input_container, newFragment);
         fragmentTransaction.commit();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment stepFourFragment = getSupportFragmentManager().findFragmentById(R.id.input_container);
+        if (stepFourFragment != null && stepFourFragment instanceof SignUpStepFourFragment) {
+            ((SignUpStepFourFragment) stepFourFragment).handleActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
 }

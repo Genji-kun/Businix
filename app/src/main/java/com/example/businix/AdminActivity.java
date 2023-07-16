@@ -1,7 +1,5 @@
 package com.example.businix;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -9,42 +7,43 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.HashMap;
 
-public class EmployeeActivity extends ActionBar {
+public class AdminActivity extends AppCompatActivity {
+
+    private Dialog dialogAlert;
+    private Button btnAccept, btnCancel;
     private BottomNavigationView navBar;
     private HashMap<Integer, Fragment> fragmentMap;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee);
+        setContentView(R.layout.activity_admin);
 
-        //SideNav
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //ActionBar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportMyActionBar("", false);
+
 
         //Thêm fragments vào danh sách
         fragmentMap = new HashMap<>();
-        fragmentMap.put(R.id.action_home, new HomeFragment());
-        fragmentMap.put(R.id.action_profile, new ProfileFragment());
+        fragmentMap.put(R.id.action_home, new AdminHomeFragment());
+        fragmentMap.put(R.id.action_absent, new AdminAbsentMailFragment());
+        fragmentMap.put(R.id.action_notification, new AdminNotificationFragment());
+        fragmentMap.put(R.id.action_logout, null);
 
         //Set fragment mặc định là home
         Fragment homeFragment = fragmentMap.get(R.id.action_home);
         changeFragment(homeFragment);
 
-        //Viết sự
+        //Viết sự thay đổi fragments
         navBar = findViewById(R.id.nav_bar);
         navBar.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -52,10 +51,26 @@ public class EmployeeActivity extends ActionBar {
             // Lấy Fragment tương ứng từ HashMap
             Fragment fragment = fragmentMap.get(itemId);
             if (fragment != null) {
-
                 // Thay đổi Fragment
                 changeFragment(fragment);
                 return true;
+            } else {
+                dialogAlert = new Dialog(AdminActivity.this);
+                dialogAlert.setContentView(R.layout.log_out_confirm_dialog);
+                dialogAlert.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialogAlert.setCancelable(false);
+                dialogAlert.getWindow().setWindowAnimations(R.style.animation);
+                btnAccept = (Button) dialogAlert.findViewById(R.id.btnContinue);
+                btnCancel = (Button) dialogAlert.findViewById(R.id.btnCancel);
+
+                btnCancel.setOnClickListener(v -> {
+                    dialogAlert.dismiss();
+                });
+                btnAccept.setOnClickListener(v ->{
+                    Intent i = new Intent(AdminActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                });
             }
 
             return false;
@@ -75,5 +90,4 @@ public class EmployeeActivity extends ActionBar {
         // Hoàn tất việc thay đổi Fragment
         fragmentTransaction.commit();
     }
-
 }

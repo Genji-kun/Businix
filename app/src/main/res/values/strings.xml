@@ -8,6 +8,10 @@
     <string name="dialog_description">Nếu dừng ngay bây giờ, bạn sẽ mất toàn bộ tiến trình đã thực hiện.</string>
     <string name="dialog_continue_choice">Tiếp tục tạo tài khoản</string>
     <string name="dialog_cancel_choice">Dừng tạo tài khoản</string>
+    <!--Logout-Dialog-->
+    <string name="logout_dialog_title">Bạn có muốn thoát quyền sử dụng?</string>
+    <string name="logout_dialog_continue_choice">Hủy</string>
+    <string name="logout_dialog_cancel_choice">Đồng ý</string>
     <!--OTP-->
     <string name="otp_description">Businix sẽ gửi mã OTP đến số điện thoại</string>
     <string name="phone_number_receive_otp"></string>
