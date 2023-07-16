@@ -41,7 +41,7 @@ public class LeaveActivity extends ActionBar {
         detail = (LinearLayout) findViewById(R.id.detail);
         spinnerType = (Spinner) findViewById(R.id.spinner_type);
 
-        setSupportMyActionBar("Nghỉ phép", true);
+        setSupportMyActionBar("Nghỉ phép", true, true);
 
         ArrayList<String> arrayType = new ArrayList<String>();
         arrayType.add("Nghỉ phép thường");

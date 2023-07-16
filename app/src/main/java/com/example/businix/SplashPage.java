@@ -5,7 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
+import com.example.businix.dao.EmployeeDAO;
+import com.example.businix.dao.PositionDAO;
+import com.example.businix.pojo.Employee;
+import com.example.businix.pojo.Position;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashPage extends AppCompatActivity {
@@ -16,22 +23,27 @@ public class SplashPage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_page);
+        db = FirebaseFirestore.getInstance();
+        DocumentReference employeeRef = db.collection("employees").document("HgQGunHIgDj051alYOMS");
+        employeeRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // Lấy dữ liệu của nhân viên từ DocumentSnapshot
+                    Employee employee = document.toObject(Employee.class);
+                    System.out.println("?");
+                    // Bây giờ bạn có đối tượng Employee với thông tin từ Firestore
+                    // Có thể sử dụng thông tin trong employee
+                    // Và các thông tin khác của nhân viên
 
-//        EmployeeRepository er = new EmployeeRepositoryImpl();
-//        Employee e1 = new Employee();
-//        e1.setFullName("abc");
-//        er.addEmployee(e1);
-//        Employee e2 = new Employee();
-//        e2.setFullName("thái len");
-//        er.addEmployee(e2);
-//        er.getEmployeeList().addOnSuccessListener(employeeList -> {
-//            // In ra danh sách nhân viên ở đây
-//            for (Employee employee : employeeList) {
-//                System.out.println(employee);
-//            }
-//        }).addOnFailureListener(e -> {
-//            // Xử lý lỗi ở đây
-//        });
+                    // Tiếp tục xử lý với đối tượng Employee nếu cần
+                } else {
+                    // Nếu tài liệu không tồn tại hoặc không có dữ liệu, xử lý tương ứng
+                }
+            } else {
+                // Xử lý lỗi nếu không thể lấy dữ liệu nhân viên
+            }
+        });
 
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashPage.this, LoginActivity.class);

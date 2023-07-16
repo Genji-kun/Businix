@@ -13,7 +13,7 @@
         android:fontFamily="@font/medium_font"
         android:text="Thông tin liên lạc"
         android:textColor="@color/black"
-        android:textSize="16dp"></TextView>
+        android:textSize="25sp"></TextView>
 
 
     <LinearLayout

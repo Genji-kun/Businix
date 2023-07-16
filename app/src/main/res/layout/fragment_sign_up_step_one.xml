@@ -13,7 +13,7 @@
         android:fontFamily="@font/medium_font"
         android:text="Thông tin cơ bản"
         android:textColor="@color/black"
-        android:textSize="16dp"></TextView>
+        android:textSize="25sp"></TextView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_name"

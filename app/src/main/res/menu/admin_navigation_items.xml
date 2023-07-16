@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/ic_admin_home"
+        android:title="Trang chủ" />
+    <item
+        android:id="@+id/action_absent"
+        android:icon="@drawable/ic_absent"
+        android:title="Xin nghỉ phép" />
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_notification"
+        android:title="Thông báo" />
+    <item
+        android:id="@+id/action_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Thoát quyền sử dụng" />
+</menu>
