@@ -3,7 +3,9 @@ package com.example.businix.pojo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.PropertyName;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Employee {
     @PropertyName("full_name")
@@ -18,7 +20,10 @@ public class Employee {
     private String password;
     private Date createAt;
     private Status status;
+    private List<AbsentMail> absentMails;
+    private List<Salary> salaries;
 
+    private DocumentReference department;
     private DocumentReference position;
 
     public Employee() {
@@ -112,7 +117,46 @@ public class Employee {
         this.status = status;
     }
 
-    public DocumentReference getPosition() { return position; }
+    public DocumentReference getPosition() {
+        return position;
+    }
 
-    public void setPosition(DocumentReference position) { this.position = position; }
+    public void setPosition(DocumentReference position) {
+        this.position = position;
+    }
+
+
+    public DocumentReference getDepartment() {
+        return department;
+    }
+
+    public void setDepartmentID(DocumentReference department) {
+        this.department = department;
+    }
+
+    public void addAbsentMail(AbsentMail absentMail) {
+        if (absentMails == null) {
+            absentMails = new ArrayList<>();
+        }
+        absentMails.add(absentMail);
+    }
+
+    public void removeAbsentMail(AbsentMail absentMail) {
+        if (absentMails != null) {
+            absentMails.remove(absentMail);
+        }
+    }
+
+    public void addSalary(Salary salary) {
+        if (salaries == null) {
+            salaries = new ArrayList<>();
+        }
+        salaries.add(salary);
+    }
+
+    public void removeSalary(Salary salary) {
+        if (salaries != null) {
+            salaries.remove(salary);
+        }
+    }
 }
