@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NotificationFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <com.google.android.material.tabs.TabLayout
+        android:layout_marginTop="50dp"
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        app:tabTextAppearance="@style/font_tab"
+        android:contentDescription="@string/app_name"
+        >
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_unseen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chưa xem" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đã xem" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tất cả" />
+    </com.google.android.material.tabs.TabLayout>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+
+</LinearLayout>

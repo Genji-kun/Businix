@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_gray"
     tools:context=".EmployeeActivity">
+    <!--SideMenu-->
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -22,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--Content-->
         <FrameLayout
             android:id="@+id/frame_layout"
             android:layout_width="0dp"
@@ -32,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
         </FrameLayout>
-
+        <!--ActionBar-->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/container_toolbar"
             android:layout_width="match_parent"
@@ -48,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
         </com.google.android.material.appbar.AppBarLayout>
-
+        <!--BottomMenu-->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_bar"
             android:layout_width="match_parent"

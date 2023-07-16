@@ -1,6 +1,7 @@
 package com.example.businix;
 
-public class SignUpUtils {
+public class
+SignUpUtils {
     public int CheckStepOne(String name, String dob, String selectedGender, String identityCard) {
         if ((name.trim().isEmpty() || selectedGender.isEmpty() || dob.isEmpty() || identityCard.trim().isEmpty())) {
             return 1;
