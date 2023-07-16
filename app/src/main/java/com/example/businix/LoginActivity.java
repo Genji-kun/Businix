@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
-            Intent i = new Intent(LoginActivity.this, EmployeeActivity.class);
+            Intent i = new Intent(LoginActivity.this, FaceDetectionActivity.class);
             startActivity(i);
         });
     }

@@ -26,7 +26,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         db.collection(collectionPath)
                 .add(employee)
                 .addOnSuccessListener(documentReference -> {
-                    Log.d("EmployeeHelper", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    Log.d("EmployeeHelper", "Thêm thành công với ID: " + documentReference.getId());
                 })
                 .addOnFailureListener(e -> {
                     Log.w("EmployeeHelper", "Error adding document", e);
@@ -38,7 +38,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         db.collection(collectionPath).document(id)
                 .set(employee)
                 .addOnSuccessListener(command -> {
-                    Log.d("EmployeeHelper", "DocumentSnapshot successfully updated!");
+                    Log.d("EmployeeHelper", "Cập nhật thành công");
                 })
                 .addOnFailureListener(e -> {
                     Log.w("EmployeeHelper", "Error updating document", e);
@@ -49,7 +49,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public void deleteEmployee(String id) {
         db.collection(collectionPath).document(id).delete()
                 .addOnSuccessListener(aVoid -> {
-                    Log.d("EmployeeHelper", "DocumentSnapshot successfully deleted!");
+                    Log.d("EmployeeHelper", "Xóa thành công");
                 })
                 .addOnFailureListener(e -> {
                     Log.w("EmployeeHelper", "Error deleting document", e);

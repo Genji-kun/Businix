@@ -1,8 +1,12 @@
 package com.example.businix.pojo;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.PropertyName;
+
 import java.util.Date;
 
 public class Employee {
+    @PropertyName("full_name")
     private String fullName;
     private Gender gender;
     private String phone;
@@ -14,6 +18,11 @@ public class Employee {
     private String password;
     private Date createAt;
     private Status status;
+
+    private DocumentReference position;
+
+    public Employee() {
+    }
 
     public String getFullName() {
         return fullName;
@@ -102,4 +111,8 @@ public class Employee {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public DocumentReference getPosition() { return position; }
+
+    public void setPosition(DocumentReference position) { this.position = position; }
 }

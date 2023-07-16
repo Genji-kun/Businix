@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "156560769536",
+    "firebase_url": "https://businix-default-rtdb.firebaseio.com",
     "project_id": "businix",
     "storage_bucket": "businix.appspot.com"
   },
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "com.example.businix",
             "certificate_hash": "ef86d1ff81480d358ce8bb01db8f83d39188f964"
+          }
+        },
+        {
+          "client_id": "156560769536-ko2begrpni8ja9fg33qvs42tr74ks7s6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.businix",
+            "certificate_hash": "402c41ef23d12ec228521bd42a6c15a80d032e98"
           }
         },
         {

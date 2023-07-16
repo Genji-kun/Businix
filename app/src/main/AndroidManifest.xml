@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Businix"
         tools:targetApi="31" >
+        <activity
+            android:name=".FaceDetectionActivity"
+            android:exported="false" />
         <activity
             android:name=".WorkActivity"
             android:exported="false" />
@@ -38,19 +47,19 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false"
-            android:theme="@style/animation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/animation" />
         <activity
             android:name=".SplashPage"
             android:exported="true"
-            android:theme="@style/animation"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/animation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 </manifest>
