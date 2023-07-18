@@ -21,40 +21,40 @@
         android:theme="@style/Theme.Businix"
         tools:targetApi="31">
         <activity
-            android:name=".AdminActivity"
+            android:name=".activities.AdminActivity"
             android:exported="false"/>
         <activity
-            android:name=".AdminEmployeeManagementActivity"
+            android:name=".activities.AdminEmployeeManagementActivity"
             android:exported="false" />
 
         <activity
             android:name=".FaceDetectionActivity"
             android:exported="false" />
         <activity
-            android:name=".WorkActivity"
+            android:name=".activities.WorkActivity"
             android:exported="false" />
         <activity
-            android:name=".LeaveActivity"
+            android:name=".activities.LeaveActivity"
             android:exported="false" />
         <activity
-            android:name=".VerifyOtpActivity"
+            android:name=".activities.VerifyOtpActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".EmployeeActivity"
+            android:name=".activities.EmployeeActivity"
             android:exported="false" />
         <activity
-            android:name=".SendOtpActivity"
+            android:name=".activities.SendOtpActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".activities.SignUpActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/animation" />

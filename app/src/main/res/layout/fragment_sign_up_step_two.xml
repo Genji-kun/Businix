@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignUpStepTwoFragment">
+    tools:context=".fragments.SignUpStepTwoFragment">
 
     <TextView
         android:layout_width="match_parent"

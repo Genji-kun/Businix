@@ -10,7 +10,7 @@
     </style>
     <style name="Theme.Businix" parent="Base.Theme.Businix" />
     <style name="font_tab" parent="TextAppearance.Design.Tab">
-        <item name="android:fontFamily">@font/medium_font</item>
+        <item name="android:fontFamily">@font/medium_font </item>
     </style>
     <style name="animation" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>

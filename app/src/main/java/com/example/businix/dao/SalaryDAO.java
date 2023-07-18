@@ -10,4 +10,6 @@ public class SalaryDAO {
         db = FirebaseFirestore.getInstance();
         collectionPath = "salaries";
     }
+
+
 }

@@ -2,10 +2,11 @@ package com.example.businix.dao;
 
 import android.util.Log;
 
-import com.example.businix.pojo.Position;
+import com.example.businix.models.Position;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -54,26 +55,35 @@ public class PositionDAO {
     }
 
     public Task<List<Position>> getPositionList() {
-        TaskCompletionSource<List<Position>> taskCompletionSource = new TaskCompletionSource<>();
-        List<Position> positionList = new ArrayList<>();
-        db.collection(collectionPath)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Position position = document.toObject(Position.class);
-                            positionList.add(position);
-                        }
-                        taskCompletionSource.setResult(positionList);
-                    } else {
-                        Log.w("PositionDAO", "Error getting documents.", task.getException());
-                        taskCompletionSource.setException(task.getException());
-                    }
-                });
-        return taskCompletionSource.getTask();
+        CollectionReference positionsRef = db.collection(collectionPath);
+        return positionsRef.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                List<Position> positionList = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Position position = document.toObject(Position.class);
+                    positionList.add(position);
+                }
+                return positionList;
+            }
+            else
+                throw task.getException();
+        });
     }
 
-    public DocumentReference getPositionDocumentReferenceByID(String positionID) {
-        return db.collection(collectionPath).document(positionID);
+    public Task<Position> getPositionById(String positionID) {
+        DocumentReference positionRef = db.collection("positions").document(positionID);
+        return positionRef.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    return document.toObject(Position.class);
+                }
+                else {
+                    throw new Exception("Position not found");
+                }
+            }
+            else
+                throw task.getException();
+        });
     }
 }

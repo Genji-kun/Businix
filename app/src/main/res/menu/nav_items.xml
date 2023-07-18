@@ -5,22 +5,27 @@
     <group android:id="@+id/group_nav_1" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_privacy_policy"
+            android:checked="false"
             android:title="Chính sách bảo mật" />
         <item
             android:id="@+id/nav_terms_of_use"
+            android:checked="false"
             android:title="Điều khoản sử dụng" />
         <item
             android:id="@+id/nav_contract"
+            android:checked="false"
             android:title="Hợp đồng" />
     </group>
     <group android:id="@+id/group_nav_2" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_setting"
+            android:checked="false"
             android:title="Cài đặt" />
     </group>
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
+            android:checked="false"
             android:title="Đăng xuất" />
     </group>
 </menu>
