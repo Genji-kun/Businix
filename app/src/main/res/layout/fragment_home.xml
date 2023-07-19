@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Võ Phú Phát"
+            android:text="..."
             android:fontFamily="@font/regular_font"
             android:textColor="@color/black"
             android:textSize="24dp"

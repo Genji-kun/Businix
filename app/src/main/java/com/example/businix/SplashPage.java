@@ -1,5 +1,6 @@
 package com.example.businix;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,11 +8,14 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.businix.activities.LoginActivity;
+import com.example.businix.controllers.EmployeeController;
 import com.example.businix.dao.EmployeeDAO;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Gender;
 import com.example.businix.models.Status;
 import com.example.businix.utils.PasswordHash;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -42,6 +46,7 @@ public class SplashPage extends AppCompatActivity {
 //        DocumentReference posRef = FirebaseFirestore.getInstance().collection("positions").document("I51WIsDtgJnBsv1LkeHw");
 //        e1.setPosition(posRef);
 //        e1.setDob(date);
+//
 
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashPage.this, LoginActivity.class);

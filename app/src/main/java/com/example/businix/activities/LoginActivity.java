@@ -3,7 +3,6 @@ package com.example.businix.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -114,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onAuthenticationSuccess(Employee employee) {
                     LoginManager loginManager = new LoginManager(LoginActivity.this);
                     loginManager.setLoggedInUserId(employee.getId());
-                    goToLoginActivity();
+                    goToEmployeeActivity();
                     finish();
                 }
             });
@@ -122,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void goToLoginActivity() {
+    private void goToEmployeeActivity() {
         Intent i = new Intent(LoginActivity.this, EmployeeActivity.class);
         startActivity(i);
     }

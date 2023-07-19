@@ -40,11 +40,6 @@ public class EmployeeController {
         getEmployeeTask.addOnCompleteListener(onCompleteListener);
     }
 
-//    public void getEmployeeByUsername(String username, OnCompleteListener<Employee> onCompleteListener) {
-//        Task<Employee> getEmployeeTask = employeeDAO.getEmployeeByUsername(username);
-//        getEmployeeTask.addOnCompleteListener(onCompleteListener);
-//    }
-
     public void checkUser(String username, String password, AuthenticationListener listener) {
         employeeDAO.getEmployeeByUsername(username)
                 .addOnSuccessListener(employee -> {

@@ -1,14 +1,19 @@
 package com.example.businix.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.businix.activities.LeaveActivity;
 import com.example.businix.R;
@@ -31,6 +36,11 @@ public class HomeFragment extends Fragment {
     private LinearLayout btnToLeaveRequest;
 
     private Boolean isProcessing = false;
+    private TextView tvName;
+    private String employeeName;
+
+    private static final String TAG = "FragmentHome";
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -57,6 +67,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -67,7 +78,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        tvName = view.findViewById(R.id.tv_name);
+        if (savedInstanceState != null) {
+            tvName.setText(employeeName);
+        }
         btnToLeaveRequest = view.findViewById(R.id.btn_to_leave_request);
         btnToLeaveRequest.setOnClickListener(v -> {
             if (!isProcessing) {
@@ -83,6 +99,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume");
         isProcessing = false;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+        tvName.setText(employeeName);
     }
 }

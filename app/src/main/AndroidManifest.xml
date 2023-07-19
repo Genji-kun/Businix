@@ -26,10 +26,6 @@
         <activity
             android:name=".activities.AdminEmployeeManagementActivity"
             android:exported="false" />
-
-        <activity
-            android:name=".FaceDetectionActivity"
-            android:exported="false" />
         <activity
             android:name=".activities.WorkActivity"
             android:exported="false" />

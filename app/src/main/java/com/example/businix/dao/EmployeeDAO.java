@@ -27,22 +27,21 @@ public class EmployeeDAO {
         collectionPath = "employees";
     }
 
+
     public Task<Void> addEmployee(Employee employee) {
         employee.setCreateAt(Calendar.getInstance().getTime());
-        TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
-
-        db.collection(collectionPath)
+        return db.collection(collectionPath)
                 .add(employee)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d("EmployeeDAO", "Thêm thành công với ID: " + documentReference.getId());
-                    taskCompletionSource.setResult(null);
-                })
-                .addOnFailureListener(e -> {
-                    Log.w("EmployeeDAO", "Error adding document", e);
-                    taskCompletionSource.setException(e);
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("EmployeeDAO", "Thêm thành công với ID: " + task.getResult().getId());
+                        return null;
+                    }
+                    else {
+                        Log.w("EmployeeDAO", "Error adding document", task.getException());
+                        throw task.getException();
+                    }
                 });
-
-        return taskCompletionSource.getTask();
     }
 
     public Task<Void> updateEmployee(String employeeId, Employee employee) {

@@ -10,11 +10,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.businix.R;
+
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +42,9 @@ public class ProfileFragment extends Fragment {
     private TextView btnShowWork;
     private LinearLayout infoPersonal;
     private LinearLayout infoWork;
+
+    private TextView tvName, tvStartDate, tvPosition;
+    private EditText inputName, inputDOB, inputIdentityNum, inputAddress, inputPhone, inputEmail;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -81,6 +87,19 @@ public class ProfileFragment extends Fragment {
         infoPersonal = (LinearLayout) view.findViewById(R.id.info_personal);
         infoWork = (LinearLayout) view.findViewById(R.id.info_work);
 
+        //Thông tin ở header
+        tvName = (TextView) view.findViewById(R.id.tv_name);
+        tvStartDate = (TextView) view.findViewById(R.id.tv_start_date);
+        tvPosition = (TextView) view.findViewById(R.id.tv_position);
+
+        //Thông tin cá nhân
+        inputName = (EditText) view.findViewById(R.id.input_name);
+        inputDOB = (EditText) view.findViewById(R.id.input_dob);
+        inputIdentityNum = (EditText) view.findViewById(R.id.input_identity_num);
+        inputAddress = (EditText) view.findViewById(R.id.input_address);
+        inputPhone = (EditText) view.findViewById(R.id.input_phone);
+        inputEmail = (EditText) view.findViewById(R.id.input_email);
+
         btnShowWork.setOnClickListener(v -> {
             btnShowPersonal.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.white, null)));
             btnShowPersonal.setTextColor(ResourcesCompat.getColor(getResources(), R.color.dark_gray, null));
@@ -103,6 +122,8 @@ public class ProfileFragment extends Fragment {
             infoPersonal.setVisibility(View.VISIBLE);
             infoWork.setVisibility(View.GONE);
         });
+
+
 //        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
 //        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
 //        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
@@ -116,4 +137,18 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    public void setInfo(Map<String, String> infoMap)  {
+        tvName.setText(infoMap.get("name"));
+        inputName.setText(infoMap.get("name"));
+        inputDOB.setText(infoMap.get("dob"));
+        inputIdentityNum.setText(infoMap.get("identityNum"));
+        inputEmail.setText(infoMap.get("email"));
+        inputPhone.setText(infoMap.get("phone"));
+        inputAddress.setText(infoMap.get("address"));
+        tvStartDate.setText(infoMap.get("startDate"));
+    }
+
+    public void setPosition(String position)  {
+        tvPosition.setText(position);
+    }
 }
