@@ -3,13 +3,18 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_75">#C0FFFFFF</color>
-    <color name="light_gray">#FFFAFAFA</color>
-    <color name="medium_gray">#FFF2F2F2</color>
+    <color name="snow">#FFF9F9F9</color>
+
+    <color name="light_gray">#FFF6F6F6</color>
+    <color name="medium_gray">#FFF0F0F0</color>
     <color name="gray">#FFCED1D8</color>
     <color name="green">#FF4ED277</color>
     <color name="dark_gray">#FF888888</color>
-    <color name="black_purple">#FF4A1C85</color>
+
+    <color name="sub_line_purple">#FFC1C1FB</color>
     <color name="sub_purple">#FFD1CFFD</color>
+    <color name="sub_purple_25">#3FD1CFFD</color>
+
     <color name="light_purple">#FF7D56E7</color>
     <color name="light_purple_75">#C17D56E7</color>
     <color name="purple">#FF7D56E7</color>

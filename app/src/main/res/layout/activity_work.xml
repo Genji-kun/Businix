@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WorkActivity">
+    android:background="@color/light_gray"
+    tools:context=".activities.WorkActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,7 +29,8 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/medium_font"
-                android:text="TỔNG QUAN"
+                android:text="@string/total"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="24dp" />
 
@@ -50,7 +52,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/regular_font"
-                        android:text="Hiện diện"
+                        android:text="@string/attendance"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
 
@@ -81,7 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/regular_font"
-                        android:text="Overtime"
+                        android:text="@string/overtime"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
 
@@ -112,7 +114,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/regular_font"
-                        android:text="Trễ"
+                        android:text="@string/late"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
 
@@ -225,7 +227,8 @@
                     android:layout_marginEnd="15dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_shape"
-                    android:elevation="3dp"
+                    android:backgroundTint="@color/medium_gray"
+                    android:elevation="0dp"
                     android:orientation="horizontal"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="10dp">
@@ -240,7 +243,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/medium_font"
-                            android:text="Check-in"
+                            android:text="@string/check_in"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
@@ -258,7 +261,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.23"
-                        android:src="@drawable/ic_check_in" />
+                        android:src="@drawable/ic_check_in"
+                        app:tint="@color/dark_gray"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -346,7 +350,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/medium_font"
-                            android:text="Break"
+                            android:text="@string/break_"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
@@ -451,7 +455,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/medium_font"
-                            android:text="After break"
+                            android:text="@string/after_break"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
@@ -563,7 +567,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/medium_font"
-                            android:text="Check-out"
+                            android:text="@string/check_out"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
@@ -615,7 +619,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/medium_font"
-                            android:text="Overtime"
+                            android:text="@string/overtime"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
