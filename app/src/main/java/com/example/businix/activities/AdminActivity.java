@@ -57,13 +57,6 @@ public class AdminActivity extends AppCompatActivity {
                 changeFragment(fragment);
                 return true;
             } else {
-                dialogAlert = new Dialog(AdminActivity.this);
-                dialogAlert.setContentView(R.layout.custom_dialog_2);
-                dialogAlert.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialogAlert.setCancelable(false);
-                dialogAlert.getWindow().setWindowAnimations(R.style.animation);
-                btnAccept = (Button) dialogAlert.findViewById(R.id.btn_continue);
-                btnCancel = (Button) dialogAlert.findViewById(R.id.btn_cancel);
 
                 btnCancel.setOnClickListener(v -> {
                     dialogAlert.dismiss();

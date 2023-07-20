@@ -30,6 +30,15 @@
             android:name=".activities.AdminActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.AdminDepartmentManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminPositionManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminAddEmployeeActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AdminEmployeeManagementActivity"
             android:exported="false" />
         <activity
