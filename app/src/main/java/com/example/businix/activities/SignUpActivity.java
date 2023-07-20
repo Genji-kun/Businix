@@ -27,11 +27,10 @@ import com.google.android.material.textfield.TextInputLayout;
 public class SignUpActivity extends AppCompatActivity {
 
     private LinearLayout btnNextStep;
-    private TextView tvGetHelp, tvBtnNextStep;
+    private TextView tvGetHelp, tvBtnNextStep, btnContinue, btnCancel;
     private ImageView btnBack;
     private int stepIndex;
     private Dialog dialogAlert;
-    private Button btnContinue, btnCancel;
     private Boolean isTransitioning;
 
     private TextInputLayout layoutConfirm;
@@ -52,8 +51,8 @@ public class SignUpActivity extends AppCompatActivity {
         dialogAlert.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogAlert.setCancelable(false);
         dialogAlert.getWindow().setWindowAnimations(R.style.animation);
-        btnContinue = (Button) dialogAlert.findViewById(R.id.btn_continue);
-        btnCancel = (Button) dialogAlert.findViewById(R.id.btn_cancel);
+        btnContinue = (TextView) dialogAlert.findViewById(R.id.btn_continue);
+        btnCancel = (TextView) dialogAlert.findViewById(R.id.btn_cancel);
 
         isTransitioning = false;
 

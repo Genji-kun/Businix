@@ -1,53 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AdminEmployeeProfileActivity">
+    android:background="@color/light_gray"
+    tools:context=".activities.AdminEmployeeProfileActivity"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-            <androidx.cardview.widget.CardView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50sp"
-                app:cardCornerRadius="999dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/background"></ImageView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="75sp"
+                    app:cardCornerRadius="999dp">
+
+                    <ImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/avt" />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_change_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="100dp"
+                android:layout_marginVertical="20dp"
+                android:background="@drawable/custom_btn"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/avt"
-                    android:scaleType="centerCrop"/>
-            </androidx.cardview.widget.CardView>
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/tv_btn_change_avatar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/regular_font"
+                        android:text="Đổi ảnh đại diện"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_camera"
+                        app:tint="@color/white"
+                        android:layout_margin="5dp"
+                        android:padding="3dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:elevation="500dp"
                 android:orientation="vertical"
-                android:layout_marginHorizontal="70dp"
-                android:layout_marginVertical="30dp">
-                <TextView
+                android:paddingVertical="20dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_position"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nguyễn Kim Bảo Ngân"
-                    android:textAlignment="center"
-                    android:textSize="25sp"></TextView>
-                <TextView
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="Vị trí">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdown_position"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_user_role"
+                        android:drawablePadding="10dp"
+                        android:inputType="none"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_department"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Trưởng phòng"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/medium_font"
-                    android:textSize="16sp"></TextView>
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:hint="Phòng ban">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdown_department"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_department"
+                        android:drawablePadding="10dp"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
+
+
         </LinearLayout>
     </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -21,6 +21,12 @@
         android:theme="@style/Theme.Businix"
         tools:targetApi="31">
         <activity
+            android:name=".activities.AdminAddDepartmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminAddPositionActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AdminDepartmentManagementActivity"
             android:exported="false" />
         <activity
@@ -31,12 +37,14 @@
             android:exported="false" />
         <activity
             android:name=".activities.AdminActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".activities.AdminEmployeeManagementActivity"
@@ -71,9 +79,15 @@
             android:theme="@style/animation" />
         <activity
             android:name=".SplashPage"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/animation" />
+            android:theme="@style/animation">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
