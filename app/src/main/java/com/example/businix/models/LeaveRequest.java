@@ -1,11 +1,14 @@
 package com.example.businix.models;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.PropertyName;
 
 import java.util.Date;
 
-public class AbsentMail {
+public class LeaveRequest {
+    @Exclude
+    private String id;
     @PropertyName("from_date")
     private Date fromDate;
     @PropertyName("to_date")
@@ -43,5 +46,15 @@ public class AbsentMail {
 
     public void setEmployee(DocumentReference employee) {
         this.employee = employee;
+    }
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    @Exclude
+    public void setId(String id) {
+        this.id = id;
     }
 }

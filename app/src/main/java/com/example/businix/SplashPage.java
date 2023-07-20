@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.businix.activities.LoginActivity;
+import com.example.businix.controllers.DepartmentController;
 import com.example.businix.controllers.EmployeeController;
+import com.example.businix.controllers.PositionController;
 import com.example.businix.dao.EmployeeDAO;
+import com.example.businix.models.Department;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Gender;
+import com.example.businix.models.Position;
 import com.example.businix.models.Status;
+import com.example.businix.models.UserRole;
 import com.example.businix.utils.PasswordHash;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,10 +48,21 @@ public class SplashPage extends AppCompatActivity {
 //        e1.setUsername("emp_phat123");
 //        e1.setPassword(PasswordHash.hashPassword("phat123"));
 //        e1.setStatus(Status.ACTIVE);
-//        DocumentReference posRef = FirebaseFirestore.getInstance().collection("positions").document("I51WIsDtgJnBsv1LkeHw");
-//        e1.setPosition(posRef);
-//        e1.setDob(date);
+//        DocumentReference posRef = FirebaseFirestore.getInstance().collection("positions").document("YYzEGTiXaWIMqsYCQn4H");
+//        DocumentReference departRef = FirebaseFirestore.getInstance().collection("departments").document("TTvtreyNGo5RRm2DoGo4");
 //
+//        e1.setPosition(posRef);
+//        e1.setDepartment(departRef);
+//        e1.setDob(date);
+//        e1.setUserRole(UserRole.USER);
+//
+//        EmployeeController employeeController = new EmployeeController();
+//        employeeController.addEmployee(e1, new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//
+//            }
+//        });
 
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashPage.this, LoginActivity.class);

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -21,8 +21,14 @@
         android:theme="@style/Theme.Businix"
         tools:targetApi="31">
         <activity
+            android:name=".TimeAttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AdminActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.AdminEmployeeManagementActivity"
             android:exported="false" />
@@ -58,7 +64,7 @@
             android:name=".SplashPage"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/animation" >
+            android:theme="@style/animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

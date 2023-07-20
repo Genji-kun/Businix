@@ -2,8 +2,11 @@ package com.example.businix.dao;
 
 import android.util.Log;
 
+import com.example.businix.models.Department;
 import com.example.businix.models.Position;
+import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -12,6 +15,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PositionDAO {
     private FirebaseFirestore db;
@@ -22,35 +26,58 @@ public class PositionDAO {
         collectionPath = "positions";
     }
 
-    public void addPosition(Position position) {
-        db.collection(collectionPath)
+    public Task<Void> addPosition(Position position) {
+        return db.collection(collectionPath)
                 .add(position)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d("PositionDAO", "Thêm thành công với ID: " + documentReference.getId());
-                })
-                .addOnFailureListener(e -> {
-                    Log.w("PositionDAO", "Error adding document", e);
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("PositionDAO", "Thêm thành công với ID: " + task.getResult().getId());
+                        return null;
+                    }
+                    else {
+                        Log.e("PositionDAO", "Error adding document", task.getException());
+                        throw task.getException();
+                    }
                 });
     }
 
-    public void updatePosition(String id, Position position) {
-        db.collection(collectionPath).document(id)
-                .set(position)
-                .addOnSuccessListener(command -> {
-                    Log.d("PositionDAO", "Cập nhật thành công");
-                })
-                .addOnFailureListener(e -> {
-                    Log.w("PositionDAO", "Error updating document", e);
+    public Task<Void> updatePosition(String id, Position position) {
+        if (position == null || id.isEmpty()) {
+            Log.e("PositionDAO", "id không hợp lệ");
+            return Tasks.forException(new IllegalArgumentException("id không hợp lệ"));
+        }
+
+        Map<String, Object> updates;
+        try {
+            updates = FirestoreUtils.prepareUpdates(position);
+        } catch (IllegalAccessException e) {
+            Log.e("PositionDAO", "Không lấy được dữ liệu updates.", e);
+            return Tasks.forException(e);
+        }
+
+        DocumentReference documentRef = db.collection(collectionPath).document(id);
+        return documentRef.update(updates)
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("PositionDAO", "Position cập nhật thành công.");
+                        return null; // Trả về null để biểu thị việc thành công
+                    } else {
+                        Log.e("PositionDAO", "Position cập nhật thất bại.", task.getException());
+                        throw task.getException();
+                    }
                 });
     }
 
-    public void deletePosition(String id) {
-        db.collection(collectionPath).document(id).delete()
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("PositionDAO", "Xóa thành công");
-                })
-                .addOnFailureListener(e -> {
-                    Log.w("PositionDAO", "Error deleting document", e);
+    public Task<Void> deletePosition(String id) {
+        return db.collection(collectionPath).document(id).delete()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("PositionDAO", "Xóa thành công");
+                        return null;
+                    } else {
+                        Log.e("PositionDAO", "Error deleting document", task.getException());
+                        throw task.getException();
+                    }
                 });
     }
 
@@ -65,8 +92,10 @@ public class PositionDAO {
                 }
                 return positionList;
             }
-            else
+            else {
+                Log.e("DepartmentDAO", "Lỗi khi lấy list department", task.getException());
                 throw task.getException();
+            }
         });
     }
 
@@ -76,7 +105,9 @@ public class PositionDAO {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    return document.toObject(Position.class);
+                    Position position = document.toObject(Position.class);
+                    position.setId(document.getId());
+                    return position;
                 }
                 else {
                     throw new Exception("Position not found");

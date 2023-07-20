@@ -81,9 +81,7 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         tvName = view.findViewById(R.id.tv_name);
-        if (savedInstanceState != null) {
-            tvName.setText(employeeName);
-        }
+
         btnToLeaveRequest = view.findViewById(R.id.btn_to_leave_request);
         btnToLeaveRequest.setOnClickListener(v -> {
             if (!isProcessing) {

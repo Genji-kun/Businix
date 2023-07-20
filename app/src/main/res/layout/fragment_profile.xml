@@ -6,37 +6,25 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".fragments.ProfileFragment">
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:cardBackgroundColor="@color/light_purple"
-        app:cardCornerRadius="999dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            android:layout_gravity="center"/>
-    </androidx.cardview.widget.CardView>
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:id="@+id/scroll_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/background"
+                android:contentDescription="@string/bg"
                 />
 
             <LinearLayout
@@ -183,6 +171,7 @@
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/info_personal"
+                android:visibility="visible"
                 android:layout_marginTop="340dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -202,6 +191,7 @@
                     android:id="@+id/input_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -223,6 +213,7 @@
                     android:id="@+id/input_dob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -246,6 +237,7 @@
                     android:id="@+id/input_identity_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -269,6 +261,7 @@
                     android:id="@+id/input_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -292,6 +285,7 @@
                     android:id="@+id/input_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -315,6 +309,7 @@
                     android:id="@+id/input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -341,11 +336,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chức vụ"
-                    android:fontFamily="@font/light_font"
+                    android:fontFamily="@font/regular_font"
                     android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
+                    android:id="@+id/input_position"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
@@ -361,17 +357,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Phòng ban"
-                    android:fontFamily="@font/light_font"
+                    android:fontFamily="@font/regular_font"
                     android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
+                    android:id="@+id/input_department"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
-
                     android:inputType="date"
                     android:textSize="16sp"
                     android:textColor="@color/black"
@@ -383,11 +379,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ngày vào làm"
-                    android:fontFamily="@font/light_font"
+                    android:fontFamily="@font/regular_font"
                     android:textColor="@color/medium_purple"
                     android:textSize="16sp"
                     />
                 <EditText
+                    android:id="@+id/input_start_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"

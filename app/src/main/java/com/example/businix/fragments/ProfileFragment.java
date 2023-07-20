@@ -44,7 +44,7 @@ public class ProfileFragment extends Fragment {
     private LinearLayout infoWork;
 
     private TextView tvName, tvStartDate, tvPosition;
-    private EditText inputName, inputDOB, inputIdentityNum, inputAddress, inputPhone, inputEmail;
+    private EditText inputName, inputDOB, inputIdentityNum, inputAddress, inputPhone, inputEmail, inputPosition, inputDepartment, inputStartDate;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -99,6 +99,9 @@ public class ProfileFragment extends Fragment {
         inputAddress = (EditText) view.findViewById(R.id.input_address);
         inputPhone = (EditText) view.findViewById(R.id.input_phone);
         inputEmail = (EditText) view.findViewById(R.id.input_email);
+        inputPosition = (EditText) view.findViewById(R.id.input_position);
+        inputDepartment = (EditText) view.findViewById(R.id.input_department);
+        inputStartDate = (EditText) view.findViewById(R.id.input_start_date);
 
         btnShowWork.setOnClickListener(v -> {
             btnShowPersonal.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.white, null)));
@@ -122,18 +125,6 @@ public class ProfileFragment extends Fragment {
             infoPersonal.setVisibility(View.VISIBLE);
             infoWork.setVisibility(View.GONE);
         });
-
-
-//        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
-//        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-//        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
-//            int scrollY = scrollView.getScrollY();
-//            if (scrollY > 50) {
-//                toolbar.setBackgroundResource(R.drawable.gradient_purple_to_transparent);
-//            } else {
-//                toolbar.setBackgroundResource(R.color.transparent);
-//            }
-//        });
         return view;
     }
 
@@ -146,9 +137,15 @@ public class ProfileFragment extends Fragment {
         inputPhone.setText(infoMap.get("phone"));
         inputAddress.setText(infoMap.get("address"));
         tvStartDate.setText(infoMap.get("startDate"));
+        inputStartDate.setText(infoMap.get("startDate"));
     }
 
     public void setPosition(String position)  {
         tvPosition.setText(position);
+        inputPosition.setText(position);
+    }
+
+    public void setDepartment(String department) {
+        inputDepartment.setText(department);
     }
 }
