@@ -2,7 +2,7 @@ package com.example.businix.dao;
 
 import android.util.Log;
 
-import com.example.businix.models.AbsentMail;
+import com.example.businix.models.LeaveRequest;
 import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -16,18 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AbsentMailDAO {
+public class LeaveRequestDAO {
     private FirebaseFirestore db;
     private String collectionPath;
 
-    public AbsentMailDAO() {
+    public LeaveRequestDAO() {
         db = FirebaseFirestore.getInstance();
         collectionPath = "absentMails";
     }
 
-    public Task<Void> addAbsentMail(AbsentMail absentMail) {
+    public Task<Void> addAbsentMail(LeaveRequest absentMail) {
         return db.collection(collectionPath)
-                .add(absentMail).continueWith(task -> {
+                .add(absentMail)
+                .continueWith(task -> {
                     if (task.isSuccessful()) {
                         Log.d("AbsentMailDAO", "Thêm thành công với ID: " + task.getResult().getId());
                         return null;
@@ -38,7 +39,7 @@ public class AbsentMailDAO {
                 });
     }
 
-    public Task<Void> updateAbsentMail(String id, AbsentMail absenMail) {
+    public Task<Void> updateAbsentMail(String id, LeaveRequest absenMail) {
 
         if (id.isEmpty() || absenMail == null) {
             Log.e("AbsentMailDAO", "absenMailId hoặc absenMail không hợp lệ");
@@ -49,6 +50,7 @@ public class AbsentMailDAO {
         try {
             updates = FirestoreUtils.prepareUpdates(absenMail);
         } catch (IllegalAccessException e) {
+            Log.e("AbsentMailDAO", "Không lấy được dữ liệu updates.", e);
             return Tasks.forException(e);
         }
 
@@ -64,13 +66,14 @@ public class AbsentMailDAO {
         });
     }
 
-    public Task<List<AbsentMail>> getAbsentMailList() {
+    public Task<List<LeaveRequest>> getAbsentMailList() {
         CollectionReference absentMailRef = db.collection(collectionPath);
         return absentMailRef.get().continueWith(task -> {
             if (task.isSuccessful()) {
-                List<AbsentMail> absentMailList = new ArrayList<>();
+                List<LeaveRequest> absentMailList = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    AbsentMail absentMail = document.toObject(AbsentMail.class);
+                    LeaveRequest absentMail = document.toObject(LeaveRequest.class);
+                    absentMail.setId(document.getId());
                     absentMailList.add(absentMail);
                 }
                 return absentMailList;
@@ -82,13 +85,15 @@ public class AbsentMailDAO {
         });
     }
 
-    public Task<AbsentMail> getAbsentMailById(String id) {
+    public Task<LeaveRequest> getAbsentMailById(String id) {
         DocumentReference absentMailRef = db.collection(collectionPath).document(id);
         return absentMailRef.get().continueWith(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    return document.toObject(AbsentMail.class);
+                    LeaveRequest absentMail = document.toObject(LeaveRequest.class);
+                    absentMail.setId(document.getId());
+                    return absentMail;
                 } else {
                     throw new Exception("AbsentMail not found");
                 }

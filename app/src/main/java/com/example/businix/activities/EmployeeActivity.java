@@ -168,6 +168,11 @@ public class EmployeeActivity extends ActionBar {
                         String positionName = documentSnapshot.getString("name");
                         ((ProfileFragment) profileFragment).setPosition(positionName);
                     });
+
+                    employee.getDepartment().get().addOnSuccessListener(documentSnapshot -> {
+                        String departmentName = documentSnapshot.getString("name");
+                        ((ProfileFragment) profileFragment).setDepartment(departmentName);
+                    });
                 }
             }
         });

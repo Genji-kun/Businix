@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DepartmentDAO {
-    private FirebaseFirestore db;
-    private String collectionPath;
+    private final FirebaseFirestore db;
+    private final String collectionPath;
 
     public DepartmentDAO() {
         db = FirebaseFirestore.getInstance();
@@ -27,7 +27,8 @@ public class DepartmentDAO {
 
     public Task<Void> addDepartment(Department department) {
         return db.collection(collectionPath)
-                .add(department).continueWith(task -> {
+                .add(department)
+                .continueWith(task -> {
                     if(task.isSuccessful()) {
                         Log.d("DepartmentDAO", "Thêm thành công với ID: " + task.getResult().getId());
                         return null;
@@ -68,7 +69,7 @@ public class DepartmentDAO {
                 });
     }
 
-    public Task<Void> deleteEmployee(String id) {
+    public Task<Void> deleteDepartment(String id) {
         return db.collection(collectionPath).document(id).delete()
                 .continueWith(task -> {
                     if (task.isSuccessful()) {
@@ -88,6 +89,7 @@ public class DepartmentDAO {
                 List<Department> departmentList = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Department department = document.toObject(Department.class);
+                    department.setId(document.getId());
                     departmentList.add(department);
                 }
                 return departmentList;
@@ -99,13 +101,15 @@ public class DepartmentDAO {
         });
     }
 
-    public Task<Department> getEmployeeById(String departmentId) {
+    public Task<Department> getDepartmentById(String departmentId) {
         DocumentReference departmentRef = db.collection(collectionPath).document(departmentId);
         return departmentRef.get().continueWith(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    return document.toObject(Department.class);
+                    Department department = document.toObject(Department.class);
+                    department.setId(document.getId());
+                    return department;
                 } else {
                     throw new Exception("Department not found");
                 }

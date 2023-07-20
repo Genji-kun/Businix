@@ -22,4 +22,5 @@
     <color name="dark_purple">#FF4C209A</color>
     <color name="transparent">#00000000</color>
     <color name="success">#FF4ED277</color>
+    <color name="danger">#FFD71313</color>
 </resources>

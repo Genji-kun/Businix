@@ -37,5 +37,6 @@
     <string name="absence">Vắng</string>
     <string name="late">Trễ</string>
 
+    <string name="bg">background</string>
 
 </resources>

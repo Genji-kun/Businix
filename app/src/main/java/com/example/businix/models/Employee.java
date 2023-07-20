@@ -25,6 +25,8 @@ public class Employee {
     private DocumentReference department;
     private DocumentReference position;
 
+    private UserRole userRole;
+
     public Employee() {
     }
 
@@ -129,7 +131,7 @@ public class Employee {
         return department;
     }
 
-    public void setDepartmentID(DocumentReference department) {
+    public void setDepartment(DocumentReference department) {
         this.department = department;
     }
     @Exclude
@@ -139,5 +141,13 @@ public class Employee {
     @Exclude
     public void setId(String id) {
         this.id = id;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 }
