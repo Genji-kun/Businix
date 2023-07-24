@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.admin.AdminAddEmployeeActivity">
+    tools:context=".activities.admin.AdminEditEmployeeActivity">
 
     <LinearLayout
         android:id="@+id/layout_navbar"
@@ -30,7 +30,7 @@
             android:layout_marginVertical="20dp"
             android:layout_marginRight="30dp"
             android:fontFamily="@font/medium_font"
-            android:text="Thêm nhân viên mới"
+            android:text="Chỉnh sửa nhân viên"
             android:textAlignment="center"
             android:textColor="@color/light_purple"
             android:textSize="25dp" />
@@ -296,11 +296,13 @@
                 android:layout_marginVertical="20dp"
                 android:textSize="25sp"></TextView>
 
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_role"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:hint="Vai trò">
 
                 <AutoCompleteTextView
@@ -315,7 +317,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:hint="Vị trí">
 
                 <AutoCompleteTextView
@@ -362,10 +363,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/regular_font"
-            android:text="Thêm nhân viên"
+            android:text="Cập nhật"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

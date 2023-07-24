@@ -1,5 +1,6 @@
-package com.example.businix.activities;
+package com.example.businix.activities.admin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,7 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.businix.R;
+import com.example.businix.adapters.EmployeeAdapter;
+import com.example.businix.controllers.EmployeeController;
+import com.example.businix.controllers.PositionController;
+import com.example.businix.models.Employee;
+import com.example.businix.models.Position;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.List;
 
 public class AdminEmployeeManagementActivity extends AppCompatActivity {
     private ImageView btnHome;
@@ -23,14 +33,27 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
     private TextInputEditText inputName;
     private LinearLayout btnAddEmployee;
     private ListView listView;
-    private ArrayAdapter<String> arrayAdapter;
-    private String[] employeeNameItems = {"Võ Phú Phát", "Nguyễn Kim Bảo Ngân", "Phan Thanh Hải", "Lại Bình Phong"};
-    private String[] positionItems = {"Trưởng phòng", "Lập trình viên", "HR"};
+    private EmployeeAdapter employeeAdapter;
+    private List<Employee> employeeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_management);
+
+        listView = (ListView) findViewById(R.id.list_view_employee);
+        EmployeeController employeeController = new EmployeeController();
+        employeeController.getEmployeeList(new OnCompleteListener<List<Employee>>() {
+            @Override
+            public void onComplete(@NonNull Task<List<Employee>> task) {
+                if(task.isSuccessful())
+                {
+                    employeeList = task.getResult();
+                    employeeAdapter = new EmployeeAdapter(AdminEmployeeManagementActivity.this,R.layout.listview_employee, employeeList);
+                    listView.setAdapter(employeeAdapter);
+                }
+            }
+        });
 
         inputName = (TextInputEditText) findViewById(R.id.input_name);
         inputName.addTextChangedListener(new TextWatcher() {
@@ -41,7 +64,7 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String query = s.toString();
-                arrayAdapter.getFilter().filter(query);
+                employeeAdapter.getFilter().filter(query);
             }
 
             @Override
@@ -50,8 +73,6 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
         });
 
         dropdownPosition = (AutoCompleteTextView) findViewById(R.id.dropdown_position);
-        ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(AdminEmployeeManagementActivity.this, R.layout.dropdown_menu, positionItems);
-        dropdownPosition.setAdapter(itemAdapter);
         dropdownPosition.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -59,9 +80,7 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
             }
         });
 
-        listView = (ListView) findViewById(R.id.list_view_employee);
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.listview_employee, R.id.tv_empl_name, employeeNameItems);
-        listView.setAdapter(arrayAdapter);
+
 
         btnAddEmployee = (LinearLayout) findViewById(R.id.btn_add_employee);
         btnAddEmployee.setOnClickListener(v -> {
@@ -75,5 +94,26 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EmployeeController employeeController = new EmployeeController();
+        employeeController.getEmployeeList(new OnCompleteListener<List<Employee>>() {
+            @Override
+            public void onComplete(@NonNull Task<List<Employee>> task) {
+                if (task.isSuccessful()) {
+                    employeeList = task.getResult();
+                    if (employeeAdapter != null) {
+                        employeeAdapter.clear(); // Xóa dữ liệu cũ trong adapter
+                        employeeAdapter.addAll(employeeList); // Thêm dữ liệu mới vào adapter
+                        employeeAdapter.notifyDataSetChanged(); // Cập nhật lại ListView
+                    }
+                } else {
+                    // Xử lý lỗi
+                }
+            }
+        });
     }
 }

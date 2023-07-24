@@ -14,6 +14,8 @@ public class Employee {
     private String phone;
     private String address;
     private Date dob;
+    @PropertyName("identity_num")
+    private String identityNum;
     private String email;
     private String avatar;
     private String username;
@@ -149,5 +151,13 @@ public class Employee {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public String getIdentityNum() {
+        return identityNum;
+    }
+
+    public void setIdentityNum(String identityNum) {
+        this.identityNum = identityNum;
     }
 }

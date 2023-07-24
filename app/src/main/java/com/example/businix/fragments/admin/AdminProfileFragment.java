@@ -1,4 +1,4 @@
-package com.example.businix.fragments;
+package com.example.businix.fragments.admin;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.businix.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AdminNotifitionFragment#newInstance} factory method to
+ * Use the {@link AdminProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AdminNotificationFragment extends Fragment {
+public class AdminProfileFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class AdminNotificationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AdminNotificationFragment() {
+    public AdminProfileFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class AdminNotificationFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminNotifitionFragment.
+     * @return A new instance of fragment AdminProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AdminNotificationFragment newInstance(String param1, String param2) {
-        AdminNotificationFragment fragment = new AdminNotificationFragment();
+    public static AdminProfileFragment newInstance(String param1, String param2) {
+        AdminProfileFragment fragment = new AdminProfileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class AdminNotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_notification, container, false);
+        return inflater.inflate(R.layout.fragment_admin_profile, container, false);
     }
 }

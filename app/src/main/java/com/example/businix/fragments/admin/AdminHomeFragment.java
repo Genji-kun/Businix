@@ -1,4 +1,4 @@
-package com.example.businix.fragments;
+package com.example.businix.fragments.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.businix.R;
-import com.example.businix.activities.AdminEmployeeManagementActivity;
+import com.example.businix.activities.admin.AdminDepartmentManagementActivity;
+import com.example.businix.activities.admin.AdminEmployeeManagementActivity;
+import com.example.businix.activities.admin.AdminPositionManagementActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +62,7 @@ public class AdminHomeFragment extends Fragment {
         }
     }
 
-    private LinearLayout btnEmployee;
+    private LinearLayout btnEmployee, btnPosition, btnDepartment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,12 +70,21 @@ public class AdminHomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_home, container, false);
         btnEmployee = (LinearLayout) view.findViewById(R.id.btn_employee);
-        btnEmployee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent empl = new Intent(getActivity(), AdminEmployeeManagementActivity.class);
-                startActivity(empl);
-            }
+        btnPosition = (LinearLayout) view.findViewById(R.id.btn_position);
+        btnDepartment = (LinearLayout) view.findViewById(R.id.btn_department);
+        btnEmployee.setOnClickListener(v -> {
+            Intent empl = new Intent(getActivity(), AdminEmployeeManagementActivity.class);
+            startActivity(empl);
+        });
+
+        btnPosition.setOnClickListener(v -> {
+            Intent pos = new Intent(getActivity(), AdminPositionManagementActivity.class);
+            startActivity(pos);
+        });
+
+        btnDepartment.setOnClickListener(v -> {
+            Intent department = new Intent(getActivity(), AdminDepartmentManagementActivity.class);
+            startActivity(department);
         });
 
         return view;

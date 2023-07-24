@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AdminPositionManagementActivity">
+    tools:context=".activities.admin.AdminPositionManagementActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,20 +40,18 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_position"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
-            android:hint="Chức vụ">
+            android:layout_marginHorizontal="20dp">
 
-            <AutoCompleteTextView
-                android:id="@+id/dropdown_position"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_user_role"
+                android:drawableLeft="@drawable/ic_search"
                 android:drawablePadding="10dp"
-                android:inputType="none" />
+                android:hint="Chức vụ" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -78,7 +76,7 @@
 
 
     <LinearLayout
-        android:id="@+id/btn_add_employee"
+        android:id="@+id/btn_add_position"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_gravity="center"

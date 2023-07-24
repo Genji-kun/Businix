@@ -55,11 +55,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium_font"
-            android:text="Trưởng phòng"
+            android:text="..."
             android:textColor="@color/light_purple" />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/btn_show_detail"
+        android:id="@+id/btn_edit_employee"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical">
@@ -71,7 +71,7 @@
             android:layout_marginHorizontal="5dp"></ImageView>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/btn_delete_department"
+        android:id="@+id/btn_delete_employee"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical">

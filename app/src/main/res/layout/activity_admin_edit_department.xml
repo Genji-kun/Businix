@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.admin.AdminAddPositionActivity">
-
-
+    tools:context=".activities.admin.AdminEditDepartmentActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -28,7 +26,7 @@
             android:layout_marginVertical="20dp"
             android:layout_marginRight="30dp"
             android:fontFamily="@font/medium_font"
-            android:text="Thêm chức vụ"
+            android:text="Chỉnh sửa phòng ban"
             android:textAlignment="center"
             android:textColor="@color/light_purple"
             android:textSize="25dp" />
@@ -38,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/medium_font"
-        android:text="Nhập thông tin"
+        android:text="Sửa thông tin"
         android:textColor="@color/black"
         android:layout_marginStart="20dp"
         android:textSize="25sp"></TextView>
@@ -52,27 +50,20 @@
         android:layout_marginTop="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_position_name"
+            android:id="@+id/input_department_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên chức vụ" />
+            android:hint="Tên phòng ban" />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_salary"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_salary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Mức lương" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_margin="20dp"/>
 
     <LinearLayout
-        android:id="@+id/btn_add_position"
+        android:id="@+id/btn_edit_department"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_gravity="center"
@@ -82,12 +73,12 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            android:id="@+id/tv_btn_add_position"
+            android:id="@+id/tv_btn_edit_department"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/regular_font"
-            android:text="Thêm chức vụ mới"
+            android:text="Cập nhật"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp" />

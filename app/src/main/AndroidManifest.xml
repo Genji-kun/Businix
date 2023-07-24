@@ -21,22 +21,43 @@
         android:theme="@style/Theme.Businix"
         tools:targetApi="31">
         <activity
-            android:name=".activities.AdminAddDepartmentActivity"
+            android:name=".activities.admin.AdminAddEmployeeActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminAddPositionActivity"
+            android:name=".activities.admin.AdminEditEmployeeActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminDepartmentManagementActivity"
+            android:name=".activities.admin.AdminEditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminPositionManagementActivity"
+            android:name=".activities.admin.AdminEditDepartmentActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminAddEmployeeActivity"
+            android:name=".activities.admin.AdminEditPositionActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.AdminEmployeeManagementActivity"
+            android:name=".activities.admin.AdminActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.admin.AdminDepartmentManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminPositionManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEmployeeManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAddPositionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAddDepartmentActivity"
             android:exported="false" />
         <activity
             android:name=".activities.WorkActivity"
@@ -71,11 +92,13 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/animation">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 

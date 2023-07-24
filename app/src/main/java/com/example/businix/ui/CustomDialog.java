@@ -40,6 +40,7 @@ public class CustomDialog extends AlertDialog {
                 if (continueClickListener != null) {
                     continueClickListener.onClick(CustomDialog.this, 1);
                 }
+                dismiss();
             }
         });
 

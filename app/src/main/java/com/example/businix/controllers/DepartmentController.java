@@ -1,6 +1,10 @@
 package com.example.businix.controllers;
+import android.util.Log;
+
 import com.example.businix.dao.DepartmentDAO;
 import com.example.businix.models.Department;
+import com.example.businix.models.Position;
+import com.example.businix.utils.FindListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -35,5 +39,21 @@ public class DepartmentController {
     public void getDepartmentById(String departmentId, OnCompleteListener<Department> onCompleteListener) {
         Task<Department> getDepartmentTask =departmentDAO.getDepartmentById(departmentId);
         getDepartmentTask.addOnCompleteListener(onCompleteListener);
+    }
+
+    public void isExistedDepartment(String departmentName, FindListener findListener) {
+        Task<Department> getDepartmentTask = departmentDAO.getDepartmentByName(departmentName);
+        getDepartmentTask.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult() != null) {
+                    findListener.onFoundSuccess();
+                }
+                else
+                    findListener.onNotFound();
+            }
+            else
+                Log.e("PositionController", "Lỗi", task.getException());
+        });
+
     }
 }

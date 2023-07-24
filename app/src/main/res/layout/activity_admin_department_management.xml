@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AdminDepartmentManagementActivity">
+    tools:context=".activities.admin.AdminDepartmentManagementActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,21 +39,19 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_position"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:id="@+id/layout_department"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
-            android:hint="Phòng ban">
+            android:layout_marginHorizontal="20dp">
 
-            <AutoCompleteTextView
-                android:id="@+id/dropdown_department"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_department"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_user_role"
+                android:drawableLeft="@drawable/ic_search"
                 android:drawablePadding="10dp"
-                android:inputType="none" />
+                android:hint="Phòng ban" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
