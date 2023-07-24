@@ -133,6 +133,10 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
             });
 
         });
+
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
     }
 
 
