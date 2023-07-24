@@ -6,6 +6,8 @@ import com.example.businix.utils.AuthenticationListener;
 import com.example.businix.utils.PasswordHash;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.List;
 
 public class EmployeeController {
@@ -56,5 +58,9 @@ public class EmployeeController {
                     // lỗi hoặc username không tồn tại
                     listener.onUsernameNotFound();
                 });
+    }
+
+    public DocumentReference getEmployeeRef(String id) {
+        return employeeDAO.getEmployeeRef(id);
     }
 }

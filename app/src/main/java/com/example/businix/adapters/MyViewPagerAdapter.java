@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.businix.fragments.SeenNotiFragment;
-import com.example.businix.fragments.UnseenNotiFragment;
-import com.example.businix.fragments.AllNotiFragment;
+import com.example.businix.fragments.employee.SeenNotiFragment;
+import com.example.businix.fragments.admin.UnseenNotiFragment;
+import com.example.businix.fragments.employee.AllNotiFragment;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
     public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {

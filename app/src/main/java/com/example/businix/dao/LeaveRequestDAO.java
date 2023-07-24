@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -22,27 +23,28 @@ public class LeaveRequestDAO {
 
     public LeaveRequestDAO() {
         db = FirebaseFirestore.getInstance();
-        collectionPath = "absentMails";
+        collectionPath = "leaveRequests";
     }
 
-    public Task<Void> addAbsentMail(LeaveRequest absentMail) {
+    public Task<String> addLeaveRequest(LeaveRequest leaveRequest) {
+            leaveRequest.setCreatedAt(Calendar.getInstance().getTime());
         return db.collection(collectionPath)
-                .add(absentMail)
+                .add(leaveRequest)
                 .continueWith(task -> {
                     if (task.isSuccessful()) {
-                        Log.d("AbsentMailDAO", "Thêm thành công với ID: " + task.getResult().getId());
-                        return null;
+                        Log.d("LeaveRequestDAO", "Thêm thành công với ID: " + task.getResult().getId());
+                        return task.getResult().getId();
                     } else {
-                        Log.e("AbsentMailDAO", "Thêm không thành công", task.getException());
+                        Log.e("LeaveRequestDAO", "Thêm không thành công", task.getException());
                         throw task.getException();
                     }
                 });
     }
 
-    public Task<Void> updateAbsentMail(String id, LeaveRequest absenMail) {
+    public Task<Void> updateLeaveRequest(String id, LeaveRequest absenMail) {
 
         if (id.isEmpty() || absenMail == null) {
-            Log.e("AbsentMailDAO", "absenMailId hoặc absenMail không hợp lệ");
+            Log.e("LeaveRequestDAO", "absenMailId hoặc absenMail không hợp lệ");
             return Tasks.forException(new IllegalArgumentException("employeeId không hợp lệ"));
         }
 
@@ -50,57 +52,61 @@ public class LeaveRequestDAO {
         try {
             updates = FirestoreUtils.prepareUpdates(absenMail);
         } catch (IllegalAccessException e) {
-            Log.e("AbsentMailDAO", "Không lấy được dữ liệu updates.", e);
+            Log.e("LeaveRequestDAO", "Không lấy được dữ liệu updates.", e);
             return Tasks.forException(e);
         }
 
         return db.collection(collectionPath).document(id).update(updates).continueWith(task -> {
             if (task.isSuccessful()) {
-                Log.d("AbsentMailDAO", "Cập nhật thành công absentMail có id: " + id);
+                Log.d("LeaveRequestDAO", "Cập nhật thành công leaveRequest có id: " + id);
                 return null;
             }
             else {
-                Log.e("AbsentMailDAO", "Cập nhật thất bại absentMail có id: " + id);
+                Log.e("LeaveRequestDAO", "Cập nhật thất bại leaveRequest có id: " + id);
                 throw task.getException();
             }
         });
     }
 
-    public Task<List<LeaveRequest>> getAbsentMailList() {
-        CollectionReference absentMailRef = db.collection(collectionPath);
-        return absentMailRef.get().continueWith(task -> {
+    public Task<List<LeaveRequest>> getLeaveRequestList() {
+        CollectionReference leaveRequestRef = db.collection(collectionPath);
+        return leaveRequestRef.get().continueWith(task -> {
             if (task.isSuccessful()) {
-                List<LeaveRequest> absentMailList = new ArrayList<>();
+                List<LeaveRequest> leaveRequestList = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    LeaveRequest absentMail = document.toObject(LeaveRequest.class);
-                    absentMail.setId(document.getId());
-                    absentMailList.add(absentMail);
+                    LeaveRequest leaveRequest = document.toObject(LeaveRequest.class);
+                    leaveRequest.setId(document.getId());
+                    leaveRequestList.add(leaveRequest);
                 }
-                return absentMailList;
+                return leaveRequestList;
             }
             else {
-                Log.e("AbsentMailDAO", "Lỗi khi lấy list absentMail", task.getException());
+                Log.e("LeaveRequestDAO", "Lỗi khi lấy list LeaveRequest", task.getException());
                 throw task.getException();
             }
         });
     }
 
-    public Task<LeaveRequest> getAbsentMailById(String id) {
-        DocumentReference absentMailRef = db.collection(collectionPath).document(id);
-        return absentMailRef.get().continueWith(task -> {
+    public Task<LeaveRequest> getLeaveRequestById(String id) {
+        DocumentReference leaveRequestRef = db.collection(collectionPath).document(id);
+        return leaveRequestRef.get().continueWith(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    LeaveRequest absentMail = document.toObject(LeaveRequest.class);
-                    absentMail.setId(document.getId());
-                    return absentMail;
+                    LeaveRequest leaveRequest = document.toObject(LeaveRequest.class);
+                    leaveRequest.setId(document.getId());
+                    return leaveRequest;
                 } else {
-                    throw new Exception("AbsentMail not found");
+                    throw new Exception("LeaveRequest not found");
                 }
             } else {
-                Log.e("AbsentMailDAO", "Lỗi khi lấy absentMail với id " + id, task.getException());
+                Log.e("LeaveRequestDAO", "Lỗi khi lấy leaveRequest với id " + id, task.getException());
                 throw task.getException();
             }
         });
+    }
+
+    public DocumentReference getLeaveRequestRef(String id) {
+        return db.collection(collectionPath).document(id);
     }
 }

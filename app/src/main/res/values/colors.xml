@@ -9,7 +9,7 @@
     <color name="medium_gray">#FFF0F0F0</color>
     <color name="gray">#FFCED1D8</color>
     <color name="green">#FF4ED277</color>
-    <color name="dark_gray">#FF888888</color>
+    <color name="dark_gray">#FF777777</color>
 
     <color name="sub_line_purple">#FFC1C1FB</color>
     <color name="sub_purple">#FFD1CFFD</color>
@@ -23,4 +23,11 @@
     <color name="transparent">#00000000</color>
     <color name="success">#FF4ED277</color>
     <color name="danger">#FFD71313</color>
+
+    <color name="waiting">#55E4C03A</color>
+    <color name="waiting_line">#FFE89438</color>
+    <color name="accept">#555DE1A2</color>
+    <color name="accept_line">#FF4CB499</color>
+    <color name="reject">#55F46C6C</color>
+    <color name="reject_line">#FFF46C6C</color>
 </resources>

@@ -14,8 +14,7 @@ public class FirestoreUtils {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
-            PropertyName annotation = field.getAnnotation(PropertyName.class);
-            String propertyName = (annotation != null) ? annotation.value() : field.getName();
+            String propertyName = field.getName();
             Object value = field.get(object);
             if (value != null) {
                 updates.put(propertyName, value);

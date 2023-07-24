@@ -8,7 +8,6 @@ import java.util.Date;
 
 public class Employee {
     @Exclude private String id;
-    @PropertyName("full_name")
     private String fullName;
     private Gender gender;
     private String phone;
@@ -18,7 +17,6 @@ public class Employee {
     private String avatar;
     private String username;
     private String password;
-    @PropertyName("create_at")
     private Date createAt;
     private Status status;
 

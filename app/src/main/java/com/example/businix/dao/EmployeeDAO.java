@@ -46,7 +46,7 @@ public class EmployeeDAO {
 
     public Task<Void> updateEmployee(String employeeId, Employee employee) {
         // Kiểm tra xem EmployeeId có hợp lệ hay không
-        if (employeeId == null || employeeId.isEmpty()) {
+        if (employee == null || employeeId.isEmpty()) {
             Log.e("EmployeeDAO", "employeeId không hợp lệ");
             return Tasks.forException(new IllegalArgumentException("employeeId không hợp lệ"));
         }
@@ -154,5 +154,8 @@ public class EmployeeDAO {
                 });
     }
 
+    public DocumentReference getEmployeeRef(String id) {
+        return db.collection(collectionPath).document(id);
+    }
 
 }

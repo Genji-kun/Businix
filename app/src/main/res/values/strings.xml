@@ -39,4 +39,10 @@
 
     <string name="bg">background</string>
 
+    <string-array name="shift_options">
+        <item>Cả ngày</item>
+        <item>Ca sáng</item>
+        <item>Ca chiều</item>
+    </string-array>
+
 </resources>
