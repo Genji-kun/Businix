@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onAuthenticationSuccess(Employee employee) {
                     LoginManager loginManager = new LoginManager(LoginActivity.this);
                     loginManager.setLoggedInUserId(employee.getId());
+                    loginManager.setLoggedInRole(employee.getUserRole().name());
                     goToEmployeeActivity();
                     finish();
                 }

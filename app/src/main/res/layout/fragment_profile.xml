@@ -48,7 +48,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="60dp"
                     android:fontFamily="@font/medium_font"
-                    android:text="VÕ PHÚ PHÁT"
+                    android:text="@string/empty"
+                    android:textAllCaps="true"
                     android:textColor="@color/medium_purple"
                     android:textSize="21sp" />
 
@@ -78,7 +79,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/light_font"
-                            android:text="12/2/2002"
+                            android:text="@string/empty"
                             android:textAlignment="center"
                             android:textColor="@color/dark_gray"
                             android:textSize="16sp" />
@@ -110,7 +111,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/light_font"
-                            android:text="Quản lý"
+                            android:text="@string/empty"
                             android:textAlignment="center"
                             android:textColor="@color/dark_gray"
                             android:textSize="16sp" />
@@ -199,7 +200,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/regular_font"
                     android:enabled="false"
-                    android:text="Võ Phú Phát"
+                    android:text="@string/empty"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -223,7 +224,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/regular_font"
                     android:enabled="false"
-                    android:text="14/11/2002"
+                    android:text="@string/empty"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -247,7 +248,7 @@
                     android:fontFamily="@font/regular_font"
                     android:enabled="false"
                     android:textColor="@color/black"
-                    android:text="098765432345"
+                    android:text="@string/empty"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -271,7 +272,7 @@
                     android:textColor="@color/black"
                     android:enabled="false"
                     android:fontFamily="@font/regular_font"
-                    android:text="14/11/2002"
+                    android:text="@string/empty"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -295,7 +296,7 @@
                     android:textColor="@color/black"
                     android:enabled="false"
                     android:fontFamily="@font/regular_font"
-                    android:text="0987654321"
+                    android:text="@string/empty"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -319,7 +320,7 @@
                     android:textColor="@color/black"
                     android:enabled="false"
                     android:fontFamily="@font/regular_font"
-                    android:text="BinBin1411@gmail.com"
+                    android:text="@string/empty"
                     />
             </LinearLayout>
             <LinearLayout
@@ -344,6 +345,7 @@
                     android:id="@+id/input_position"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -351,7 +353,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/regular_font"
                     android:enabled="false"
-                    android:text="Developer"
+                    android:text="@string/empty"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -365,6 +367,7 @@
                     android:id="@+id/input_department"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -373,7 +376,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/regular_font"
                     android:enabled="false"
-                    android:text="IT"
+                    android:text="@string/empty"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -387,6 +390,7 @@
                     android:id="@+id/input_start_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="48dp"
                     android:layout_marginVertical="5dp"
                     android:background="@drawable/custom_edit_text"
                     android:padding="10dp"
@@ -396,7 +400,7 @@
                     android:fontFamily="@font/regular_font"
                     android:enabled="false"
                     android:textColor="@color/black"
-                    android:text="2/2/2022"
+                    android:text="@string/empty"
                     />
 
             </LinearLayout>

@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -24,8 +23,20 @@
         android:theme="@style/Theme.Businix"
         tools:targetApi="31">
         <activity
-            android:name=".activities.employee.LeaveRequestHistoryActivity"
+            android:name=".activities.employee.StatActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.employee.SalaryActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".utils.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".activities.admin.AdminAddDepartmentActivity"
             android:exported="false" />
@@ -42,7 +53,25 @@
             android:name=".activities.admin.AdminAddEmployeeActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.admin.AdminEditEmployeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEditDepartmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEditPositionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.admin.AdminEmployeeManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.employee.LeaveRequestHistoryActivity"
             android:exported="false" />
         <activity
             android:name=".activities.employee.WorkActivity"
@@ -74,6 +103,10 @@
             android:theme="@style/animation" />
         <activity
             android:name=".activities.employee.TimeAttendanceActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashPage"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/animation">

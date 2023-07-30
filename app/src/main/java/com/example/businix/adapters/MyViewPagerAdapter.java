@@ -5,13 +5,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.businix.fragments.employee.SeenNotiFragment;
-import com.example.businix.fragments.admin.UnseenNotiFragment;
-import com.example.businix.fragments.employee.AllNotiFragment;
+import java.util.List;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
-    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    private List<Fragment> fragmentList;
+    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, List<Fragment> fragmentList) {
         super(fragmentActivity);
+        this.fragmentList = fragmentList;
     }
 
     @NonNull
@@ -19,16 +19,20 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new UnseenNotiFragment();
+                return fragmentList.get(0);
             case 1:
-                return new SeenNotiFragment();
+                return fragmentList.get(1);
             default:
-                return new AllNotiFragment();
+                return fragmentList.get(2);
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return fragmentList.size();
+    }
+
+    public Fragment getFragment(int position) {
+        return fragmentList.get(position);
     }
 }

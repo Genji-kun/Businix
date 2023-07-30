@@ -81,6 +81,7 @@
         <TableRow
             android:layout_weight="1">
             <LinearLayout
+                android:id="@+id/btn_to_attendance"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="0dp"
@@ -138,6 +139,7 @@
         <TableRow
             android:layout_weight="1">
             <LinearLayout
+                android:id="@+id/btn_to_salary"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="0dp"
@@ -164,6 +166,7 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/btn_to_stats"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="0dp"

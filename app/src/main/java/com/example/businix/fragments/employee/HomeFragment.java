@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.businix.activities.employee.LeaveActivity;
 import com.example.businix.R;
+import com.example.businix.activities.employee.SalaryActivity;
+import com.example.businix.activities.employee.TimeAttendanceActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +33,8 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private LinearLayout btnToLeaveRequest;
+    private LinearLayout btnToAttendance;
+    private LinearLayout btnToSalary;
 
     private Boolean isProcessing = false;
     private TextView tvName;
@@ -87,6 +91,24 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
 
+        });
+
+        btnToAttendance = view.findViewById(R.id.btn_to_attendance);
+        btnToAttendance.setOnClickListener(v -> {
+            if (!isProcessing) {
+                isProcessing = true;
+                Intent intent = new Intent(getActivity(), TimeAttendanceActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnToSalary = view.findViewById(R.id.btn_to_salary);
+        btnToSalary.setOnClickListener(v -> {
+            if (!isProcessing) {
+                isProcessing = true;
+                Intent intent = new Intent(getActivity(), SalaryActivity.class);
+                startActivity(intent);
+            }
         });
         return view;
     }

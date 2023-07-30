@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_notification"
         android:title="Thông báo" />
     <item
-        android:id="@+id/action_logout"
-        android:icon="@drawable/ic_logout"
-        android:title="Thoát quyền sử dụng" />
+        android:id="@+id/action_user"
+        android:icon="@drawable/ic_user"
+        android:title="Tài khoản" />
 </menu>

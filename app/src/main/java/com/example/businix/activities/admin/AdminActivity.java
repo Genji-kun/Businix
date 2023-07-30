@@ -15,6 +15,7 @@ import com.example.businix.fragments.admin.AdminHomeFragment;
 import com.example.businix.fragments.admin.AdminNotificationFragment;
 import com.example.businix.R;
 import com.example.businix.fragments.admin.AdminAbsentMailFragment;
+import com.example.businix.fragments.admin.AdminProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public class AdminActivity extends AppCompatActivity {
         fragmentMap.put(R.id.action_home, new AdminHomeFragment());
         fragmentMap.put(R.id.action_absent, new AdminAbsentMailFragment());
         fragmentMap.put(R.id.action_notification, new AdminNotificationFragment());
-        fragmentMap.put(R.id.action_logout, null);
+        fragmentMap.put(R.id.action_user, new AdminProfileFragment());
 
         //Set fragment mặc định là home
         Fragment homeFragment = fragmentMap.get(R.id.action_home);

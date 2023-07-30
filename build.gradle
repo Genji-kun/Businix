@@ -2,8 +2,8 @@ buildscript {
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'
     }
-
 }
+
 
 plugins {
     id 'com.android.application' version '8.0.2' apply false
@@ -11,3 +11,9 @@ plugins {
     id 'com.google.gms.google-services' version '4.3.15' apply false
 }
 
+allprojects {
+    repositories {
+        // Other repositories...
+//        maven { url "https://jitpack.io" }
+    }
+}

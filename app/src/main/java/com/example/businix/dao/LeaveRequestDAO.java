@@ -27,7 +27,7 @@ public class LeaveRequestDAO {
     }
 
     public Task<String> addLeaveRequest(LeaveRequest leaveRequest) {
-            leaveRequest.setCreatedAt(Calendar.getInstance().getTime());
+        leaveRequest.setCreatedAt(Calendar.getInstance().getTime());
         return db.collection(collectionPath)
                 .add(leaveRequest)
                 .continueWith(task -> {
@@ -60,8 +60,7 @@ public class LeaveRequestDAO {
             if (task.isSuccessful()) {
                 Log.d("LeaveRequestDAO", "Cập nhật thành công leaveRequest có id: " + id);
                 return null;
-            }
-            else {
+            } else {
                 Log.e("LeaveRequestDAO", "Cập nhật thất bại leaveRequest có id: " + id);
                 throw task.getException();
             }
@@ -79,8 +78,7 @@ public class LeaveRequestDAO {
                     leaveRequestList.add(leaveRequest);
                 }
                 return leaveRequestList;
-            }
-            else {
+            } else {
                 Log.e("LeaveRequestDAO", "Lỗi khi lấy list LeaveRequest", task.getException());
                 throw task.getException();
             }

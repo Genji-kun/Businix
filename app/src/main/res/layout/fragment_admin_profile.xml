@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:background="@color/medium_gray"
+    tools:context=".fragments.admin.AdminProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_margin="30dp">
+        <LinearLayout
+            android:id="@+id/btn_user_setting"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@drawable/round_shape"
+            android:backgroundTint="@color/sub_purple"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="10dp"
+            android:elevation="1dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_edit_user"
+                ></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sửa thông tin"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/medium_font"
+                android:textColor="@color/black"></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btn_logout"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@drawable/round_shape"
+            android:backgroundTint="@color/sub_purple"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="10dp"
+            android:elevation="1dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_logout"
+                ></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đăng xuất"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/medium_font"
+                android:textColor="@color/black"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

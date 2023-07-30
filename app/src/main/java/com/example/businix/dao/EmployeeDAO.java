@@ -3,6 +3,7 @@ package com.example.businix.dao;
 import android.util.Log;
 
 import com.example.businix.models.Employee;
+import com.example.businix.models.UserRole;
 import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -11,6 +12,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -152,6 +154,22 @@ public class EmployeeDAO {
                         throw new Exception("Employee not found");
                     }
                 });
+    }
+
+    public Task<List<DocumentReference>> getEmployeeListByRole(UserRole userRole) {
+        CollectionReference employeesRef = db.collection(collectionPath);
+        Query query = employeesRef.whereEqualTo("userRole", userRole.name());
+        return query.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                List<DocumentReference> employeeList = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    employeeList.add(document.getReference());
+                }
+                return employeeList;
+            } else {
+                throw task.getException();
+            }
+        });
     }
 
     public DocumentReference getEmployeeRef(String id) {

@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_75">#C0FFFFFF</color>
+    <color name="white_25">#3FFFFFFF</color>
     <color name="snow">#FFF9F9F9</color>
 
     <color name="light_gray">#FFF6F6F6</color>
@@ -28,6 +29,6 @@
     <color name="waiting_line">#FFE89438</color>
     <color name="accept">#555DE1A2</color>
     <color name="accept_line">#FF4CB499</color>
-    <color name="reject">#55F46C6C</color>
-    <color name="reject_line">#FFF46C6C</color>
+    <color name="reject">#55FF3C4B</color>
+    <color name="reject_line">#FFFF3C4B</color>
 </resources>

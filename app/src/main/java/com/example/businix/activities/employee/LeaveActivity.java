@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,8 +24,12 @@ import com.example.businix.adapters.DateLeaveAdapter;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.controllers.LeaveRequestController;
 import com.example.businix.controllers.LeaveRequestDetailController;
+import com.example.businix.controllers.NotificationController;
+import com.example.businix.models.Employee;
 import com.example.businix.models.LeaveRequest;
 import com.example.businix.models.LeaveRequestDetail;
+import com.example.businix.models.Notification;
+import com.example.businix.models.UserRole;
 import com.example.businix.ui.ActionBar;
 import com.example.businix.ui.CustomDialog;
 import com.example.businix.utils.DateUtils;
@@ -53,6 +58,7 @@ public class LeaveActivity extends ActionBar implements OnSpinnerChangeListener 
     private EmployeeController employeeController;
     private LoginManager loginManager;
 
+    private Employee employee;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +77,20 @@ public class LeaveActivity extends ActionBar implements OnSpinnerChangeListener 
         btnSend = findViewById(R.id.btn_send);
         etContent = findViewById(R.id.et_content);
 
+
         currentSelectedItem = btnAllDay;
 
         leaveRequestController = new LeaveRequestController();
         leaveRequestDetailController = new LeaveRequestDetailController();
         employeeController = new EmployeeController();
+
         loginManager = new LoginManager(this);
+
+        employeeController.getEmployeeById(loginManager.getLoggedInUserId(), task -> {
+            if (task.isSuccessful()) {
+                employee = task.getResult();
+            }
+        });
 
         // Khi bấm vào EditText Ngày đầu
         inputStartDate.setOnClickListener(v -> {
@@ -169,6 +183,25 @@ public class LeaveActivity extends ActionBar implements OnSpinnerChangeListener 
                                             subDialog.setQuestion("Thông báo");
                                             subDialog.setMessage("Đã gửi thành công đơn xin nghỉ");
                                             LoadingOverlayUtils.hideLoadingOverlay();
+                                            Notification notification = new Notification();
+                                            notification.setRead(false);
+                                            notification.setSender(employeeController.getEmployeeRef(employeeId));
+                                            notification.setTitle("Đơn xin nghỉ");
+                                            String msg = "Một đơn xin nghỉ đến từ nhân viên";
+                                            if (employee != null) {
+                                                msg += " " + employee.getFullName();
+                                            }
+                                            notification.setMessage(msg);
+                                            employeeController.getEmployeeListByRole(UserRole.ADMIN, task2 -> {
+                                                if (task2.isSuccessful()) {
+                                                    notification.setReceivers(task2.getResult());
+                                                    (new NotificationController()).addNotification(notification, task3 -> {
+                                                        if (task3.isSuccessful()) {
+
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         } else {
                                             subDialog.show();
                                             subDialog.setQuestion("Thông báo");

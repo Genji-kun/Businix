@@ -2,75 +2,72 @@ package com.example.businix.controllers;
 
 import com.example.businix.dao.AttendanceDAO;
 import com.example.businix.models.Attendance;
-import com.example.businix.utils.DateUtils;
+import com.example.businix.utils.MyFindListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class AttendanceController {
     private AttendanceDAO attendanceDAO;
-
-    private Attendance setLateAndOverTime(Attendance attendance) {
-        if (attendance.getCheckInTime() != null) {
-            Date checkInTime = attendance.getCheckInTime();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(checkInTime);
-            cal.set(Calendar.HOUR_OF_DAY, 8);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-            Date fixedTime = cal.getTime();
-
-            Double diffInMinutes = DateUtils.getDiffInMinutes(checkInTime, fixedTime);
-            if (diffInMinutes >= 15) {
-                attendance.setLateHours(diffInMinutes/60);
-            }
-            else {
-                attendance.setLateHours(0);
-            }
-        }
-        if (attendance.getCheckOutTime() != null) {
-            Date checkOutTime = attendance.getCheckOutTime();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(checkOutTime);
-            int hour = cal.get(Calendar.HOUR_OF_DAY);
-            if (hour > 17) {
-                cal.set(Calendar.HOUR_OF_DAY, 17); // Đặt giờ là 9 giờ
-                cal.set(Calendar.MINUTE, 0); // Đặt phút là 0
-                cal.set(Calendar.SECOND, 0); // Đặt giây là 0
-                cal.set(Calendar.MILLISECOND, 0); // Đặt mili giây là 0
-                Date fixedTime = cal.getTime();
-                Double diffInMinutes = DateUtils.getDiffInMinutes(checkOutTime, fixedTime);
-                if (diffInMinutes >= 30) {
-                    attendance.setOverHours(diffInMinutes/60);
-                }
-                else {
-                    attendance.setOverHours(0);
-                }
-            }
-            else {
-                attendance.setOverHours(0);
-            }
-
-        }
-        return attendance;
-    }
     public AttendanceController() {
         attendanceDAO = new AttendanceDAO();
     }
 
     public void addAttendance(Attendance attendance, OnCompleteListener<Void> onCompleteListener) {
-        attendance = setLateAndOverTime(attendance);
         Task<Void> addAttendanceTask = attendanceDAO.addAttendance(attendance);
         addAttendanceTask.addOnCompleteListener(onCompleteListener);
     }
 
     public void updateAttendance(String id, Attendance attendance, OnCompleteListener<Void> onCompleteListener) {
-        attendance = setLateAndOverTime(attendance);
         Task<Void> updateAttendanceTask = attendanceDAO.updateAttandance(id, attendance);
         updateAttendanceTask.addOnCompleteListener(onCompleteListener);
     }
-    public void getAttandanceByDate(Date minTime, Date maxTime)
+    public void getAttandanceByMonth(Date date, DocumentReference emp, MyFindListener myFindListener) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date minTime = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        Date maxTime = cal.getTime();
+        Task<Attendance>  getAttandanceByDateTask = attendanceDAO.getAttandanceByDate(minTime, maxTime, emp);
+        getAttandanceByDateTask.addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                if (task.getResult() == null) {
+                    myFindListener.onNotFound();
+                }
+                else {
+                    Attendance attendance = task.getResult();
+                    myFindListener.onFoundSuccess(attendance);
+                }
+            }
+            else
+                myFindListener.onFail();
+        });
+    }
+
+    public void getAttandanceById(String id, MyFindListener myFindListener) {
+        Task<Attendance>  getAttandanceByIdTask = attendanceDAO.getAttendanceById(id);
+        getAttandanceByIdTask.addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                if (task.getResult() != null) {
+                    Attendance attendance = task.getResult();
+                    myFindListener.onFoundSuccess(attendance);
+                }
+                else {
+                    myFindListener.onNotFound();
+                }
+            }
+            else
+                myFindListener.onFail();
+        });
+    }
 }

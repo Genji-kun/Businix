@@ -1,6 +1,9 @@
 package com.example.businix.models;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
+
+import java.util.Calendar;
 import java.util.Date;
 
 public class Attendance {
@@ -8,9 +11,7 @@ public class Attendance {
     private String id;
     private Date checkInTime;
     private Date  checkOutTime;
-    private double lateHours;
-    private double overHours;
-
+    private DocumentReference employee;
     @Exclude
     public String getId() {
         return id;
@@ -36,19 +37,11 @@ public class Attendance {
         this.checkOutTime = checkOutTime;
     }
 
-    public double getLateHours() {
-        return lateHours;
+    public DocumentReference getEmployee() {
+        return employee;
     }
 
-    public void setLateHours(double lateHours) {
-        this.lateHours = lateHours;
-    }
-
-    public double getOverHours() {
-        return overHours;
-    }
-
-    public void setOverHours(double overHours) {
-        this.overHours = overHours;
+    public void setEmployee(DocumentReference employee) {
+        this.employee = employee;
     }
 }

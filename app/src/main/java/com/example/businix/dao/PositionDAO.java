@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,7 @@ public class PositionDAO {
                     if (task.isSuccessful()) {
                         Log.d("PositionDAO", "Thêm thành công với ID: " + task.getResult().getId());
                         return null;
-                    }
-                    else {
+                    } else {
                         Log.e("PositionDAO", "Error adding document", task.getException());
                         throw task.getException();
                     }
@@ -88,11 +88,11 @@ public class PositionDAO {
                 List<Position> positionList = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Position position = document.toObject(Position.class);
+                    position.setId(document.getId());
                     positionList.add(position);
                 }
                 return positionList;
-            }
-            else {
+            } else {
                 Log.e("DepartmentDAO", "Lỗi khi lấy list department", task.getException());
                 throw task.getException();
             }
@@ -108,13 +108,36 @@ public class PositionDAO {
                     Position position = document.toObject(Position.class);
                     position.setId(document.getId());
                     return position;
-                }
-                else {
+                } else {
                     throw new Exception("Position not found");
                 }
-            }
-            else
+            } else
                 throw task.getException();
         });
+    }
+
+    public Task<Position> getPositionByName(String positionName) {
+        return db.collection("positions")
+                .whereEqualTo("name", positionName)
+                .limit(1)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().isEmpty()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            if (document.exists()) {
+                                Position position = document.toObject(Position.class);
+                                position.setId(document.getId());
+                                return position;
+                            } else {
+                                return null;
+                            }
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        throw task.getException();
+                    }
+                });
     }
 }

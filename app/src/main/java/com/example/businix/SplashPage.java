@@ -8,25 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.businix.activities.LoginActivity;
-import com.example.businix.controllers.DepartmentController;
-import com.example.businix.controllers.EmployeeController;
-import com.example.businix.controllers.PositionController;
-import com.example.businix.dao.EmployeeDAO;
-import com.example.businix.models.Department;
-import com.example.businix.models.Employee;
-import com.example.businix.models.Gender;
-import com.example.businix.models.Position;
-import com.example.businix.models.Status;
-import com.example.businix.models.UserRole;
-import com.example.businix.utils.PasswordHash;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class SplashPage extends AppCompatActivity {
     private FirebaseFirestore db;

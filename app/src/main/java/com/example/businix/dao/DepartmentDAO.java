@@ -3,6 +3,7 @@ package com.example.businix.dao;
 import android.util.Log;
 
 import com.example.businix.models.Department;
+import com.example.businix.models.Position;
 import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -118,5 +119,30 @@ public class DepartmentDAO {
                 throw task.getException();
             }
         });
+    }
+
+    public Task<Department> getDepartmentByName(String departmentName) {
+        return db.collection("departments")
+                .whereEqualTo("name", departmentName)
+                .limit(1)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().isEmpty()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            if (document.exists()) {
+                                Department department = document.toObject(Department.class);
+                                department.setId(document.getId());
+                                return department;
+                            } else {
+                                return null;
+                            }
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        throw task.getException();
+                    }
+                });
     }
 }

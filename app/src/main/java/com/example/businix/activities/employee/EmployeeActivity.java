@@ -126,6 +126,9 @@ public class EmployeeActivity extends ActionBar {
 
         // Nếu fragment đã tồn tại trong FragmentManager, chỉ cần show lại
         if (fragmentManager.findFragmentByTag(newFragment.getClass().getSimpleName()) != null) {
+            if (newFragment instanceof NotificationFragment) {
+                ((NotificationFragment) newFragment).loadNotifications();
+            }
             fragmentTransaction.show(newFragment);
         } else {
             // Nếu fragment chưa tồn tại, thì add vào

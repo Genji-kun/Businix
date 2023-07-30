@@ -1,7 +1,10 @@
 package com.example.businix.controllers;
 
+import android.util.Log;
+
 import com.example.businix.dao.PositionDAO;
 import com.example.businix.models.Position;
+import com.example.businix.utils.FindListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -36,6 +39,22 @@ public class PositionController {
     public void getPositionById(String PositionId, OnCompleteListener<Position> onCompleteListener) {
         Task<Position> getPositionTask = positionDAO.getPositionById(PositionId);
         getPositionTask.addOnCompleteListener(onCompleteListener);
+    }
+
+    public void isExistedPosition(String positionName, FindListener findListener) {
+        Task<Position> getPositionTask = positionDAO.getPositionByName(positionName);
+        getPositionTask.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult() != null) {
+                    findListener.onFoundSuccess();
+                }
+                else
+                    findListener.onNotFound();
+            }
+            else
+                Log.e("PositionController", "Lỗi", task.getException());
+        });
+
     }
 
 }
