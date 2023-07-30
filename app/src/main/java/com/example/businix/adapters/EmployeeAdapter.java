@@ -32,8 +32,6 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
     private List<Employee> employeeList;
     private List<Employee> filteredList;
     private Context context;
-    private String selectedPositionName = "";
-    private String selectedStatus = "ACTIVE";
 
     public EmployeeAdapter(Context context, int resource, List<Employee> employeeList) {
         super(context, resource, employeeList);
@@ -43,13 +41,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
         this.context = context;
     }
 
-    public void setSelectedPositionName(String positionName) {
-        this.selectedPositionName = positionName;
-    }
 
-    public void setSelectedStatus(String status) {
-        this.selectedStatus = status;
-    }
 
     @NonNull
     @Override
@@ -149,7 +141,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                if (constraint == null || constraint.length() == 0 || selectedStatus.length() == 0) {
+                if (constraint == null || constraint.length() == 0) {
                     results.values = employeeList;
                     results.count = employeeList.size();
                 } else {
@@ -163,8 +155,8 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
 //                        });
 //                        boolean matchPosition = selectedPositionName.isEmpty() || positionName.equals(selectedPositionName);
                         boolean matchName = empl.getFullName().toLowerCase().contains(constraint.toString().toLowerCase());
-                        boolean matchStatus = selectedStatus.isEmpty() || empl.getStatus().equals(selectedStatus);
-                        if (matchName && matchStatus) {
+//                        boolean matchStatus = selectedStatus.isEmpty() || empl.getStatus().equals(selectedStatus);
+                        if (matchName) {
                             filteredEmployees.add(empl);
                         }
                     }

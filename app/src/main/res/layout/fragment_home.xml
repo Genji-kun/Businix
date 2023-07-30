@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.HomeFragment"
+    tools:context=".fragments.employee.HomeFragment"
     android:orientation="vertical"
     >
 
@@ -81,6 +81,7 @@
         <TableRow
             android:layout_weight="1">
             <LinearLayout
+                android:id="@+id/btn_to_attendance"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="0dp"
@@ -138,6 +139,7 @@
         <TableRow
             android:layout_weight="1">
             <LinearLayout
+                android:id="@+id/btn_to_salary"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="0dp"
@@ -164,6 +166,7 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/btn_to_stats"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="0dp"

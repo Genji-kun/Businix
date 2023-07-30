@@ -1,5 +1,4 @@
 package com.example.businix.activities.admin;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.businix.R;
+
 import com.example.businix.adapters.PositionAdapter;
 import com.example.businix.controllers.PositionController;
 import com.example.businix.models.Position;
@@ -33,7 +33,6 @@ public class AdminPositionManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_position_management);
-
 
         ListView listView = (ListView) findViewById(R.id.list_view_position);
         PositionController positionController = new PositionController();

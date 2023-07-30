@@ -4,11 +4,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.PropertyName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Employee {
+public class Employee implements Serializable {
     @Exclude private String id;
-    @PropertyName("full_name")
     private String fullName;
     private Gender gender;
     private String phone;
@@ -20,7 +20,6 @@ public class Employee {
     private String avatar;
     private String username;
     private String password;
-    @PropertyName("create_at")
     private Date createAt;
     private Status status;
 

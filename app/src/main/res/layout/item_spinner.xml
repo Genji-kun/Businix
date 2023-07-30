@@ -6,4 +6,6 @@
     android:textSize="18sp"
     android:fontFamily="@font/regular_font"
     android:text="simple"
-    android:textColor="@color/black" />
+    android:gravity="center_vertical"
+    android:padding="5dp"
+    android:textColor="@color/dark_purple" />

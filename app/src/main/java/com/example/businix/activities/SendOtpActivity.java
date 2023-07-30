@@ -73,6 +73,7 @@ public class SendOtpActivity extends AppCompatActivity {
                                         Intent i = new Intent(SendOtpActivity.this, VerifyOtpActivity.class);
                                         i.putExtra("phone_number", tvPhone.getText());
                                         i.putExtra("verification_id", verificationId);
+                                        i.putExtra("employee", getIntent().getSerializableExtra("employee"));
                                         startActivity(i);
                                     }
                                 }

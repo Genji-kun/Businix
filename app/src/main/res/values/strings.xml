@@ -23,6 +23,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="empty">...</string>
+
     <string name="username">Username</string>
     <string name="password">Password</string>
 
@@ -39,6 +41,12 @@
 
     <string name="bg">background</string>
 
+    <string-array name="shift_options">
+        <item>Cả ngày</item>
+        <item>Ca sáng</item>
+        <item>Ca chiều</item>
+    </string-array>
+
     <!--Confirm delete Dialog-->
     <string name="delete_dialog_question">Bạn có muốn xóa thành phần này không?</string>
     <string name="delete_dialog_msg">Việc xóa thành phần sẽ làm mất đi dữ liệu hiện tại, hãy cân nhắc trước khi xóa</string>
@@ -50,9 +58,6 @@
     <string name="previous">Previous</string>
 
     <string name="add_employee_message">- Đối với thêm danh sách nhân viên, chỉ được thêm cùng phòng ban và vị trí, các thông tin còn nhân viên tự cập nhật</string>
-
-    <!--Cloudinary-->
-    <string name="cloudinary_cloud_name">dlo17fgwe</string>
-    <string name="cloudinary_api_key">589783198531267</string>
-    <string name="cloudinary_api_secret">6lynwIL7_XxDFLhbxFeTi4fPI0Y</string>
+    <string name="currentSalary">Lương tháng hiện tại (còn cập nhật)</string>
+    <string name="oldSalary">Lương đã tất toán</string>
 </resources>

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.NotificationFragment">
+    tools:context=".fragments.employee.NotificationFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <com.google.android.material.tabs.TabLayout
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         app:tabTextAppearance="@style/font_tab"
+        android:background="@color/transparent"
         android:contentDescription="@string/app_name"
         >
 

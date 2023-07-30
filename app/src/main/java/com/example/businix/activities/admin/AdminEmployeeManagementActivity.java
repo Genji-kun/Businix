@@ -59,10 +59,8 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
 
         radioGroupStatus.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId == R.id.radio_active){
-                employeeAdapter.setSelectedStatus("ACTIVE");
                 employeeAdapter.getFilter().filter("");
             }else if(checkedId == R.id.radio_inactive){
-                employeeAdapter.setSelectedStatus("INACTIVE");
                 employeeAdapter.getFilter().filter("");
             }
         });
@@ -122,7 +120,6 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedPosition = posItems.get(position);
-                employeeAdapter.setSelectedPositionName(selectedPosition);
                 employeeAdapter.getFilter().filter("");
             }
         });

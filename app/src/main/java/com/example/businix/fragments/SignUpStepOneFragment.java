@@ -17,12 +17,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.businix.R;
+import com.example.businix.activities.SignUpActivity;
+import com.example.businix.models.Gender;
 import com.example.businix.utils.SignUpUtils;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +44,8 @@ public class SignUpStepOneFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private SignUpUtils utils;
-
+    private List<String> genderItems;
+    private ArrayAdapter<String> genderAdapter;
 
     private TextInputLayout layoutName, layoutDOB, layoutGender, layoutIdentityCard;
     private TextInputEditText inputName, inputDOB, inputIdentityCard;
@@ -138,23 +143,20 @@ public class SignUpStepOneFragment extends Fragment {
 
         layoutGender = (TextInputLayout) view.findViewById(R.id.layout_gender);
         dropdownGender = (AutoCompleteTextView) view.findViewById(R.id.dropdown_gender);
-        String[] items = {"Nam", "Nữ", "Khác"};
-        ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_menu, items);
-        dropdownGender.setAdapter(itemAdapter);
-        dropdownGender.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
-
+        genderItems = new ArrayList<>();
+        Gender[] genders = Gender.values();
+        for (Gender gender : genders) {
+            genderItems.add(gender.toString());
+        }
+        genderAdapter = new ArrayAdapter<>(getActivity(), R.layout.dropdown_menu, genderItems);
+        dropdownGender.setAdapter(genderAdapter);
         layoutName = (TextInputLayout) view.findViewById(R.id.layout_name);
         layoutDOB = (TextInputLayout) view.findViewById(R.id.layout_DOB);
         layoutIdentityCard = (TextInputLayout) view.findViewById(R.id.layout_identity_card);
-
         inputName = (TextInputEditText) view.findViewById(R.id.input_name);
         inputDOB = (TextInputEditText) view.findViewById(R.id.input_DOB);
         inputIdentityCard = (TextInputEditText) view.findViewById(R.id.input_identity_card);
+
         return view;
     }
 }

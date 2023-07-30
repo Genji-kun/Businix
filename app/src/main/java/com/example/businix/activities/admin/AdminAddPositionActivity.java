@@ -1,5 +1,4 @@
 package com.example.businix.activities.admin;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,7 +23,6 @@ public class AdminAddPositionActivity extends AppCompatActivity {
     private TextInputEditText inputPosName, inputSalary;
     private PositionController positionController;
     private ImageView btnBack;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,5 +76,4 @@ public class AdminAddPositionActivity extends AppCompatActivity {
             finish();
         });
     }
-
 }

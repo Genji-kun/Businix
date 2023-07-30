@@ -20,7 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 public class ActionBar extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected Toolbar toolbar;
     protected DrawerLayout drawerLayout;
-
+    private Boolean isSideMenu;
 
     protected void setTitleText(String text, float textSize, int fontFamily, int color) {
         if (getSupportActionBar() != null) {
@@ -32,7 +32,7 @@ public class ActionBar extends AppCompatActivity implements NavigationView.OnNav
 
             titleText.setTypeface(typeface);
 
-            titleText.setTextColor(getResources().getColor(color, getResources().newTheme()));
+            titleText.setTextColor(getResources().getColor(color, null));
             getSupportActionBar().setCustomView(titleText);
         }
     }
@@ -49,7 +49,7 @@ public class ActionBar extends AppCompatActivity implements NavigationView.OnNav
 
                 Typeface typeface = ResourcesCompat.getFont(this, R.font.medium_font);
                 titleText.setTypeface(typeface);
-                titleText.setTextColor(getResources().getColor(R.color.black, getResources().newTheme()));
+                titleText.setTextColor(getResources().getColor(R.color.black, null));
             }
 
 
@@ -67,8 +67,9 @@ public class ActionBar extends AppCompatActivity implements NavigationView.OnNav
         }
     }
 
-    protected void setSupportMyActionBar(String title, Boolean isBack) {
+    protected void setSupportMyActionBar(String title, Boolean isBack, Boolean isSideMenu) {
         setSupportActionBar(toolbar);
+        this.isSideMenu = isSideMenu;
         setTitleText(title);
         setDisplayHomeAsUpEnabled(isBack);
         getSupportActionBar().setTitle("");
@@ -77,7 +78,9 @@ public class ActionBar extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_bar_items, menu);
+        if (this.isSideMenu) {
+            getMenuInflater().inflate(R.menu.action_bar_items, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

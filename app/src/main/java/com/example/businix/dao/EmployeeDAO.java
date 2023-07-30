@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.businix.models.Employee;
 import com.example.businix.models.Status;
+import com.example.businix.models.UserRole;
 import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -12,6 +13,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -37,8 +39,7 @@ public class EmployeeDAO {
                     if (task.isSuccessful()) {
                         Log.d("EmployeeDAO", "Thêm thành công với ID: " + task.getResult().getId());
                         return null;
-                    }
-                    else {
+                    } else {
                         Log.w("EmployeeDAO", "Error adding document", task.getException());
                         throw task.getException();
                     }
@@ -47,7 +48,7 @@ public class EmployeeDAO {
 
     public Task<Void> updateEmployee(String employeeId, Employee employee) {
         // Kiểm tra xem EmployeeId có hợp lệ hay không
-        if (employeeId == null || employeeId.isEmpty()) {
+        if (employee == null || employeeId.isEmpty()) {
             Log.e("EmployeeDAO", "employeeId không hợp lệ");
             return Tasks.forException(new IllegalArgumentException("employeeId không hợp lệ"));
         }
@@ -150,8 +151,7 @@ public class EmployeeDAO {
                             Employee employee = empRef.toObject(Employee.class);
                             employee.setId(empRef.getId());
                             return employee;
-                        }
-                        else
+                        } else
                             return null;
                     } else {
                         throw new Exception("Employee not found");
@@ -165,12 +165,29 @@ public class EmployeeDAO {
                 .whereEqualTo("status", status)
                 .get()
                 .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        List<Employee> employeeList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Employee employee = document.toObject(Employee.class);
+                            employee.setId(document.getId());
+                            employeeList.add(employee);
+                        }
+                        return employeeList;
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
+
+    public Task<List<DocumentReference>> getEmployeeListByRole(UserRole userRole) {
+        CollectionReference employeesRef = db.collection(collectionPath);
+        Query query = employeesRef.whereEqualTo("userRole", userRole.name());
+        return query.get().continueWith(task -> {
             if (task.isSuccessful()) {
-                List<Employee> employeeList = new ArrayList<>();
+                List<DocumentReference> employeeList = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Employee employee = document.toObject(Employee.class);
-                    employee.setId(document.getId());
-                    employeeList.add(employee);
+                    employeeList.add(document.getReference());
                 }
                 return employeeList;
             } else {
@@ -179,7 +196,8 @@ public class EmployeeDAO {
         });
     }
 
-
-
+    public DocumentReference getEmployeeRef(String id) {
+        return db.collection(collectionPath).document(id);
+    }
 
 }

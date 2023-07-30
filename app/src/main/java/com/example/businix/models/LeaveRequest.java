@@ -9,12 +9,16 @@ import java.util.Date;
 public class LeaveRequest {
     @Exclude
     private String id;
-    @PropertyName("from_date")
     private Date fromDate;
-    @PropertyName("to_date")
     private Date toDate;
     private String reason;
     private DocumentReference employee;
+    private LeaveRequestStatus status;
+    private Date createdAt;
+
+    public LeaveRequest () {
+        this.setStatus(LeaveRequestStatus.PENDING);
+    }
 
     public Date getFromDate() {
         return fromDate;
@@ -56,5 +60,21 @@ public class LeaveRequest {
     @Exclude
     public void setId(String id) {
         this.id = id;
+    }
+
+    public LeaveRequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LeaveRequestStatus status) {
+        this.status = status;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

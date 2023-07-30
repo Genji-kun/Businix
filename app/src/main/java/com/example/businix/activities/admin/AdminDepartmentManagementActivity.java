@@ -1,5 +1,4 @@
 package com.example.businix.activities.admin;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.businix.R;
+
 import com.example.businix.adapters.DepartmentAdapter;
 import com.example.businix.controllers.DepartmentController;
 import com.example.businix.controllers.PositionController;
@@ -27,6 +27,7 @@ public class AdminDepartmentManagementActivity extends AppCompatActivity {
 
     private ImageView btnHome;
     private LinearLayout btnAddDepartment;
+
     private TextInputEditText inputDepartment;
     private DepartmentAdapter departmentAdapter;
     private List<Department> departmentList;
@@ -36,7 +37,6 @@ public class AdminDepartmentManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_department_management);
-
 
         ListView listView = (ListView) findViewById(R.id.list_view_department);
         DepartmentController departmentController = new DepartmentController();
@@ -106,6 +106,4 @@ public class AdminDepartmentManagementActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

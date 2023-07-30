@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -22,25 +24,40 @@
         android:theme="@style/Theme.Businix"
         tools:replace="android:fullBackupContent"
         tools:targetApi="31">
-        <activity
-            android:name=".activities.admin.AdminViewChartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminAddListEmployeeActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="CLOUDINARY_URL"
             android:value="cloudinary://589783198531267:6lynwIL7_XxDFLhbxFeTi4fPI0Y@dlo17fgwe" />
 
+        <service
+            android:name=".utils.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--Administrator-->
+        <activity
+            android:name=".activities.admin.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEmployeeManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAddEmployeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAddListEmployeeActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.admin.AdminEditEmployeeActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.admin.AdminEditProfileActivity"
+            android:name=".activities.admin.AdminPositionManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.admin.AdminEditDepartmentActivity"
+            android:name=".activities.admin.AdminAddPositionActivity"
             android:exported="false" />
         <activity
             android:name=".activities.admin.AdminEditPositionActivity"
@@ -49,59 +66,76 @@
             android:name=".activities.admin.AdminDepartmentManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.admin.AdminPositionManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminEmployeeManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminAddPositionActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.admin.AdminAddDepartmentActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.admin.AdminAddEmployeeActivity"
+            android:name=".activities.admin.AdminEditDepartmentActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.WorkActivity"
+            android:name=".activities.admin.AdminEditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LeaveActivity"
+            android:name=".activities.admin.AdminViewChartActivity"
+            android:exported="false" />
+
+        <!-- Employee -->
+        <activity
+            android:name=".activities.employee.EmployeeActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.VerifyOtpActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activities.EmployeeActivity"
+            android:name=".activities.employee.StatActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SendOtpActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".activities.employee.SalaryActivity"
+            android:exported="false" />
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".activities.employee.LeaveRequestHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.employee.WorkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.employee.LeaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.employee.TimeAttendanceActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <!-- Login & Sign Up -->
+
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/animation" />
         <activity
-            android:name=".activities.admin.AdminActivity"
+            android:name=".activities.SignUpActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SendOtpActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.VerifyOtpActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!--SplashPage-->
+        <activity
+            android:name=".SplashPage"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

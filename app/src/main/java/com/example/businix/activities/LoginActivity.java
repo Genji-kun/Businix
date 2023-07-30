@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.businix.R;
+import com.example.businix.activities.admin.AdminActivity;
+import com.example.businix.activities.admin.AdminEditEmployeeActivity;
+import com.example.businix.activities.employee.EmployeeActivity;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.models.Employee;
 import com.example.businix.ui.CustomDialog;
@@ -113,7 +116,11 @@ public class LoginActivity extends AppCompatActivity {
                 public void onAuthenticationSuccess(Employee employee) {
                     LoginManager loginManager = new LoginManager(LoginActivity.this);
                     loginManager.setLoggedInUserId(employee.getId());
-                    goToEmployeeActivity();
+                    loginManager.setLoggedInRole(employee.getUserRole().name());
+                    if(employee.getUserRole().name().equals("USER"))
+                        goToEmployeeActivity();
+                    else
+                        goToAdminActivity();
                     finish();
                 }
             });
@@ -123,6 +130,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goToEmployeeActivity() {
         Intent i = new Intent(LoginActivity.this, EmployeeActivity.class);
+        startActivity(i);
+    }
+
+    private void goToAdminActivity() {
+        Intent i = new Intent(LoginActivity.this, AdminActivity.class);
         startActivity(i);
     }
 

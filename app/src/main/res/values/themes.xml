@@ -3,6 +3,7 @@
     <style name="Base.Theme.Businix" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/light_purple</item>
+        <item name="colorControlActivated">@color/medium_purple</item>
         <item name="android:listDivider">@color/dark_gray</item>
 
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->

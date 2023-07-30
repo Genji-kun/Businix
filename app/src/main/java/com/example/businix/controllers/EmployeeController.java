@@ -8,6 +8,7 @@ import com.example.businix.dao.PositionDAO;
 import com.example.businix.models.Department;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Status;
+import com.example.businix.models.UserRole;
 import com.example.businix.utils.AuthenticationListener;
 import com.example.businix.utils.FindListener;
 import com.example.businix.utils.PasswordHash;
@@ -48,6 +49,11 @@ public class EmployeeController {
         getEmployeeListTask.addOnCompleteListener(onCompleteListener);
     }
 
+    public void getEmployeeListByRole(UserRole userRole, OnCompleteListener<List<DocumentReference>> onCompleteListener) {
+        Task<List<DocumentReference>> getEmployeeListTask = employeeDAO.getEmployeeListByRole(userRole);
+        getEmployeeListTask.addOnCompleteListener(onCompleteListener);
+    }
+
     public void getEmployeeById(String employeeId, OnCompleteListener<Employee> onCompleteListener) {
         Task<Employee> getEmployeeTask = employeeDAO.getEmployeeById(employeeId);
         getEmployeeTask.addOnCompleteListener(onCompleteListener);
@@ -71,6 +77,9 @@ public class EmployeeController {
                 });
     }
 
+    public DocumentReference getEmployeeRef(String id) {
+        return employeeDAO.getEmployeeRef(id);
+    }
     public void checkUserExist(String username, FindListener findListener){
         Task<Employee> getEmployeeTask = employeeDAO.getEmployeeByUsername(username);
         getEmployeeTask.addOnCompleteListener(task -> {

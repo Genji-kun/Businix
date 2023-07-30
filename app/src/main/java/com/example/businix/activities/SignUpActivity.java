@@ -55,8 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Dialog dialogAlert;
     private Boolean isTransitioning;
     private EmployeeController employeeController;
-    private List<String> genderItems;
-    private ArrayAdapter<String> genderAdapter;
+
 
 
 
@@ -129,26 +128,18 @@ public class SignUpActivity extends AppCompatActivity {
                     case 2:
                         int rs1 = stepOneFragment.checkStepOne();
                         if (rs1 == 0) {
-                            AutoCompleteTextView dropdownGender = stepOneFragment.getDropdownGender();
-
-                            genderItems = new ArrayList<>();
-                            Gender[] genders = Gender.values();
-                            for (Gender gender : genders) {
-                                genderItems.add(gender.toString());
-                            }
-                            genderAdapter = new ArrayAdapter<>(SignUpActivity.this, R.layout.dropdown_menu, genderItems);
-                            dropdownGender.setAdapter(genderAdapter);
-
                             employee.setFullName(stepOneFragment.getInputName().getText().toString().strip());
                             try {
                                 employee.setDob(DateUtils.changeStringToDate(stepOneFragment.getInputDOB().getText().toString()));
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
-                            employee.setGender(Gender.valueOf(dropdownGender.toString()));
+                            Gender gender = Gender.valueOf(stepOneFragment.getDropdownGender().getText().toString());
+                            employee.setGender(gender);
                             employee.setIdentityNum(stepOneFragment.getInputIdentityCard().getText().toString());
                             changeFragment(stepTwo);
                         } else {
+                            Toast.makeText(SignUpActivity.this, "Thông tin không hợp lệ", Toast.LENGTH_SHORT).show();
                             stepIndex--;
                         }
                         break;
@@ -172,6 +163,8 @@ public class SignUpActivity extends AppCompatActivity {
                         TextInputLayout layoutConfirm = stepThreeFragment.getLayoutConfirm();
 
                         TextInputEditText inputUsername = stepThreeFragment.getInputUsername();
+                        TextInputEditText inputPassword = stepThreeFragment.getInputPassword();
+
                         inputUsername.addTextChangedListener(new TextWatcher() {
                             @Override
                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -198,12 +191,12 @@ public class SignUpActivity extends AppCompatActivity {
                                 });
                             }
                         });
-                        if (!layoutUsername.getError().toString().isBlank() && !layoutPassword.getError().toString().isBlank() && !layoutConfirm.getError().toString().isBlank()) {
+                        if (layoutUsername.getError() == null && layoutPassword.getError() == null && layoutConfirm.getError() == null) {
                             employee.setUsername(inputUsername.getText().toString());
-                            employee.setPassword(stepThreeFragment.getInputPassword().getText().toString());
+                            employee.setPassword(inputPassword.getText().toString());
                             changeFragment(stepFour);
                         } else {
-                            Toast.makeText(SignUpActivity.this, "Vui lòng điền thông tin chính xác", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Thông tin không chính xác", Toast.LENGTH_SHORT).show();
                             stepIndex--;
                         }
                         break;
@@ -226,14 +219,12 @@ public class SignUpActivity extends AppCompatActivity {
                                         employee.setAvatar(imageUrl);
                                         employee.setUserRole(UserRole.USER);
                                         employee.setStatus(Status.PENDING);
-                                        employeeController.addEmployee(employee, task -> {
-                                            if (task.isSuccessful())
-                                                startActivity(i);
-                                        });
+                                        i.putExtra("employee", employee);
+                                        startActivity(i);
                                     }
                                     @Override
                                     public void onError(String requestId, ErrorInfo error) {
-
+                                        Toast.makeText(SignUpActivity.this, "Đã có lỗi xảy ra", Toast.LENGTH_SHORT).show();
                                     }
                                     @Override
                                     public void onReschedule(String requestId, ErrorInfo error) {
