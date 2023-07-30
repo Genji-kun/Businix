@@ -7,9 +7,11 @@
     tools:context=".activities.admin.AdminEmployeeManagementActivity">
 
     <LinearLayout
+        android:id="@+id/pre_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,8 +61,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_margin="20dp"
             android:hint="Chức vụ">
 
             <AutoCompleteTextView
@@ -71,6 +72,40 @@
                 android:drawablePadding="10dp"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/radio_group_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trạng thái"
+                android:textSize="16sp"
+                android:fontFamily="@font/medium_font"/>
+
+            <RadioButton
+                android:id="@+id/radio_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:checked="true"
+                android:fontFamily="@font/regular_font"
+                android:text="Còn làm" />
+
+            <RadioButton
+                android:id="@+id/radio_inactive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/regular_font"
+                android:text="Đã nghỉ việc" />
+        </RadioGroup>
 
 
         <TextView
@@ -83,15 +118,17 @@
             android:textColor="@color/black"
             android:textSize="25sp" />
 
-        <ListView
-            android:id="@+id/list_view_employee"
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp">
-        </ListView>
+
     </LinearLayout>
 
+    <ListView
+        android:id="@+id/list_view_employee"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_employee"
+        app:layout_constraintTop_toBottomOf="@+id/pre_layout"></ListView>
 
     <LinearLayout
         android:id="@+id/btn_add_employee"

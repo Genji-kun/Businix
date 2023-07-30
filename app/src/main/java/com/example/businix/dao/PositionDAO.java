@@ -140,4 +140,12 @@ public class PositionDAO {
                     }
                 });
     }
+
+    public DocumentReference getPositionRef(String id) {
+        if (id != null) {
+            return db.collection(collectionPath).document(id);
+        } else {
+            return null;
+        }
+    }
 }

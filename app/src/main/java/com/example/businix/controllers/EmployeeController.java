@@ -2,21 +2,30 @@ package com.example.businix.controllers;
 
 import android.util.Log;
 
+import com.example.businix.dao.DepartmentDAO;
 import com.example.businix.dao.EmployeeDAO;
+import com.example.businix.dao.PositionDAO;
 import com.example.businix.models.Department;
 import com.example.businix.models.Employee;
+import com.example.businix.models.Status;
 import com.example.businix.utils.AuthenticationListener;
 import com.example.businix.utils.FindListener;
 import com.example.businix.utils.PasswordHash;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.List;
 
 public class EmployeeController {
     private EmployeeDAO employeeDAO;
+    private PositionDAO positionDAO;
+    private DepartmentDAO departmentDAO;
 
     public EmployeeController() {
         employeeDAO = new EmployeeDAO();
+        positionDAO = new PositionDAO();
+        departmentDAO = new DepartmentDAO();
     }
 
     public void addEmployee(Employee employee, OnCompleteListener<Void> onCompleteListener) {
@@ -75,5 +84,18 @@ public class EmployeeController {
             else
                 Log.e("EmployeeController", "Lỗi", task.getException());
         });
+    }
+
+    public void getEmployeeListByStatus(Status status, OnCompleteListener<List<Employee>> onCompleteListener) {
+        Task<List<Employee>> getEmployeeListTask = employeeDAO.getEmployeeListByStatus(status);
+        getEmployeeListTask.addOnCompleteListener(onCompleteListener);
+    }
+
+    public DocumentReference getPositionRef(String id) {
+        return positionDAO.getPositionRef(id);
+    }
+
+    public DocumentReference getDepartmentRef(String id) {
+        return departmentDAO.getDepartmentRef(id);
     }
 }

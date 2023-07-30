@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.businix.R;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,12 +25,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 public class SignUpStepFourFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -37,15 +36,6 @@ public class SignUpStepFourFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignUpStepFourFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SignUpStepFourFragment newInstance(String param1, String param2) {
         SignUpStepFourFragment fragment = new SignUpStepFourFragment();
         Bundle args = new Bundle();
@@ -64,8 +54,14 @@ public class SignUpStepFourFragment extends Fragment {
         }
     }
 
+    Uri imgUri;
     ImageView imgAvatar;
     FloatingActionButton fabChangeAvatar;
+
+    public ImageView getImgAvatar() {
+        return imgAvatar;
+    }
+    public Uri getImgUri(){return imgUri;}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,10 +86,10 @@ public class SignUpStepFourFragment extends Fragment {
 
     public void handleActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == getActivity().RESULT_OK && data != null) {
-            Uri uri = data.getData();
-            Log.e("My",uri.toString());
+            imgUri = data.getData();
+            Log.e("My",imgUri.toString());
             // Use Uri object instead of File to avoid storage permissions
-            imgAvatar.setImageURI(uri);
+            imgAvatar.setImageURI(imgUri);
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
             Toast.makeText(getActivity(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
         } else {

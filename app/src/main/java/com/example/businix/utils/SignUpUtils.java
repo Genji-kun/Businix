@@ -15,11 +15,5 @@ public class SignUpUtils {
         return 0;
     }
 
-    public int CheckStepThree(String txtUsername, String txtPassword, String txtConfirmPassword) {
-        if (txtUsername.isEmpty() || txtPassword.isEmpty() || txtConfirmPassword.isEmpty()) {
-            return 1;
-        }
-        return 0;
-    }
 
 }

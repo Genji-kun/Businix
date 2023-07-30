@@ -145,4 +145,12 @@ public class DepartmentDAO {
                     }
                 });
     }
+
+    public DocumentReference getDepartmentRef(String id) {
+        if (id != null) {
+            return db.collection(collectionPath).document(id);
+        } else {
+            return null;
+        }
+    }
 }

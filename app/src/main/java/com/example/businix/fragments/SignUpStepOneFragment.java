@@ -62,40 +62,12 @@ public class SignUpStepOneFragment extends Fragment {
         return inputIdentityCard;
     }
 
-    public TextInputLayout getLayoutName() {
-        return layoutName;
-    }
-
-    public TextInputLayout getLayoutDOB() {
-        return layoutDOB;
-    }
-
-    public TextInputLayout getLayoutGender() {
-        return layoutGender;
-    }
-
-    public TextInputLayout getLayoutIdentityCard() {
-        return layoutIdentityCard;
-    }
-
-    public interface StepOneData {
-        public void onDataPass(String data);
-    }
 
 
 
     public SignUpStepOneFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignUpStepOneFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static SignUpStepOneFragment newInstance(String param1, String param2) {
         SignUpStepOneFragment fragment = new SignUpStepOneFragment();

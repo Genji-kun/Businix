@@ -23,6 +23,7 @@ import com.example.businix.activities.admin.AdminEditEmployeeActivity;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Position;
+import com.example.businix.models.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,8 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
     private List<Employee> employeeList;
     private List<Employee> filteredList;
     private Context context;
-
+    private String selectedPositionName = "";
+    private String selectedStatus = "ACTIVE";
 
     public EmployeeAdapter(Context context, int resource, List<Employee> employeeList) {
         super(context, resource, employeeList);
@@ -39,6 +41,14 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
         this.employeeList = employeeList;
         this.filteredList = employeeList;
         this.context = context;
+    }
+
+    public void setSelectedPositionName(String positionName) {
+        this.selectedPositionName = positionName;
+    }
+
+    public void setSelectedStatus(String status) {
+        this.selectedStatus = status;
     }
 
     @NonNull
@@ -64,7 +74,10 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                     if (documentSnapshot.exists()) {
                         Position pos = documentSnapshot.toObject(Position.class);
                         String positionName = pos.getName();
-                        tvPosName.setText(positionName);
+                        if (employee.getUserRole().toString().equals("ADMIN"))
+                            tvPosName.setText("Admin");
+                        else
+                            tvPosName.setText(positionName);
                     } else {
                         tvPosName.setText("Chưa có chức vụ");
                     }
@@ -78,6 +91,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 // Gửi thông tin của vị trí hiện tại qua Activity mới
                 Intent intent = new Intent(context, AdminEditEmployeeActivity.class);
                 intent.putExtra("employeeId", currentEmployee.getId());
+                intent.putExtra("employeeUsername", currentEmployee.getUsername());
                 context.startActivity(intent);
             });
             LinearLayout btnDeleteEmployee = (LinearLayout) view.findViewById(R.id.btn_delete_employee);
@@ -135,18 +149,29 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                if (constraint == null || constraint.length() == 0) {
+                if (constraint == null || constraint.length() == 0 || selectedStatus.length() == 0) {
                     results.values = employeeList;
                     results.count = employeeList.size();
                 } else {
                     List<Employee> filteredEmployees = new ArrayList<>();
                     for (Employee empl : employeeList) {
-                        if (empl.getFullName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+//                        empl.getPosition().get().addOnSuccessListener(documentSnapshot -> {
+//                            if (documentSnapshot.exists()) {
+//                                Position pos = documentSnapshot.toObject(Position.class);
+//                                positionName= pos.getName();
+//                            }
+//                        });
+//                        boolean matchPosition = selectedPositionName.isEmpty() || positionName.equals(selectedPositionName);
+                        boolean matchName = empl.getFullName().toLowerCase().contains(constraint.toString().toLowerCase());
+                        boolean matchStatus = selectedStatus.isEmpty() || empl.getStatus().equals(selectedStatus);
+                        if (matchName && matchStatus) {
                             filteredEmployees.add(empl);
                         }
                     }
+
                     results.values = filteredEmployees;
                     results.count = filteredEmployees.size();
+
                 }
                 return results;
             }
@@ -156,6 +181,8 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 filteredList = (List<Employee>) results.values;
                 notifyDataSetChanged();
             }
+
         };
     }
+
 }
