@@ -1,5 +1,6 @@
 package com.example.businix.activities.employee;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -8,7 +9,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.businix.activities.LoginActivity;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.fragments.employee.HomeFragment;
@@ -17,6 +23,7 @@ import com.example.businix.fragments.employee.ProfileFragment;
 import com.example.businix.R;
 import com.example.businix.models.Employee;
 import com.example.businix.ui.ActionBar;
+import com.example.businix.ui.CustomDialog;
 import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +34,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EmployeeActivity extends ActionBar {
+public class EmployeeActivity extends ActionBar implements NavigationView.OnNavigationItemSelectedListener {
     private BottomNavigationView navBar;
     private HashMap<Integer, Fragment> fragmentMap;
 
@@ -35,7 +42,6 @@ public class EmployeeActivity extends ActionBar {
     private LoginManager loginManager;
     private Employee employee;
     private EmployeeController employeeController;
-
 
 
 
@@ -152,6 +158,12 @@ public class EmployeeActivity extends ActionBar {
             @Override
             public void onComplete(Task<Employee> task) {
                 EmployeeActivity.this.employee = task.getResult();
+                View headerView = navView.getHeaderView(0);
+                ((TextView) headerView.findViewById(R.id.tv_name)).setText(employee.getFullName());
+                Glide.with(headerView).load(employee.getAvatar()).into((ImageView) headerView.findViewById(R.id.iv_avatar));
+                ((TextView) headerView.findViewById(R.id.tv_username)).setText(employee.getUsername());
+
+
                 Fragment homeFragment = fragmentMap.get(R.id.action_home);
                 if (homeFragment instanceof HomeFragment) {
                     ((HomeFragment) homeFragment).setEmployeeName(employee.getFullName());
@@ -159,6 +171,7 @@ public class EmployeeActivity extends ActionBar {
                 Fragment profileFragment = fragmentMap.get(R.id.action_profile);
                 if (profileFragment instanceof ProfileFragment) {
                     Map<String, String> infoMap = new HashMap<>();
+                    infoMap.put("avatar", employee.getAvatar());
                     infoMap.put("name", employee.getFullName());
                     infoMap.put("dob", DateUtils.formatDate(employee.getDob()));
                     infoMap.put("identityNum", "0798987575357");
@@ -202,7 +215,20 @@ public class EmployeeActivity extends ActionBar {
         }
         fragmentTransaction.commit();
     }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
 
-
+        if (itemId == R.id.nav_logout) {
+            CustomDialog confirmDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+            confirmDialog.show();
+            confirmDialog.setQuestion("Xác nhận đăng xuất");
+            confirmDialog.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
+            confirmDialog.setOnContinueClickListener((dialog, which) -> {
+                finish();
+            });
+        }
+        return false;
+    }
 
 }

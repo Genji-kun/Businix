@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
@@ -38,6 +39,17 @@ public class DateUtils {
         double hours = (diffInMilliseconds * 1.0 / 60000) / 60;
         hours = Math.round(hours * 100.0) / 100.0;
         return hours;
+    }
+
+    public static boolean compareWithoutTime(Date dateA, Date dateB) {
+        Calendar a = Calendar.getInstance();
+        a.setTime(dateA);
+        Calendar b = Calendar.getInstance();
+        b.setTime(dateB);
+        if (a.get(Calendar.YEAR) == b.get(Calendar.YEAR) && a.get(Calendar.MONTH) == b.get(Calendar.MONTH) && a.get(Calendar.DAY_OF_MONTH) == b.get(Calendar.DAY_OF_MONTH)) {
+            return true;
+        }
+        return false;
     }
 
     public static Timestamp convertDateToTimestamp(Date date) {

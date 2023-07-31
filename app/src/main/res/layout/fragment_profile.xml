@@ -127,6 +127,7 @@
                 app:cardCornerRadius="999dp">
 
                 <ImageView
+                    android:id="@+id/iv_avatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/employee" />

@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.businix.R;
 
 import java.util.Map;
@@ -43,6 +45,7 @@ public class ProfileFragment extends Fragment {
     private TextView btnShowWork;
     private LinearLayout infoPersonal;
     private LinearLayout infoWork;
+    private ImageView ivAvatar;
 
     private TextView tvName, tvStartDate, tvPosition;
     private EditText inputName, inputDOB, inputIdentityNum, inputAddress, inputPhone, inputEmail, inputPosition, inputDepartment, inputStartDate;
@@ -103,6 +106,7 @@ public class ProfileFragment extends Fragment {
         inputPosition = (EditText) view.findViewById(R.id.input_position);
         inputDepartment = (EditText) view.findViewById(R.id.input_department);
         inputStartDate = (EditText) view.findViewById(R.id.input_start_date);
+        ivAvatar = view.findViewById(R.id.iv_avatar);
 
         btnShowWork.setOnClickListener(v -> {
             btnShowPersonal.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(getResources(), R.color.white, null)));
@@ -140,6 +144,7 @@ public class ProfileFragment extends Fragment {
             inputAddress.setText(infoMap.get("address"));
             tvStartDate.setText(infoMap.get("startDate"));
             inputStartDate.setText(infoMap.get("startDate"));
+            Glide.with(getActivity()).load(infoMap.get("avatar")).into(ivAvatar);
         } catch (Exception e) {
             Log.e("E", "e", e);
         }

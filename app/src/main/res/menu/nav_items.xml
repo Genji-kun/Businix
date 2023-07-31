@@ -21,6 +21,14 @@
             android:id="@+id/nav_setting"
             android:checked="false"
             android:title="Cài đặt" />
+        <item
+            android:id="@+id/nav_edit_personal"
+            android:checked="false"
+            android:title="Sửa thông tin cá nhân" />
+        <item
+            android:id="@+id/nav_edit_security"
+            android:checked="false"
+            android:title="Sửa thông tin bảo mật" />
     </group>
     <group android:checkableBehavior="single">
         <item

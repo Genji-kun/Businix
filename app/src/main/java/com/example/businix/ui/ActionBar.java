@@ -17,7 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.businix.R;
 import com.google.android.material.navigation.NavigationView;
 
-public class ActionBar extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ActionBar extends AppCompatActivity {
     protected Toolbar toolbar;
     protected DrawerLayout drawerLayout;
     private Boolean isSideMenu;
@@ -104,13 +104,5 @@ public class ActionBar extends AppCompatActivity implements NavigationView.OnNav
     }
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
 
-        if (itemId == R.id.nav_logout) {
-            finish();
-        }
-        return false;
-    }
 }

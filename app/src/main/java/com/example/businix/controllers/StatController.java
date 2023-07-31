@@ -1,6 +1,7 @@
 package com.example.businix.controllers;
 
 import com.example.businix.dao.StatDAO;
+import com.example.businix.models.LeaveRequestDetail;
 import com.example.businix.utils.StatData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,7 +17,7 @@ public class StatController {
         statDAO = new StatDAO();
     }
 
-    public void getAttendancesMonth(Date date, DocumentReference emp, OnCompleteListener<List<StatData.AttendanceData>> onCompleteListener) {
+    public void getAttendancesMonth(Date date, DocumentReference emp, List<LeaveRequestDetail> leaveRequestDetails , OnCompleteListener<List<StatData.AttendanceData>> onCompleteListener) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -31,7 +32,7 @@ public class StatController {
         cal.set(Calendar.SECOND, 59);
         cal.set(Calendar.MILLISECOND, 999);
         Date maxTime = cal.getTime();
-        Task<List<StatData.AttendanceData>> getAttendancesDataTask = statDAO.getAttendancesByDate(minTime, maxTime, emp);
+        Task<List<StatData.AttendanceData>> getAttendancesDataTask = statDAO.getAttendancesByDate(minTime, maxTime, leaveRequestDetails ,emp);
         getAttendancesDataTask.addOnCompleteListener(onCompleteListener);
     }
 }

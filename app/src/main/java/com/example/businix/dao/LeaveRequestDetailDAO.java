@@ -2,16 +2,20 @@ package com.example.businix.dao;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.businix.models.LeaveRequest;
 import com.example.businix.models.LeaveRequestDetail;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LeaveRequestDetailDAO {
@@ -67,5 +71,28 @@ public class LeaveRequestDetailDAO {
                 });
     }
 
+    public Task<List<LeaveRequestDetail>> getDetailsByTime(Date start, Date end, @NonNull List<LeaveRequest> requests) {
+        List<DocumentReference> refList = new ArrayList<>();
+        for (LeaveRequest request : requests) {
+            DocumentReference ref = db.collection("leaveRequests").document(request.getId());
+            refList.add(ref);
+        }
+        Query query = db.collection(collectionPath);
+        query = query.whereGreaterThanOrEqualTo("date", start).whereLessThanOrEqualTo("date", end).whereIn("leaveRequest", refList);
+        return query.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                List<LeaveRequestDetail> detailList = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    LeaveRequestDetail detail = document.toObject(LeaveRequestDetail.class);
+                    detail.setId(document.getId());
+                    detailList.add(detail);
+                }
+                return detailList;
+            } else {
+                Log.e("LeaveRequestDAO", "Lỗi", task.getException());
+                throw task.getException();
+            }
+        });
+    }
 
 }

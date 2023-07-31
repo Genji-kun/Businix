@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.businix.activities.employee.LeaveActivity;
 import com.example.businix.R;
 import com.example.businix.activities.employee.SalaryActivity;
+import com.example.businix.activities.employee.StatActivity;
 import com.example.businix.activities.employee.TimeAttendanceActivity;
 
 /**
@@ -32,9 +33,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private LinearLayout btnToLeaveRequest;
-    private LinearLayout btnToAttendance;
-    private LinearLayout btnToSalary;
+    private LinearLayout btnToLeaveRequest, btnToAttendance, btnToSalary, btnToStat;
 
     private Boolean isProcessing = false;
     private TextView tvName;
@@ -107,6 +106,15 @@ public class HomeFragment extends Fragment {
             if (!isProcessing) {
                 isProcessing = true;
                 Intent intent = new Intent(getActivity(), SalaryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnToStat = view.findViewById(R.id.btn_to_stats);
+        btnToStat.setOnClickListener(v -> {
+            if (!isProcessing) {
+                isProcessing = true;
+                Intent intent = new Intent(getActivity(), StatActivity.class);
                 startActivity(intent);
             }
         });
