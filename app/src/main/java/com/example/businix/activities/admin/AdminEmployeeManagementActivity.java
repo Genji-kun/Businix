@@ -3,7 +3,6 @@ package com.example.businix.activities.admin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.example.businix.R;
 import com.example.businix.adapters.EmployeeAdapter;
@@ -24,7 +22,6 @@ import com.example.businix.controllers.EmployeeController;
 import com.example.businix.controllers.PositionController;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Position;
-import com.example.businix.utils.FindListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -72,7 +69,7 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<List<Employee>> task) {
                 if (task.isSuccessful()) {
                     employeeList = task.getResult();
-                    employeeAdapter = new EmployeeAdapter(AdminEmployeeManagementActivity.this, R.layout.listview_employee, employeeList);
+                    employeeAdapter = new EmployeeAdapter(AdminEmployeeManagementActivity.this, R.layout.list_view_employee, employeeList);
                     listView.setAdapter(employeeAdapter);
                 }
             }
@@ -126,7 +123,7 @@ public class AdminEmployeeManagementActivity extends AppCompatActivity {
 
         btnAddEmployee = (LinearLayout) findViewById(R.id.btn_add_employee);
         btnAddEmployee.setOnClickListener(v -> {
-            CustomAddEmployeeDialog customAddEmployeeDialog = new CustomAddEmployeeDialog(AdminEmployeeManagementActivity.this);
+            CustomDialogAddEmployee customAddEmployeeDialog = new CustomDialogAddEmployee(AdminEmployeeManagementActivity.this);
             customAddEmployeeDialog.show();
         });
 

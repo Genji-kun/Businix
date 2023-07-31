@@ -18,11 +18,8 @@ import androidx.annotation.Nullable;
 
 import com.example.businix.R;
 import com.example.businix.activities.admin.AdminEditDepartmentActivity;
-import com.example.businix.activities.admin.AdminEditPositionActivity;
 import com.example.businix.controllers.DepartmentController;
-import com.example.businix.controllers.PositionController;
 import com.example.businix.models.Department;
-import com.example.businix.models.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +42,7 @@ public class DepartmentAdapter extends ArrayAdapter<Department> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.listview_department, null);
+            view = inflater.inflate(R.layout.list_view_department, null);
         }
         Department department = filteredList.get(position);
         if (department != null) {

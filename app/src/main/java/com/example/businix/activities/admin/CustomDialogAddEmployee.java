@@ -11,11 +11,11 @@ import android.widget.LinearLayout;
 
 import com.example.businix.R;
 
-public class CustomAddEmployeeDialog extends Dialog {
+public class CustomDialogAddEmployee extends Dialog {
     private LinearLayout btnAddOne, btnAddList;
     private Context context;
 
-    public CustomAddEmployeeDialog(Context context) {
+    public CustomDialogAddEmployee(Context context) {
         super(context);
         this.context = context;
     }
@@ -24,7 +24,7 @@ public class CustomAddEmployeeDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Loại bỏ tiêu đề của dialog
-        setContentView(R.layout.custom_add_employee_dialog);
+        setContentView(R.layout.custom_dialog_add_employee);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);

@@ -23,7 +23,6 @@ import com.example.businix.activities.admin.AdminEditEmployeeActivity;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Position;
-import com.example.businix.models.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.listview_employee, null);
+            view = inflater.inflate(R.layout.list_view_employee, null);
         }
         Employee employee = filteredList.get(position);
         if (employee != null) {

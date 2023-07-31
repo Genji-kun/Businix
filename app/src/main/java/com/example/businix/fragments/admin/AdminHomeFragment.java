@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.businix.R;
+import com.example.businix.activities.admin.AdminApproveActivity;
 import com.example.businix.activities.admin.AdminDepartmentManagementActivity;
 import com.example.businix.activities.admin.AdminEmployeeManagementActivity;
 import com.example.businix.activities.admin.AdminPositionManagementActivity;
@@ -35,15 +36,6 @@ public class AdminHomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminHomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AdminHomeFragment newInstance(String param1, String param2) {
         AdminHomeFragment fragment = new AdminHomeFragment();
         Bundle args = new Bundle();
@@ -62,7 +54,7 @@ public class AdminHomeFragment extends Fragment {
         }
     }
 
-    private LinearLayout btnEmployee, btnPosition, btnDepartment;
+    private LinearLayout btnEmployee, btnPosition, btnDepartment, btnApprove;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +64,8 @@ public class AdminHomeFragment extends Fragment {
         btnEmployee = (LinearLayout) view.findViewById(R.id.btn_employee);
         btnPosition = (LinearLayout) view.findViewById(R.id.btn_position);
         btnDepartment = (LinearLayout) view.findViewById(R.id.btn_department);
+        btnApprove = (LinearLayout) view.findViewById(R.id.btn_approve);
+
         btnEmployee.setOnClickListener(v -> {
             Intent empl = new Intent(getActivity(), AdminEmployeeManagementActivity.class);
             startActivity(empl);
@@ -85,6 +79,11 @@ public class AdminHomeFragment extends Fragment {
         btnDepartment.setOnClickListener(v -> {
             Intent department = new Intent(getActivity(), AdminDepartmentManagementActivity.class);
             startActivity(department);
+        });
+
+        btnApprove.setOnClickListener(v -> {
+            Intent approve = new Intent(getActivity(), AdminApproveActivity.class);
+            startActivity(approve);
         });
 
         return view;

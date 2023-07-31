@@ -60,4 +60,7 @@
     <string name="add_employee_message">- Đối với thêm danh sách nhân viên, chỉ được thêm cùng phòng ban và vị trí, các thông tin còn nhân viên tự cập nhật</string>
     <string name="currentSalary">Lương tháng hiện tại (còn cập nhật)</string>
     <string name="oldSalary">Lương đã tất toán</string>
+
+    <string name="notice">"Nhân viên mới được duyệt chưa có chức vụ, vị trí nào. Vì thế sau khi duyệt, Administrator cập nhật cho nhân viên mới theo vị trí được phân trên công ty"</string>
+
 </resources>

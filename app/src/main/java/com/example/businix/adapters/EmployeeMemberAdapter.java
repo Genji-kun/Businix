@@ -1,24 +1,20 @@
 package com.example.businix.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.businix.R;
 import com.example.businix.controllers.EmployeeController;
-import com.example.businix.controllers.PositionController;
 import com.example.businix.models.Employee;
 import com.example.businix.utils.FindListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -59,7 +55,7 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.listview_employee_member, null);
+            view = inflater.inflate(R.layout.list_view_employee_member, null);
         }
         Employee employee = employeeList.get(position);
 

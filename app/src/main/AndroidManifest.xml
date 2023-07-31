@@ -24,6 +24,9 @@
         android:theme="@style/Theme.Businix"
         tools:replace="android:fullBackupContent"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.admin.AdminApproveActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="CLOUDINARY_URL"
@@ -35,9 +38,7 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-        <!--Administrator-->
+        </service> <!-- Administrator -->
         <activity
             android:name=".activities.admin.AdminActivity"
             android:exported="false" />
@@ -76,9 +77,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.admin.AdminViewChartActivity"
-            android:exported="false" />
-
-        <!-- Employee -->
+            android:exported="false" /> <!-- Employee -->
         <activity
             android:name=".activities.employee.EmployeeActivity"
             android:exported="false" />
@@ -100,10 +99,7 @@
         <activity
             android:name=".activities.employee.TimeAttendanceActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Login & Sign Up -->
-
+            android:screenOrientation="portrait" /> <!-- Login & Sign Up -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false"
@@ -122,9 +118,7 @@
             android:name=".activities.VerifyOtpActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <!--SplashPage-->
+            android:windowSoftInputMode="adjustResize" /> <!-- SplashPage -->
         <activity
             android:name=".SplashPage"
             android:exported="true"
@@ -132,10 +126,10 @@
             android:theme="@style/animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
