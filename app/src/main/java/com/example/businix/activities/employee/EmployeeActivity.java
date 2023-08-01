@@ -1,6 +1,9 @@
 package com.example.businix.activities.employee;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -25,6 +28,7 @@ import com.example.businix.models.Employee;
 import com.example.businix.ui.ActionBar;
 import com.example.businix.ui.CustomDialog;
 import com.example.businix.utils.DateUtils;
+import com.example.businix.utils.FirestoreUtils;
 import com.example.businix.utils.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,13 +46,25 @@ public class EmployeeActivity extends ActionBar implements NavigationView.OnNavi
     private LoginManager loginManager;
     private Employee employee;
     private EmployeeController employeeController;
-
+    private ActivityResultLauncher<Intent> launcher;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        Employee emp = (Employee) data.getExtras().get("employee");
+                        reloadProfile(emp);
+                        navBar.setSelectedItemId(R.id.action_profile);
+                    }
+                }
+        );
         setContentView(R.layout.activity_employee);
 
         employeeController = new EmployeeController();
@@ -170,16 +186,7 @@ public class EmployeeActivity extends ActionBar implements NavigationView.OnNavi
                 }
                 Fragment profileFragment = fragmentMap.get(R.id.action_profile);
                 if (profileFragment instanceof ProfileFragment) {
-                    Map<String, String> infoMap = new HashMap<>();
-                    infoMap.put("avatar", employee.getAvatar());
-                    infoMap.put("name", employee.getFullName());
-                    infoMap.put("dob", DateUtils.formatDate(employee.getDob()));
-                    infoMap.put("identityNum", "0798987575357");
-                    infoMap.put("address", employee.getAddress());
-                    infoMap.put("phone", employee.getPhone());
-                    infoMap.put("email", employee.getEmail());
-                    infoMap.put("startDate", DateUtils.formatDate(employee.getCreateAt()));
-                    ((ProfileFragment) profileFragment).setInfo(infoMap);
+                    ((ProfileFragment) profileFragment).setInfo(employee);
 
                     employee.getPosition().get().addOnSuccessListener(documentSnapshot -> {
                         String positionName = documentSnapshot.getString("name");
@@ -229,9 +236,15 @@ public class EmployeeActivity extends ActionBar implements NavigationView.OnNavi
             });
         } else if (itemId == R.id.nav_edit_personal) {
             Intent i = new Intent(EmployeeActivity.this, EditProfileActivity.class);
-            startActivity(i);
+            launcher.launch(i);
         }
         return false;
     }
 
+    private void reloadProfile(Employee emp) {
+        Fragment profileFragment = fragmentMap.get(R.id.action_profile);
+        if (profileFragment instanceof ProfileFragment) {
+            ((ProfileFragment) profileFragment).setInfo(emp);
+        }
+    }
 }

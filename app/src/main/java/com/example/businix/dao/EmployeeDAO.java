@@ -3,6 +3,7 @@ package com.example.businix.dao;
 import android.util.Log;
 
 import com.example.businix.models.Employee;
+import com.example.businix.models.Status;
 import com.example.businix.models.UserRole;
 import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
@@ -38,8 +39,7 @@ public class EmployeeDAO {
                     if (task.isSuccessful()) {
                         Log.d("EmployeeDAO", "Thêm thành công với ID: " + task.getResult().getId());
                         return null;
-                    }
-                    else {
+                    } else {
                         Log.w("EmployeeDAO", "Error adding document", task.getException());
                         throw task.getException();
                     }
@@ -145,16 +145,40 @@ public class EmployeeDAO {
                 .limit(1)
                 .get()
                 .continueWith(task -> {
-                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        DocumentSnapshot empRef = task.getResult().getDocuments().get(0);
-                        Employee employee = empRef.toObject(Employee.class);
-                        employee.setId(empRef.getId());
-                        return employee;
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().isEmpty()) {
+                            DocumentSnapshot empRef = task.getResult().getDocuments().get(0);
+                            Employee employee = empRef.toObject(Employee.class);
+                            employee.setId(empRef.getId());
+                            return employee;
+                        } else
+                            return null;
                     } else {
                         throw new Exception("Employee not found");
                     }
                 });
     }
+
+    public Task<List<Employee>> getEmployeeListByStatus(Status status) {
+        CollectionReference employeesRef = db.collection(collectionPath);
+        return employeesRef
+                .whereEqualTo("status", status)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        List<Employee> employeeList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Employee employee = document.toObject(Employee.class);
+                            employee.setId(document.getId());
+                            employeeList.add(employee);
+                        }
+                        return employeeList;
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
 
     public Task<List<DocumentReference>> getEmployeeListByRole(UserRole userRole) {
         CollectionReference employeesRef = db.collection(collectionPath);

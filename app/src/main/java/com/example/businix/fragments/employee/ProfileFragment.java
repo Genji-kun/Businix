@@ -19,8 +19,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.businix.R;
+import com.example.businix.models.Employee;
+import com.example.businix.utils.DateUtils;
 
+import java.util.Date;
 import java.util.Map;
+import java.util.PropertyPermission;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -133,18 +137,37 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    public void setInfo(Map<String, String> infoMap)  {
+    public void setInfo(Employee employee)  {
         try {
-            tvName.setText(infoMap.get("name"));
-            inputName.setText(infoMap.get("name"));
-            inputDOB.setText(infoMap.get("dob"));
-            inputIdentityNum.setText(infoMap.get("identityNum"));
-            inputEmail.setText(infoMap.get("email"));
-            inputPhone.setText(infoMap.get("phone"));
-            inputAddress.setText(infoMap.get("address"));
-            tvStartDate.setText(infoMap.get("startDate"));
-            inputStartDate.setText(infoMap.get("startDate"));
-            Glide.with(getActivity()).load(infoMap.get("avatar")).into(ivAvatar);
+            if (employee.getFullName() != null) {
+                tvName.setText(employee.getFullName());
+                inputName.setText(employee.getFullName());
+            }
+
+            if (employee.getDob() != null) {
+                inputDOB.setText(DateUtils.formatDate(employee.getDob()));
+            }
+
+            if (employee.getIdentityNum() != null) {
+                inputIdentityNum.setText(employee.getIdentityNum());
+            }
+
+            if (employee.getEmail() != null) {
+                inputEmail.setText(employee.getEmail());
+            }
+
+            if (employee.getPhone() != null) {
+                inputPhone.setText(employee.getPhone());
+            }
+
+            if (employee.getCreateAt() != null) {
+                inputStartDate.setText(DateUtils.formatDate(employee.getCreateAt()));
+                tvStartDate.setText(DateUtils.formatDate(employee.getCreateAt()));
+            }
+
+            if (employee.getAvatar() != null) {
+                Glide.with(getActivity()).load(employee.getAvatar()).into(ivAvatar);
+            }
         } catch (Exception e) {
             Log.e("E", "e", e);
         }

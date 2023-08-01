@@ -7,22 +7,44 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.businix.R;
+import com.example.businix.activities.admin.AdminEditEmployeeActivity;
+import com.example.businix.controllers.EmployeeController;
 import com.example.businix.fragments.SignUpStepFourFragment;
 import com.example.businix.fragments.SignUpStepOneFragment;
 import com.example.businix.fragments.SignUpStepThreeFragment;
 import com.example.businix.fragments.SignUpStepTwoFragment;
 import com.example.businix.fragments.IntroductionFragment;
+import com.example.businix.models.Employee;
+import com.example.businix.models.Gender;
+import com.example.businix.models.Status;
+import com.example.businix.models.UserRole;
+import com.example.businix.utils.DateUtils;
+import com.example.businix.utils.FindListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -32,8 +54,10 @@ public class SignUpActivity extends AppCompatActivity {
     private int stepIndex;
     private Dialog dialogAlert;
     private Boolean isTransitioning;
+    private EmployeeController employeeController;
 
-    private TextInputLayout layoutConfirm;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +78,8 @@ public class SignUpActivity extends AppCompatActivity {
         btnContinue = (TextView) dialogAlert.findViewById(R.id.btn_continue);
         btnCancel = (TextView) dialogAlert.findViewById(R.id.btn_cancel);
 
+        Employee employee = new Employee();
+        employeeController = new EmployeeController();
         isTransitioning = false;
 
         btnContinue.setOnClickListener(new View.OnClickListener() {
@@ -101,34 +127,111 @@ public class SignUpActivity extends AppCompatActivity {
                         break;
                     case 2:
                         int rs1 = stepOneFragment.checkStepOne();
-                        if (rs1 == 0)
+                        if (rs1 == 0) {
+                            employee.setFullName(stepOneFragment.getInputName().getText().toString().strip());
+                            try {
+                                employee.setDob(DateUtils.changeStringToDate(stepOneFragment.getInputDOB().getText().toString()));
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Gender gender = Gender.valueOf(stepOneFragment.getDropdownGender().getText().toString());
+                            employee.setGender(gender);
+                            employee.setIdentityNum(stepOneFragment.getInputIdentityCard().getText().toString());
                             changeFragment(stepTwo);
-                        else {
+                        } else {
+                            Toast.makeText(SignUpActivity.this, "Thông tin không hợp lệ", Toast.LENGTH_SHORT).show();
                             stepIndex--;
                         }
                         break;
                     case 3:
                         int rs2 = stepTwoFragment.checkStepTwo();
                         if (rs2 == 0) {
-                            TextInputEditText inputPhone = stepTwoFragment.getInputPhone();
-                            i.putExtra("phone_number", inputPhone.getText().toString());
+                            String inputPhone = stepTwoFragment.getInputPhone().getText().toString();
+                            if (inputPhone.length() == 10)
+                                inputPhone.substring(1);
+                            i.putExtra("phone_number", inputPhone);
+                            employee.setPhone("+84" + inputPhone);
+                            employee.setEmail(stepTwoFragment.getInputEmail().getText().toString());
                             changeFragment(stepThree);
                         } else {
                             stepIndex--;
                         }
                         break;
                     case 4:
-                        int rs3 = stepThreeFragment.checkStepThree();
-                        if (rs3 == 0) {
+                        TextInputLayout layoutUsername = stepThreeFragment.getLayoutUsername();
+                        TextInputLayout layoutPassword = stepThreeFragment.getLayoutPassword();
+                        TextInputLayout layoutConfirm = stepThreeFragment.getLayoutConfirm();
+
+                        TextInputEditText inputUsername = stepThreeFragment.getInputUsername();
+                        TextInputEditText inputPassword = stepThreeFragment.getInputPassword();
+
+                        inputUsername.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                employeeController.checkUserExist(s.toString(), new FindListener() {
+                                    @Override
+                                    public void onFoundSuccess() {
+                                        layoutUsername.setError("*Username đã tồn tại*");
+                                    }
+
+                                    @Override
+                                    public void onNotFound() {
+                                        layoutUsername.setError("");
+                                    }
+                                });
+                            }
+                        });
+                        if (layoutUsername.getError() == null && layoutPassword.getError() == null && layoutConfirm.getError() == null) {
+                            employee.setUsername(inputUsername.getText().toString());
+                            employee.setPassword(inputPassword.getText().toString());
                             changeFragment(stepFour);
                         } else {
+                            Toast.makeText(SignUpActivity.this, "Thông tin không chính xác", Toast.LENGTH_SHORT).show();
                             stepIndex--;
                         }
                         break;
                     case 5:
-                        int rs4 = 0;
-                        if (rs4 == 0) {
-                            startActivity(i);
+                        ImageView imgAvatar = stepFourFragment.getImgAvatar();
+                        if (imgAvatar.getDrawable() != null) {
+                            Uri imageUri = stepFourFragment.getImgUri();
+                            if (imageUri != null) {
+                                MediaManager.get().upload(imageUri).callback(new UploadCallback() {
+                                    @Override
+                                    public void onStart(String requestId) {
+                                    }
+                                    @Override
+                                    public void onProgress(String requestId, long bytes, long totalBytes) {
+                                    }
+
+                                    @Override
+                                    public void onSuccess(String requestId, Map resultData) {
+                                        String imageUrl = resultData.get("secure_url").toString();
+                                        employee.setAvatar(imageUrl);
+                                        employee.setUserRole(UserRole.USER);
+                                        employee.setStatus(Status.PENDING);
+                                        i.putExtra("employee", employee);
+                                        startActivity(i);
+                                    }
+                                    @Override
+                                    public void onError(String requestId, ErrorInfo error) {
+                                        Toast.makeText(SignUpActivity.this, "Đã có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                                    }
+                                    @Override
+                                    public void onReschedule(String requestId, ErrorInfo error) {
+
+                                    }
+                                }).dispatch();
+                            }
                         } else {
                             stepIndex--;
                         }

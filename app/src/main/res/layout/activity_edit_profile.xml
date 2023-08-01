@@ -105,6 +105,7 @@
                     android:id="@+id/input_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
                     android:hint="Họ và tên" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -216,7 +217,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Số điện thoại"
-                        android:inputType="phone" />
+                        android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -238,12 +239,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/btn_update_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
                 android:paddingVertical="15dp"
-                android:text="Cập nhật" />
+                android:fontFamily="@font/regular_font"
+                android:backgroundTint="@color/light_purple"
+                android:textSize="16sp"
+                android:text="Xác nhận cập nhật" />
         </LinearLayout>
     </ScrollView>
 

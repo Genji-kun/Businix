@@ -13,6 +13,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
+        android:name=".BusinixApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -21,13 +22,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Businix"
+        tools:replace="android:fullBackupContent"
         tools:targetApi="31">
         <activity
-            android:name=".activities.employee.StatActivity"
+            android:name=".activities.admin.AdminApproveActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.employee.SalaryActivity"
-            android:exported="false" />
+
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="cloudinary://589783198531267:6lynwIL7_XxDFLhbxFeTi4fPI0Y@dlo17fgwe" />
 
         <service
             android:name=".utils.MyFirebaseMessagingService"
@@ -35,40 +38,54 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-        <activity
-            android:name=".activities.admin.AdminAddDepartmentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminAddPositionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminDepartmentManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminPositionManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminAddEmployeeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminEditEmployeeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminEditProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminEditDepartmentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.admin.AdminEditPositionActivity"
-            android:exported="false" />
+        </service> <!-- Administrator -->
         <activity
             android:name=".activities.admin.AdminActivity"
             android:exported="false" />
         <activity
             android:name=".activities.admin.AdminEmployeeManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAddEmployeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAddListEmployeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEditEmployeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminPositionManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAddPositionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEditPositionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminDepartmentManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAddDepartmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEditDepartmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminEditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminViewChartActivity"
+            android:exported="false" /> <!-- Employee -->
+        <activity
+            android:name=".activities.employee.EmployeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.employee.StatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.employee.SalaryActivity"
             android:exported="false" />
         <activity
             android:name=".activities.employee.LeaveRequestHistoryActivity"
@@ -80,13 +97,10 @@
             android:name=".activities.employee.LeaveActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.VerifyOtpActivity"
+            android:name=".activities.employee.TimeAttendanceActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activities.employee.EmployeeActivity"
-            android:exported="false" />
         <activity
             android:name=".activities.employee.EditProfileActivity"
             android:exported="false" />
@@ -105,9 +119,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/animation" />
         <activity
-            android:name=".activities.employee.TimeAttendanceActivity"
+            android:name=".activities.VerifyOtpActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" /> <!-- SplashPage -->
         <activity
             android:name=".SplashPage"
             android:exported="true"

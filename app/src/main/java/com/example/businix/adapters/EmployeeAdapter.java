@@ -32,7 +32,6 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
     private List<Employee> filteredList;
     private Context context;
 
-
     public EmployeeAdapter(Context context, int resource, List<Employee> employeeList) {
         super(context, resource, employeeList);
 
@@ -41,13 +40,15 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
         this.context = context;
     }
 
+
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.listview_employee, null);
+            view = inflater.inflate(R.layout.list_view_employee, null);
         }
         Employee employee = filteredList.get(position);
         if (employee != null) {
@@ -64,7 +65,10 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                     if (documentSnapshot.exists()) {
                         Position pos = documentSnapshot.toObject(Position.class);
                         String positionName = pos.getName();
-                        tvPosName.setText(positionName);
+                        if (employee.getUserRole().toString().equals("ADMIN"))
+                            tvPosName.setText("Admin");
+                        else
+                            tvPosName.setText(positionName);
                     } else {
                         tvPosName.setText("Chưa có chức vụ");
                     }
@@ -78,6 +82,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 // Gửi thông tin của vị trí hiện tại qua Activity mới
                 Intent intent = new Intent(context, AdminEditEmployeeActivity.class);
                 intent.putExtra("employeeId", currentEmployee.getId());
+                intent.putExtra("employeeUsername", currentEmployee.getUsername());
                 context.startActivity(intent);
             });
             LinearLayout btnDeleteEmployee = (LinearLayout) view.findViewById(R.id.btn_delete_employee);
@@ -141,12 +146,23 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 } else {
                     List<Employee> filteredEmployees = new ArrayList<>();
                     for (Employee empl : employeeList) {
-                        if (empl.getFullName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+//                        empl.getPosition().get().addOnSuccessListener(documentSnapshot -> {
+//                            if (documentSnapshot.exists()) {
+//                                Position pos = documentSnapshot.toObject(Position.class);
+//                                positionName= pos.getName();
+//                            }
+//                        });
+//                        boolean matchPosition = selectedPositionName.isEmpty() || positionName.equals(selectedPositionName);
+                        boolean matchName = empl.getFullName().toLowerCase().contains(constraint.toString().toLowerCase());
+//                        boolean matchStatus = selectedStatus.isEmpty() || empl.getStatus().equals(selectedStatus);
+                        if (matchName) {
                             filteredEmployees.add(empl);
                         }
                     }
+
                     results.values = filteredEmployees;
                     results.count = filteredEmployees.size();
+
                 }
                 return results;
             }
@@ -156,6 +172,8 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 filteredList = (List<Employee>) results.values;
                 notifyDataSetChanged();
             }
+
         };
     }
+
 }

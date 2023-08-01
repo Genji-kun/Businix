@@ -42,7 +42,7 @@ public class PositionAdapter extends ArrayAdapter<Position> {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.listview_position, null);
+            view = inflater.inflate(R.layout.list_view_position, null);
         }
         Position pos = filteredList.get(position);
         if (pos != null) {

@@ -3,5 +3,4 @@
     <style name="NavBarTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>
     </style>
-
 </resources>

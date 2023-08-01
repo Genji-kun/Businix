@@ -23,7 +23,6 @@ public class DateUtils {
         return sdf.parse(dateString);
     }
 
-
     public static Date changeStringToDate(String dateString, String pattern) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         return sdf.parse(dateString);
@@ -50,6 +49,17 @@ public class DateUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isAtLeast18YearsOld(Date birthDate) {
+        Calendar currentDate = Calendar.getInstance();
+        Calendar birthCalendar = Calendar.getInstance();
+        birthCalendar.setTime(birthDate);
+        int age = currentDate.get(Calendar.YEAR) - birthCalendar.get(Calendar.YEAR);
+        if (currentDate.get(Calendar.DAY_OF_YEAR) < birthCalendar.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+        return age >= 18;
     }
 
     public static Timestamp convertDateToTimestamp(Date date) {

@@ -303,6 +303,107 @@
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/btn_salary"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="@color/sub_purple"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_admin_salary"></ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/regular_font"
+                    android:gravity="center_vertical"
+                    android:text="Quản lý lương"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/super_round_shape"
+                        android:backgroundTint="@color/medium_purple">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="15dp"
+                            android:layout="@+id/btn_role"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="@color/white" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_work"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="@color/sub_purple"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_work"></ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/regular_font"
+                    android:gravity="center_vertical"
+                    android:text="Quản lý chấm công"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/super_round_shape"
+                        android:backgroundTint="@color/medium_purple">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="15dp"
+                            android:layout="@+id/btn_role"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="@color/white" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/btn_view_chart"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -326,6 +427,57 @@
                     android:fontFamily="@font/regular_font"
                     android:gravity="center_vertical"
                     android:text="Thống kê"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/super_round_shape"
+                        android:backgroundTint="@color/medium_purple">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="15dp"
+                            android:layout="@+id/btn_role"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="@color/white" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_approve"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="@color/sub_purple"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_edit_user"></ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/regular_font"
+                    android:gravity="center_vertical"
+                    android:text="Phê duyệt"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 

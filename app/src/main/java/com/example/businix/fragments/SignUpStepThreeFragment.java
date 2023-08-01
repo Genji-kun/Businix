@@ -36,8 +36,6 @@ public class SignUpStepThreeFragment extends Fragment {
 
     private TextInputLayout layoutUsername, layoutPassword, layoutConfirm;
     private TextInputEditText inputUsername, inputPassword, inputConfirm;
-    private SignUpUtils utils;
-
     public TextInputLayout getLayoutUsername() {
         return layoutUsername;
     }
@@ -67,14 +65,6 @@ public class SignUpStepThreeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignUpStepThreeFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static SignUpStepThreeFragment newInstance(String param1, String param2) {
         SignUpStepThreeFragment fragment = new SignUpStepThreeFragment();
@@ -92,12 +82,6 @@ public class SignUpStepThreeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        utils = new SignUpUtils();
-    }
-
-    public int checkStepThree() {
-        int result = utils.CheckStepThree(inputUsername.getText().toString(), inputPassword.getText().toString(), inputConfirm.getText().toString());
-        return result;
     }
 
     @Override
@@ -133,8 +117,10 @@ public class SignUpStepThreeFragment extends Fragment {
                         layoutPassword.setHelperText("");
                         layoutPassword.setError("Mật khẩu yếu, cần ít nhất 1 ký tự đặc biệt");
                     }
-                } else
-                    layoutPassword.setHelperText("Mật khẩu cần ít nhất 8 ký tự");
+                } else {
+                    layoutPassword.setHelperText("");
+                    layoutPassword.setError("Mật khẩu cần ít nhất 8 ký tự");
+                }
             }
 
             @Override
@@ -165,8 +151,7 @@ public class SignUpStepThreeFragment extends Fragment {
     }
 
     public void checkConfirm(String confirm, String password) {
-        if(confirm.length() == 0)
-        {
+        if (confirm.length() == 0) {
             layoutConfirm.setError("");
             layoutConfirm.setHelperText("");
         }

@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.businix.R;
+import com.example.businix.controllers.EmployeeController;
+import com.example.businix.models.Employee;
+import com.example.businix.ui.CustomDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -24,6 +27,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 public class VerifyOtpActivity extends AppCompatActivity {
@@ -33,6 +37,10 @@ public class VerifyOtpActivity extends AppCompatActivity {
     private TextView tvBtnVerify;
     private EditText inputCode1, inputCode2, inputCode3, inputCode4, inputCode5, inputCode6;
     private String verificationId;
+    private Employee newEmpl;
+    private EmployeeController employeeController;
+    private CustomDialog customDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,13 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
         verificationId = getIntent().getStringExtra("verification_id");
 
+        Serializable serializable = getIntent().getSerializableExtra("employee");
+        if (serializable instanceof Employee) {
+            newEmpl = (Employee) serializable;
+        } else {
+            Toast.makeText(VerifyOtpActivity.this, "Có lỗi xãy ra", Toast.LENGTH_SHORT).show();
+        }
+        employeeController = new EmployeeController();
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,9 +102,25 @@ public class VerifyOtpActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                             tvBtnVerify.setVisibility(View.VISIBLE);
                             if (task.isSuccessful()) {
-                                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-                                login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(login);
+                                employeeController.addEmployee(newEmpl, addTask -> {
+                                    if (addTask.isSuccessful()) {
+                                        customDialog = new CustomDialog(VerifyOtpActivity.this, R.layout.custom_dialog_2);
+                                        customDialog.show();
+                                        customDialog.setQuestion("Thông báo");
+                                        customDialog.setMessage("Đăng ký thành công, vui lòng liên hệ với Admin để phê duyệt tài khoản");
+                                        customDialog.setTextBtnCancel("");
+                                        customDialog.setOnContinueClickListener((dialog, which) -> {
+                                            dialog.dismiss();
+                                        });
+
+                                        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                                        login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(login);
+                                    } else {
+                                        btnVerify.setEnabled(true);
+                                        Toast.makeText(VerifyOtpActivity.this, "Đã có lỗi xảy ra", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             } else {
                                 btnVerify.setEnabled(true);
                                 Toast.makeText(VerifyOtpActivity.this, "Mã xác nhận OTP của bạn không đúng, vui lòng thử lại", Toast.LENGTH_LONG).show();
@@ -116,13 +147,13 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onVerificationFailed(@NonNull FirebaseException e) {
-                                        Toast.makeText(VerifyOtpActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(VerifyOtpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
 
                                     @Override
                                     public void onCodeSent(@NonNull String newVerificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                         verificationId = newVerificationId;
-                                        Toast.makeText(VerifyOtpActivity.this,"Đã gửi lại mã OTP",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(VerifyOtpActivity.this, "Đã gửi lại mã OTP", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                         ) // OnVerificationStateChangedCallbacks

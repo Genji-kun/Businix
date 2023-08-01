@@ -41,7 +41,7 @@ public class AdminPositionManagementActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<List<Position>> task) {
                 if (task.isSuccessful()) {
                     positionsList = task.getResult();
-                    positionAdapter = new PositionAdapter(AdminPositionManagementActivity.this, R.layout.listview_position, positionsList);
+                    positionAdapter = new PositionAdapter(AdminPositionManagementActivity.this, R.layout.list_view_position, positionsList);
                     listView.setAdapter(positionAdapter);
                 } else {
                     // xử lý lỗi

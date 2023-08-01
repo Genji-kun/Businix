@@ -36,10 +36,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:fontFamily="@font/medium_font"
         android:text="Sửa thông tin"
         android:textColor="@color/black"
-        android:layout_marginStart="20dp"
         android:textSize="25sp"></TextView>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:hint="Tên chức vụ" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_salary"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

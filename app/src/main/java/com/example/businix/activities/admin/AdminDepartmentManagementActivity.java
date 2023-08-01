@@ -14,9 +14,7 @@ import com.example.businix.R;
 
 import com.example.businix.adapters.DepartmentAdapter;
 import com.example.businix.controllers.DepartmentController;
-import com.example.businix.controllers.PositionController;
 import com.example.businix.models.Department;
-import com.example.businix.models.Position;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -45,7 +43,7 @@ public class AdminDepartmentManagementActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<List<Department>> task) {
                 if (task.isSuccessful()) {
                     departmentList = task.getResult();
-                    departmentAdapter = new DepartmentAdapter(AdminDepartmentManagementActivity.this, R.layout.listview_department, departmentList);
+                    departmentAdapter = new DepartmentAdapter(AdminDepartmentManagementActivity.this, R.layout.list_view_department, departmentList);
                     listView.setAdapter(departmentAdapter);
                 } else {
                     // xử lý lỗi

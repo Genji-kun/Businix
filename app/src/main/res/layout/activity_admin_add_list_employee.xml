@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.admin.AdminAddListEmployeeActivity">
+
+    <LinearLayout
+        android:id="@+id/layout_navbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="24dp"
+            android:src="@drawable/ic_arrow_left"
+            app:tint="@color/light_purple"></ImageView>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_marginRight="30dp"
+            android:fontFamily="@font/medium_font"
+            android:text="Thêm danh sách nhân viên"
+            android:textAlignment="center"
+            android:textColor="@color/light_purple"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="510dp"
+        app:layout_constraintTop_toBottomOf="@+id/layout_navbar">
+
+        <LinearLayout
+            android:id="@+id/layout_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:fontFamily="@font/medium_font"
+                android:text="Thông tin việc làm"
+                android:textColor="@color/black"
+                android:textSize="25sp"></TextView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_role"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Vai trò">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dropdown_role"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_position"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Vị trí">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dropdown_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_department"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Phòng ban">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dropdown_department"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ListView
+                android:id="@+id/list_view_employee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp">
+            </ListView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scroll_container">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:id="@+id/btn_add"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/custom_btn"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add"
+                    app:tint="@color/white"></ImageView>
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <LinearLayout
+                    android:id="@+id/btn_add_list_employee"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/custom_btn"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_btn_add_list_employee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/regular_font"
+                        android:text="Thêm danh sách"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:indeterminateDrawable="@drawable/custom_progress_bar"
+                    android:visibility="gone"></ProgressBar>
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
