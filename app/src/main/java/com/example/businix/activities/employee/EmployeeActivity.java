@@ -227,6 +227,9 @@ public class EmployeeActivity extends ActionBar implements NavigationView.OnNavi
             confirmDialog.setOnContinueClickListener((dialog, which) -> {
                 finish();
             });
+        } else if (itemId == R.id.nav_edit_personal) {
+            Intent i = new Intent(EmployeeActivity.this, EditProfileActivity.class);
+            startActivity(i);
         }
         return false;
     }

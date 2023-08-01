@@ -16,6 +16,7 @@ import com.example.businix.controllers.LeaveRequestDetailController;
 import com.example.businix.controllers.StatController;
 import com.example.businix.models.LeaveRequest;
 import com.example.businix.models.LeaveRequestDetail;
+import com.example.businix.models.LeaveRequestStatus;
 import com.example.businix.ui.ActionBar;
 import com.example.businix.ui.MonthYearPickerDialog;
 import com.example.businix.utils.DateUtils;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StatActivity extends ActionBar {
     private LineChart chart;
@@ -46,6 +48,7 @@ public class StatActivity extends ActionBar {
     private LinearLayout btnChangeTime, layoutData;
     private ProgressBar progressBar;
     private Calendar calendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,29 +114,33 @@ public class StatActivity extends ActionBar {
         requestController.getLeaveRequestOverlapping(start, end, employeeRef, task -> {
             if (task.isSuccessful()) {
                 List<LeaveRequest> requests = task.getResult();
+                requests = requests.stream().filter(request -> request.getStatus() == LeaveRequestStatus.ACCEPT)
+                        .collect(Collectors.toList());
                 if (requests.size() <= 0) {
                     tvLeaveRequests.setText("0");
                     loadChart(null);
                 }
-                detailController.getDetailsByTime(start, end, requests, task1 -> {
-                    if (task1.isSuccessful()) {
-                        int count = 0;
-                        for (LeaveRequestDetail detail : task1.getResult()) {
-                            if (detail.getShift().equals("Cả ngày"))
-                                count += 2;
-                            else
-                                count ++;
+                else {
+                    detailController.getDetailsByTime(start, end, requests, task1 -> {
+                        if (task1.isSuccessful()) {
+                            int count = 0;
+                            for (LeaveRequestDetail detail : task1.getResult()) {
+                                if (detail.getShift().equals("Cả ngày"))
+                                    count += 2;
+                                else
+                                    count++;
+                            }
+                            tvLeaveRequests.setText(count);
+                            loadChart(task1.getResult());
                         }
-                        tvLeaveRequests.setText(count);
-                        loadChart(task1.getResult());
-                    }
-                });
+                    });
+                }
             }
         });
     }
 
     private void loadChart(List<LeaveRequestDetail> details) {
-        statController.getAttendancesMonth(calendar.getTime(), employeeRef, details , task2 -> {
+        statController.getAttendancesMonth(calendar.getTime(), employeeRef, details, task2 -> {
             if (task2.isSuccessful()) {
                 List<Entry> workEntries = new ArrayList<>();
                 List<Entry> overTimeEntries = new ArrayList<>();

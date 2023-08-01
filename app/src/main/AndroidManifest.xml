@@ -88,6 +88,9 @@
             android:name=".activities.employee.EmployeeActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.employee.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SendOtpActivity"
             android:exported="false"
             android:screenOrientation="portrait"
