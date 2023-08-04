@@ -75,6 +75,7 @@ public class EmployeeActivity extends ActionBar implements NavigationView.OnNavi
         //ActionBar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportMyActionBar("", false, true);
+        setTitleText("BUSINIX", 16, R.font.airbeat, R.color.light_purple);
 
 
         //nav_view of SideNav
@@ -237,6 +238,10 @@ public class EmployeeActivity extends ActionBar implements NavigationView.OnNavi
         } else if (itemId == R.id.nav_edit_personal) {
             Intent i = new Intent(EmployeeActivity.this, EditProfileActivity.class);
             launcher.launch(i);
+        }
+        else if (itemId == R.id.nav_edit_security) {
+            Intent i = new Intent(EmployeeActivity.this, ChangePasswordActivity.class);
+            startActivity(i);
         }
         return false;
     }

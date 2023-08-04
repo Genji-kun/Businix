@@ -75,8 +75,8 @@ public class SignUpStepFourFragment extends Fragment {
             public void onClick(View v) {
                 ImagePicker.with(getActivity())
                         .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .compress(680)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(740, 740)	//Final image resolution will be less than 1080 x 1080(Optional)
                         .start();
             }
         });

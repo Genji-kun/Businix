@@ -68,6 +68,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
         Serializable serializable = getIntent().getSerializableExtra("employee");
         if (serializable instanceof Employee) {
             newEmpl = (Employee) serializable;
+//            newEmpl.setResendToken((PhoneAuthProvider.ForceResendingToken) getIntent().getExtras().get("resend_token"));
         } else {
             Toast.makeText(VerifyOtpActivity.this, "Có lỗi xãy ra", Toast.LENGTH_SHORT).show();
         }
@@ -153,6 +154,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                                     @Override
                                     public void onCodeSent(@NonNull String newVerificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                         verificationId = newVerificationId;
+//                                        newEmpl.setResendToken(forceResendingToken);
                                         Toast.makeText(VerifyOtpActivity.this, "Đã gửi lại mã OTP", Toast.LENGTH_SHORT).show();
                                     }
                                 }

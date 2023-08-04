@@ -1,8 +1,8 @@
 package com.example.businix.models;
 
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
-import com.google.firebase.firestore.PropertyName;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,9 +12,7 @@ public class Employee implements Serializable {
     private String fullName;
     private Gender gender;
     private String phone;
-    private String address;
     private Date dob;
-    @PropertyName("identity_num")
     private String identityNum;
     private String email;
     private String avatar;
@@ -22,6 +20,7 @@ public class Employee implements Serializable {
     private String password;
     private Date createAt;
     private Status status;
+//    private PhoneAuthProvider.ForceResendingToken resendToken;
 
     private DocumentReference department;
     private DocumentReference position;
@@ -53,14 +52,6 @@ public class Employee implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public Date getDob() {
@@ -159,4 +150,12 @@ public class Employee implements Serializable {
     public void setIdentityNum(String identityNum) {
         this.identityNum = identityNum;
     }
+
+//    public PhoneAuthProvider.ForceResendingToken getResendToken() {
+//        return resendToken;
+//    }
+//
+//    public void setResendToken(PhoneAuthProvider.ForceResendingToken resendToken) {
+//        this.resendToken = resendToken;
+//    }
 }

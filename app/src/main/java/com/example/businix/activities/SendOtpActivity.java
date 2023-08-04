@@ -42,6 +42,7 @@ public class SendOtpActivity extends AppCompatActivity {
                 tvBtnSendOTP.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
                 btnSendOTP.setEnabled(false);
+                Intent i = new Intent(SendOtpActivity.this, VerifyOtpActivity.class);
 
                 PhoneAuthOptions options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
                         .setPhoneNumber(tvPhone.getText().toString()) // Số điện thoại cần xác minh
@@ -70,9 +71,9 @@ public class SendOtpActivity extends AppCompatActivity {
                                         tvBtnSendOTP.setVisibility(View.VISIBLE);
                                         progressBar.setVisibility(View.GONE);
                                         btnSendOTP.setEnabled(true);
-                                        Intent i = new Intent(SendOtpActivity.this, VerifyOtpActivity.class);
                                         i.putExtra("phone_number", tvPhone.getText());
                                         i.putExtra("verification_id", verificationId);
+                                        i.putExtra("resend_token", forceResendingToken);
                                         i.putExtra("employee", getIntent().getSerializableExtra("employee"));
                                         startActivity(i);
                                     }
