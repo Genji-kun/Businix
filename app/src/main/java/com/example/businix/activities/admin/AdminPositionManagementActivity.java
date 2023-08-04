@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.businix.R;
 
@@ -22,24 +24,30 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.List;
 
 public class AdminPositionManagementActivity extends AppCompatActivity {
-
     private ImageView btnHome;
     private LinearLayout btnAddPosition;
     private TextInputEditText inputPosition;
     private PositionAdapter positionAdapter;
     private List<Position> positionsList;
+    private ProgressBar progressBar;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_position_management);
 
-        ListView listView = (ListView) findViewById(R.id.list_view_position);
+        listView = (ListView) findViewById(R.id.list_view_position);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        listView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         PositionController positionController = new PositionController();
         positionController.getPositionList(new OnCompleteListener<List<Position>>() {
             @Override
             public void onComplete(@NonNull Task<List<Position>> task) {
                 if (task.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                     positionsList = task.getResult();
                     positionAdapter = new PositionAdapter(AdminPositionManagementActivity.this, R.layout.list_view_position, positionsList);
                     listView.setAdapter(positionAdapter);

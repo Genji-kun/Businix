@@ -30,15 +30,10 @@ import java.util.Map;
 public class EmployeeActivity extends ActionBar {
     private BottomNavigationView navBar;
     private HashMap<Integer, Fragment> fragmentMap;
-
     private NavigationView navView;
     private LoginManager loginManager;
     private Employee employee;
     private EmployeeController employeeController;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +49,9 @@ public class EmployeeActivity extends ActionBar {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportMyActionBar("", false, true);
 
-
         //nav_view of SideNav
         navView = (NavigationView) findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(this);
-
-
 
         //Thêm các fragment vào HashMap
         fragmentMap = new HashMap<>();

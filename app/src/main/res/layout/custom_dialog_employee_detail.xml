@@ -67,6 +67,11 @@
                     android:text="Ngày nộp:"></TextView>
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"></TextView>
+
+                <TextView
                     android:id="@+id/tv_join_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -85,7 +90,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/medium_font"
                     android:text="Số điện thoại:"></TextView>
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"></TextView>
                 <TextView
                     android:id="@+id/tv_phone_number"
                     android:layout_width="wrap_content"

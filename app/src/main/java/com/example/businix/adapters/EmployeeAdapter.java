@@ -23,6 +23,7 @@ import com.example.businix.activities.admin.AdminEditEmployeeActivity;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Position;
+import com.example.businix.models.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,6 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
         this.context = context;
     }
 
-
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -50,6 +49,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.list_view_employee, null);
         }
+        EmployeeController employeeController = new EmployeeController();
         Employee employee = filteredList.get(position);
         if (employee != null) {
             ImageView imgAvatar = (ImageView) view.findViewById(R.id.img_avatar);
@@ -104,7 +104,6 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 btnConfirmDelete.setOnClickListener(mv -> {
                     alertDialog.dismiss();
                     // Xác nhận xóa, gọi phương thức deletePosition
-                    EmployeeController employeeController = new EmployeeController();
                     employeeController.deleteEmployee(employeeId, task -> {
                         if (task.isSuccessful()) {
                             // Xóa thành công, bạn có thể cập nhật lại danh sách và thông báo cho adapter
@@ -146,12 +145,6 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 } else {
                     List<Employee> filteredEmployees = new ArrayList<>();
                     for (Employee empl : employeeList) {
-//                        empl.getPosition().get().addOnSuccessListener(documentSnapshot -> {
-//                            if (documentSnapshot.exists()) {
-//                                Position pos = documentSnapshot.toObject(Position.class);
-//                                positionName= pos.getName();
-//                            }
-//                        });
 //                        boolean matchPosition = selectedPositionName.isEmpty() || positionName.equals(selectedPositionName);
                         boolean matchName = empl.getFullName().toLowerCase().contains(constraint.toString().toLowerCase());
 //                        boolean matchStatus = selectedStatus.isEmpty() || empl.getStatus().equals(selectedStatus);
