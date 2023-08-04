@@ -205,7 +205,7 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
             if (emplBeforeUpdate.getIdentityNum() != null)
                 inputIdentityCard.setText(emplBeforeUpdate.getIdentityNum());
             if (emplBeforeUpdate.getPhone() != null)
-                inputPhone.setText(emplBeforeUpdate.getPhone());
+                inputPhone.setText(emplBeforeUpdate.getPhone().replace("+84", ""));
             if (emplBeforeUpdate.getEmail() != null)
                 inputEmail.setText(emplBeforeUpdate.getEmail());
             inputUsername.setText(emplBeforeUpdate.getUsername());
@@ -352,13 +352,18 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
             if (!dropdownRole.getText().toString().equals(emplBeforeUpdate.getUserRole().toString())) {
                 updateEmpl.setUserRole(UserRole.valueOf(dropdownRole.getText().toString()));
             }
-
             if (!dropdownPosition.getText().toString().equals(emplBeforeUpdate.getPosition().toString())) {
                 updateEmpl.setPosition(employeeController.getPositionRef(positionId));
+            } else {
+                Toast.makeText(AdminEditEmployeeActivity.this, "Bạn chưa chọn vị trí", Toast.LENGTH_SHORT).show();
+                return;
             }
 
             if (!dropdownDepartment.getText().toString().equals(emplBeforeUpdate.getDepartment().toString())) {
                 updateEmpl.setDepartment(employeeController.getDepartmentRef(departmentId));
+            } else {
+                Toast.makeText(AdminEditEmployeeActivity.this, "Bạn chưa chọn phòng ban", Toast.LENGTH_SHORT).show();
+                return;
             }
 
             if (!dropdownStatus.getText().toString().equals(emplBeforeUpdate.getStatus().toString())) {
@@ -368,7 +373,6 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
 
             //Upload cloudinary
             if (imageUri != null) {
-
                 MediaManager.get().upload(imageUri).callback(new UploadCallback() {
                     @Override
                     public void onStart(String requestId) {

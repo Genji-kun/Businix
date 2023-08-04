@@ -61,8 +61,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:hint="Chức vụ">
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:hint="Vị trí">
 
             <AutoCompleteTextView
                 android:id="@+id/dropdown_position"
@@ -72,6 +73,7 @@
                 android:drawablePadding="10dp"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <RadioGroup
             android:id="@+id/radio_group_status"
@@ -111,7 +113,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/medium_font"
             android:text="Danh sách nhân viên"
             android:textAlignment="center"

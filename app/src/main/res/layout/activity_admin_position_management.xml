@@ -6,37 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".activities.admin.AdminPositionManagementActivity">
 
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/btn_home"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="24dp"
+            android:src="@drawable/ic_admin_home"
+            app:tint="@color/light_purple"></ImageView>
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_marginRight="30dp"
+            android:fontFamily="@font/medium_font"
+            android:text="Quản lý chức vụ"
+            android:textAlignment="center"
+            android:textColor="@color/light_purple"
+            android:textSize="25dp" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/btn_home"
-                android:layout_width="wrap_content"
-                android:layout_height="26dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="24dp"
-                android:src="@drawable/ic_admin_home"
-                app:tint="@color/light_purple"></ImageView>
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
-                android:layout_marginRight="30dp"
-                android:fontFamily="@font/medium_font"
-                android:text="Quản lý chức vụ"
-                android:textAlignment="center"
-                android:textColor="@color/light_purple"
-                android:textSize="25dp" />
-        </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_position"
@@ -56,23 +62,39 @@
 
 
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:fontFamily="@font/medium_font"
             android:text="Danh sách chức vụ"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            tools:layout_editor_absoluteX="20dp" />
 
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_position"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
         <ListView
             android:id="@+id/list_view_position"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp">
-        </ListView>
-    </LinearLayout>
+            android:layout_height="match_parent"></ListView>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/custom_progress_bar"
+            android:indeterminateTint="@color/light_purple"
+            android:visibility="gone"></ProgressBar>
+    </FrameLayout>
 
 
     <LinearLayout

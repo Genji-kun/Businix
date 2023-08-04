@@ -6,7 +6,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,12 +16,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.businix.R;
+import com.example.businix.activities.admin.AdminAddListEmployeeActivity;
+import com.example.businix.controllers.DepartmentController;
 import com.example.businix.controllers.EmployeeController;
+import com.example.businix.controllers.PositionController;
+import com.example.businix.models.Department;
 import com.example.businix.models.Employee;
+import com.example.businix.models.Position;
+import com.example.businix.models.UserRole;
 import com.example.businix.utils.FindListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +36,16 @@ import java.util.regex.Pattern;
 public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
     private List<Employee> employeeList;
     private Context context;
+    private TextInputEditText inputName, inputUsername, inputPassword;
+    private TextInputLayout layoutUsername, layoutPassword;
+    private AutoCompleteTextView dropdownRole, dropdownPosition, dropdownDepartment;
+    private TextView tvEmplNumber;
+    private ArrayAdapter<String> posNameAdapter, departmentNameAdapter, roleAdapter;
+    private List<String> posItems, departmentItems, roleItems;
+    private List<Position> posList;
+    private List<Department> departmentList;
+    private PositionController positionController;
+    private DepartmentController departmentController;
 
     public EmployeeMemberAdapter(Context context, int resource, List<Employee> employeeList) {
         super(context, resource, employeeList);
@@ -59,13 +78,16 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
         }
         Employee employee = employeeList.get(position);
 
-        TextView tvEmplNumber = (TextView) view.findViewById(R.id.tv_empl_number);
+        tvEmplNumber = (TextView) view.findViewById(R.id.tv_empl_number);
         tvEmplNumber.setText("Nhân viên " + (position + 1));
-        TextInputEditText inputName = (TextInputEditText) view.findViewById(R.id.input_name);
-        TextInputEditText inputUsername = (TextInputEditText) view.findViewById(R.id.input_username);
-        TextInputEditText inputPassword = (TextInputEditText) view.findViewById(R.id.input_password);
-        TextInputLayout layoutUsername = (TextInputLayout) view.findViewById(R.id.layout_username);
-        TextInputLayout layoutPassword = (TextInputLayout) view.findViewById(R.id.layout_password);
+        inputName = (TextInputEditText) view.findViewById(R.id.input_name);
+        inputUsername = (TextInputEditText) view.findViewById(R.id.input_username);
+        inputPassword = (TextInputEditText) view.findViewById(R.id.input_password);
+        layoutUsername = (TextInputLayout) view.findViewById(R.id.layout_username);
+        layoutPassword = (TextInputLayout) view.findViewById(R.id.layout_password);
+        dropdownRole = (AutoCompleteTextView) view.findViewById(R.id.dropdown_role);
+        dropdownPosition = (AutoCompleteTextView) view.findViewById(R.id.dropdown_position);
+        dropdownDepartment = (AutoCompleteTextView) view.findViewById(R.id.dropdown_department);
 
         EmployeeController employeeController = new EmployeeController();
         inputUsername.addTextChangedListener(new TextWatcher() {
@@ -88,6 +110,7 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
                     @Override
                     public void onNotFound() {
                         layoutUsername.setError("");
+                        employee.setFullName(inputName.getText().toString());
                     }
                 });
             }
@@ -108,6 +131,7 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
                     if (isHasSpeChar) {
                         layoutPassword.setHelperText("Mật khẩu mạnh");
                         layoutPassword.setError("");
+                        employee.setPassword(inputPassword.getText().toString());
                     } else {
                         layoutPassword.setHelperText("");
                         layoutPassword.setError("Mật khẩu yếu, cần ít nhất 1 ký tự đặc biệt");
@@ -124,9 +148,74 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
             }
         });
 
+        posItems = new ArrayList<String>();
+        positionController = new PositionController();
+        posList = new ArrayList<>();
+        positionController.getPositionList(task -> {
+            if (task.isSuccessful()) {
+                posList = task.getResult();
+                for (Position pos : posList) {
+                    posItems.add(pos.getName());
+                }
+                posNameAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_menu, posItems);
+                dropdownPosition.setAdapter(posNameAdapter);
+            } else {
+                // Xử lý lỗi
+            }
+        });
+        dropdownPosition.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for (Position pos : posList) {
+                    if (pos.getName().equals(posItems.get(position))) {
+                        employee.setPosition(employeeController.getPositionRef(pos.getId()));
+                    }
+                }
+            }
+        });
 
+        departmentItems = new ArrayList<String>();
+        departmentController = new DepartmentController();
+        departmentList = new ArrayList<>();
+        departmentController.getDepartmentList(task -> {
+            if (task.isSuccessful()) {
+                departmentList = task.getResult();
+                for (Department department : departmentList) {
+                    departmentItems.add(department.getName());
+                }
+                departmentNameAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_menu, departmentItems);
+                dropdownDepartment.setAdapter(departmentNameAdapter);
+            } else {
+                //Xử lý lỗi
+            }
+        });
+        dropdownDepartment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for (Department department : departmentList) {
+                    if (department.getName().equals(departmentItems.get(position))) {
+                        employee.setDepartment(employeeController.getDepartmentRef(department.getId()));
+                    }
+                }
+            }
+        });
 
-        LinearLayout btnDeletePosition = (LinearLayout) view.findViewById(R.id.btn_delete_position);
+        roleItems = new ArrayList<>();
+        UserRole[] roles = UserRole.values();
+        for (UserRole role : roles) {
+            roleItems.add(role.toString());
+        }
+        roleAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_menu, roleItems);
+        dropdownRole.setAdapter(roleAdapter);
+
+        dropdownRole.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                employee.setUserRole(UserRole.valueOf(dropdownRole.getText().toString()));
+            }
+        });
+
+        LinearLayout btnDeletePosition = (LinearLayout) view.findViewById(R.id.btn_delete_member);
         btnDeletePosition.setOnClickListener(v -> {
             employeeList.remove(position);
             notifyDataSetChanged();

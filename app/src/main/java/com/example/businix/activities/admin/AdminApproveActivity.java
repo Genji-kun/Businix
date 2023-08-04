@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.businix.R;
 import com.example.businix.adapters.ApproveRequestAdapter;
@@ -27,18 +29,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminApproveActivity extends AppCompatActivity {
-
     private ImageView btnBack;
     private ApproveRequestAdapter approveRequestAdapter;
     private List<Employee> emplPendingList;
+    private ProgressBar progressBar;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_approve);
-
-
-        ListView listView = (ListView) findViewById(R.id.list_view_approve);
+        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        listView = (ListView) findViewById(R.id.list_view_approve);
+        listView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         EmployeeController employeeController = new EmployeeController();
         employeeController.getEmployeeList(new OnCompleteListener<List<Employee>>() {
             @Override
@@ -51,6 +55,8 @@ public class AdminApproveActivity extends AppCompatActivity {
                         if(employee.getStatus() == Status.PENDING)
                             emplPendingList.add(employee);
                     }
+                    progressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                     approveRequestAdapter = new ApproveRequestAdapter(AdminApproveActivity.this, R.layout.list_view_approve_request, emplPendingList);
                     listView.setAdapter(approveRequestAdapter);
                 } else {
@@ -65,5 +71,10 @@ public class AdminApproveActivity extends AppCompatActivity {
             finish();
         });
 
+    }
+
+    public void reloadListView(int position){
+        emplPendingList.remove(position);
+        approveRequestAdapter.notifyDataSetChanged();
     }
 }

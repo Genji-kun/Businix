@@ -90,6 +90,7 @@
                 android:drawablePadding="15dp"
                 android:drawableTint="@color/custom_color"
                 android:hint="Tên người dùng"
+                android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -117,7 +118,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
-            android:id="@+id/btnLogin"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="center"
@@ -163,7 +164,7 @@
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/tvRegister"
+                android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

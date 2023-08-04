@@ -289,12 +289,12 @@ public class AdminAddEmployeeActivity extends AppCompatActivity {
             }
             if (!inputPhone.getText().toString().strip().isBlank() && (inputPhone.length() >= 9 && inputPhone.length() <= 10)) {
                 if (inputPhone.length() == 10)
-                    newEmpl.setPhone(inputPhone.getText().toString().substring(1));
+                    newEmpl.setPhone("+84" + inputPhone.getText().toString().substring(1));
                 else
                     newEmpl.setPhone(inputPhone.getText().toString());
             }
             if (!inputEmail.getText().toString().strip().isBlank() && inputEmail.getText().toString().contains("@")) {
-                newEmpl.setEmail(inputEmail.getText().toString().strip());
+                newEmpl.setEmail("+84" + inputEmail.getText().toString().strip());
             }
 
             //Upload cloudinary

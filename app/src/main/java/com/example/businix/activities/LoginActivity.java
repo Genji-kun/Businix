@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.businix.R;
 import com.example.businix.activities.admin.AdminActivity;
-import com.example.businix.activities.admin.AdminEditEmployeeActivity;
 import com.example.businix.activities.employee.EmployeeActivity;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.models.Employee;
@@ -40,10 +39,10 @@ public class LoginActivity extends AppCompatActivity {
         employeeController = new EmployeeController();
 
         motionLayout = (MotionLayout) findViewById(R.id.animLayout);
-        tvRegister = (TextView) findViewById(R.id.tvRegister);
+        tvRegister = (TextView) findViewById(R.id.tv_register);
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
-        btnLogin = (LinearLayout) findViewById(R.id.btnLogin);
+        btnLogin = (LinearLayout) findViewById(R.id.btn_login);
 
         customDialog = new CustomDialog(LoginActivity.this, R.layout.custom_dialog_2);
 

@@ -20,13 +20,15 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.example.businix.R;
+import com.example.businix.adapters.ApproveRequestAdapter;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Status;
 import com.example.businix.utils.DateUtils;
 
 public class CustomDialogEmployeeDetail extends Dialog {
-    private LinearLayout btnAccept, btnDeny;
+    private LinearLayout btnAccept;
+    private LinearLayout btnDeny;
     private TextView tvEmplName, tvPhone, tvDOB, tvIdentityNum, tvJoinDate, tvGender, tvEmail, tvUsername;
     private Employee employee;
     private Context context;
@@ -79,23 +81,18 @@ public class CustomDialogEmployeeDetail extends Dialog {
         if (employee.getDob() != null) {
             tvDOB.setText(DateUtils.formatDate(employee.getDob()));
         }
-
         if (employee.getGender() != null) {
             tvGender.setText(employee.getGender().toString());
         }
-
         if (employee.getIdentityNum() != null) {
             tvIdentityNum.setText(employee.getIdentityNum());
         }
-
         if (employee.getEmail() != null) {
             tvEmail.setText(employee.getEmail());
         }
-
         if (employee.getUsername() != null) {
             tvUsername.setText(employee.getUsername());
         }
-
 
         EmployeeController employeeController = new EmployeeController();
         btnAccept.setOnClickListener(v -> {
@@ -103,6 +100,7 @@ public class CustomDialogEmployeeDetail extends Dialog {
             employeeController.updateEmployee(employee.getId(), employee, task -> {
                 if (task.isSuccessful()) {
                     if (task.isSuccessful()) {
+
                         Toast.makeText(context, "Duyệt thành công!", Toast.LENGTH_SHORT).show();
                         dismiss();
                     } else {
@@ -126,8 +124,7 @@ public class CustomDialogEmployeeDetail extends Dialog {
             alertDialog.show();
 
             TextView btnConfirmDelete = (TextView) dialogView.findViewById(R.id.btn_continue);
-            btnConfirmDelete.setOnClickListener(view -> {
-                alertDialog.dismiss();
+            btnConfirmDelete.setOnClickListener(v1 -> {
                 // Xác nhận xóa, gọi phương thức deletePosition
                 employeeController.deleteEmployee(employee.getId(), task -> {
                     if (task.isSuccessful()) {

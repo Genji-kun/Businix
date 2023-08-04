@@ -2,16 +2,26 @@ package com.example.businix.activities.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.businix.R;
+import com.example.businix.adapters.EmployeeAdapter;
+import com.example.businix.adapters.EmployeeMemberAdapter;
 import com.example.businix.controllers.DepartmentController;
+import com.example.businix.controllers.EmployeeController;
 import com.example.businix.controllers.PositionController;
 import com.example.businix.models.Department;
+import com.example.businix.models.Employee;
 import com.example.businix.models.Position;
 import com.example.businix.models.UserRole;
 
@@ -21,16 +31,14 @@ import java.util.List;
 public class AdminAddListEmployeeActivity extends AppCompatActivity {
 
     private ImageView btnBack;
-    private LinearLayout btnAdd, layoutContainer, btnAddListEmployee;
-    private AutoCompleteTextView dropdownPosition, dropdownDepartment, dropdownRole;
-
-    private ArrayAdapter<String> posNameAdapter, departmentNameAdapter, roleAdapter;
-    private List<String> posItems, departmentItems, roleItems;
-    private List<Position> posList;
-    private List<Department> departmentList;
-    private String positionId, departmentId;
-    private PositionController positionController;
-    private DepartmentController departmentController;
+    private LinearLayout btnAdd, btnAddListEmployee;
+    private ArrayList<Employee> employeeList;
+    private EmployeeMemberAdapter employeeMemberAdapter;
+    private EmployeeController employeeController;
+    private ListView listView;
+    private TextView tvAddListEmployee;
+    private ProgressBar progressBar;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,66 +48,61 @@ public class AdminAddListEmployeeActivity extends AppCompatActivity {
         btnBack = (ImageView) findViewById(R.id.btn_back);
         btnAdd = (LinearLayout) findViewById(R.id.btn_add);
         btnAddListEmployee = (LinearLayout) findViewById(R.id.btn_add_list_employee);
-        layoutContainer = (LinearLayout) findViewById(R.id.layout_container);
-        dropdownRole = (AutoCompleteTextView) findViewById(R.id.dropdown_role);
-        dropdownPosition = (AutoCompleteTextView) findViewById(R.id.dropdown_position);
-        dropdownDepartment = (AutoCompleteTextView) findViewById(R.id.dropdown_department);
+        tvAddListEmployee = (TextView) findViewById(R.id.tv_btn_add_list_employee);
 
-        posItems = new ArrayList<String>();
-        positionController = new PositionController();
-        positionController.getPositionList(task -> {
-            if (task.isSuccessful()) {
-                posList = task.getResult();
-                for (Position pos : posList) {
-                    posItems.add(pos.getName());
-                }
-                posNameAdapter = new ArrayAdapter<String>(AdminAddListEmployeeActivity.this, R.layout.dropdown_menu, posItems);
-                dropdownPosition.setAdapter(posNameAdapter);
-            } else {
-                // Xử lý lỗi
-            }
-        });
-        dropdownPosition.setOnItemClickListener((parent, view, position, id) -> {
-            for (Position pos : posList) {
-                if (pos.getName().equals(posItems.get(position))) {
-                    positionId = pos.getId();
-                }
-            }
-        });
 
-        departmentItems = new ArrayList<String>();
-        departmentController = new DepartmentController();
-        departmentController.getDepartmentList(task -> {
-            if (task.isSuccessful()) {
-                departmentList = task.getResult();
-                for (Department department : departmentList) {
-                    departmentItems.add(department.getName());
-                }
-                departmentNameAdapter = new ArrayAdapter<String>(AdminAddListEmployeeActivity.this, R.layout.dropdown_menu, departmentItems);
-                dropdownDepartment.setAdapter(departmentNameAdapter);
-            } else {
-                //Xử lý lỗi
-            }
-        });
-        dropdownDepartment.setOnItemClickListener((parent, view, position, id) -> {
-            for (Department department : departmentList) {
-                if (department.getName().equals(departmentItems.get(position))) {
-                    departmentId = department.getId();
-                }
-            }
-        });
-
-        roleItems = new ArrayList<>();
-        UserRole[] roles = UserRole.values();
-        for (UserRole role : roles) {
-            roleItems.add(role.toString());
-        }
-        roleAdapter = new ArrayAdapter<>(AdminAddListEmployeeActivity.this, R.layout.dropdown_menu, roleItems);
-        dropdownRole.setAdapter(roleAdapter);
-
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        listView = (ListView) findViewById(R.id.list_view_employee);
+        employeeList = new ArrayList<>();
+        employeeList.add(new Employee());
+        employeeMemberAdapter = new EmployeeMemberAdapter(this, R.layout.list_view_employee_member, employeeList);
+        listView.setAdapter(employeeMemberAdapter);
 
         btnAdd.setOnClickListener(v -> {
-
+            Employee employee = new Employee();
+            employeeList.add(employee);
+            employeeMemberAdapter.notifyDataSetChanged();
         });
+
+        employeeController = new EmployeeController();
+        btnAddListEmployee.setOnClickListener(v -> {
+            for (Employee empl : employeeList) {
+                employeeController.addEmployee(empl, task -> {
+                    if (task.isSuccessful()) {
+                        count += 1;
+                    } else {
+                        normalView();
+                        Toast.makeText(this, "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                });
+            }
+            if (count == employeeList.size()) {
+                Toast.makeText(AdminAddListEmployeeActivity.this, "Thêm danh sách  thành công", Toast.LENGTH_SHORT).show();
+                normalView();
+                finish();
+            }
+        });
+
+        btnBack = (ImageView) findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
+    }
+
+    public void processingView() {
+        progressBar.setVisibility(View.VISIBLE);
+        tvAddListEmployee.setVisibility(View.GONE);
+        btnAddListEmployee.setEnabled(false);
+        btnAddListEmployee.setBackgroundColor(Color.LTGRAY);
+        btnBack.setEnabled(false);
+    }
+
+    public void normalView() {
+        progressBar.setVisibility(View.GONE);
+        tvAddListEmployee.setVisibility(View.VISIBLE);
+        btnAddListEmployee.setEnabled(true);
+        btnAddListEmployee.setBackgroundColor(getResources().getColor(R.color.light_purple));
+        btnBack.setEnabled(true);
     }
 }

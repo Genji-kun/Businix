@@ -35,7 +35,6 @@ import java.util.List;
 public class ApproveRequestAdapter extends ArrayAdapter<Employee> {
     private List<Employee> employeeList;
     private Context context;
-
     EmployeeController employeeController;
 
     public ApproveRequestAdapter(Context context, int resource, List<Employee> employeeList) {
@@ -70,6 +69,7 @@ public class ApproveRequestAdapter extends ArrayAdapter<Employee> {
         btnShowDetail.setOnClickListener(v -> {
             CustomDialogEmployeeDetail customDialogEmployeeDetail = new CustomDialogEmployeeDetail(getContext(), employee);
             customDialogEmployeeDetail.show();
+
         });
 
         return view;
