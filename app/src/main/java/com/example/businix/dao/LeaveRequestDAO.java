@@ -3,6 +3,7 @@ package com.example.businix.dao;
 import android.util.Log;
 
 import com.example.businix.models.LeaveRequest;
+import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -10,10 +11,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +102,28 @@ public class LeaveRequestDAO {
                 }
             } else {
                 Log.e("LeaveRequestDAO", "Lỗi khi lấy leaveRequest với id " + id, task.getException());
+                throw task.getException();
+            }
+        });
+    }
+
+    public Task<List<LeaveRequest>> getLeaveRequestOverlapping(Date start, Date end, DocumentReference emp) {
+        Query query = db.collection(collectionPath);
+        query = query.whereGreaterThanOrEqualTo("toDate", start).whereEqualTo("employee", emp);
+        return query.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                List<LeaveRequest> leaveRequestList = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    LeaveRequest leaveRequest = document.toObject(LeaveRequest.class);
+                    if (leaveRequest.getFromDate().before(end) || DateUtils.compareWithoutTime(leaveRequest.getFromDate(), end)) {
+                        leaveRequest.setId(document.getId());
+                        leaveRequestList.add(leaveRequest);
+                    }
+
+                }
+                return leaveRequestList;
+            } else {
+                Log.e("LeaveRequestDAO", "Lỗi", task.getException());
                 throw task.getException();
             }
         });

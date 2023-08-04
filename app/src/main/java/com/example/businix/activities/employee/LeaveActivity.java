@@ -36,6 +36,7 @@ import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.LoadingOverlayUtils;
 import com.example.businix.utils.LoginManager;
 import com.example.businix.utils.OnSpinnerChangeListener;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -142,77 +143,117 @@ public class LeaveActivity extends ActionBar implements OnSpinnerChangeListener 
                 customDialog.setMessage("Bạn có chắc chắn muốn gửi yêu cầu xin nghỉ này không");
                 customDialog.setOnContinueClickListener((dialog, which) -> {
                     dialog.dismiss();
-                    LoadingOverlayUtils.showLoadingOverlay(this);
                     try {
                         Date start = DateUtils.changeStringToDate(startDate);
+                        Calendar nowCal = Calendar.getInstance();
+                        nowCal.set(Calendar.HOUR_OF_DAY, 0);
+                        nowCal.set(Calendar.MINUTE, 0);
+                        nowCal.set(Calendar.SECOND, 0);
+                        nowCal.set(Calendar.MILLISECOND, 0);
+                        nowCal.add(Calendar.DAY_OF_MONTH, 1);
+                        if (!start.after(nowCal.getTime())) {
+                            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                            errorDialog.show();
+                            errorDialog.setQuestion("Thông tin không hợp lệ");
+                            errorDialog.setMessage("Ngày bắt đầu nghỉ phải cách thời gian hiện tại 2 ngày");
+                            return;
+                        }
                         Date end = DateUtils.changeStringToDate(endDate);
+                        if (!end.after(start)) {
+                            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                            errorDialog.show();
+                            errorDialog.setQuestion("Thông tin không hợp lệ");
+                            errorDialog.setMessage("Ngày bắt đầu nghỉ không thể sau ngày kết thúc nghỉ");
+                            return;
+                        }
                         String employeeId = loginManager.getLoggedInUserId();
-                        LeaveRequest leaveRequest = new LeaveRequest();
-                        leaveRequest.setFromDate(start);
-                        leaveRequest.setToDate(end);
-                        leaveRequest.setEmployee(employeeController.getEmployeeRef(employeeId));
-                        leaveRequest.setReason(reason);
-                        leaveRequestController.addLeaveRequest(leaveRequest, task -> {
+                        DocumentReference empRef = employeeController.getEmployeeRef(employeeId);
+                        leaveRequestController.getLeaveRequestOverlapping(start, end, empRef, task -> {
                             if (task.isSuccessful()) {
-                                String leaveRequestId = task.getResult();
-                                listViewDetail.setVisibility(View.VISIBLE);
-                                listViewDetail.post(() -> {
-                                    setHeightListView();
-                                    List<LeaveRequestDetail> detailList = new ArrayList<>();
-                                    int count = listViewDetail.getChildCount();
-                                    for (int i = 0; i < count; i++) {
-                                        View itemView = listViewDetail.getChildAt(i);
-                                        TextView tvDate = itemView.findViewById(R.id.text_date);
-                                        Spinner spinner = itemView.findViewById(R.id.spinner_shift);
-                                        String selection = spinner.getSelectedItem().toString();
-                                        String itemDate = tvDate.getText().toString();
-                                        LeaveRequestDetail leaveRequestDetail = new LeaveRequestDetail();
-                                        try {
-                                            leaveRequestDetail.setDate(DateUtils.changeStringToDate(itemDate));
-                                            leaveRequestDetail.setShift(selection);
-                                            leaveRequestDetail.setLeaveRequest(leaveRequestController.getLeaveRequestRef(leaveRequestId));
-                                            detailList.add(leaveRequestDetail);
-                                        } catch (ParseException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    }
-                                    leaveRequestDetailController.addLeaveRequestDetails(detailList, task1 -> {
-                                        CustomDialog subDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                if (task.getResult().size() > 0) {
+                                    CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                    errorDialog.show();
+                                    errorDialog.setQuestion("Thông tin không hợp lệ");
+                                    errorDialog.setMessage("Đã có đơn nghỉ trùng thời gian với đơn hiện tại, vui lòng kiểm tra lại!");
+                                }
+                                else {
+                                    LoadingOverlayUtils.showLoadingOverlay(this);
+                                    LeaveRequest leaveRequest = new LeaveRequest();
+                                    leaveRequest.setFromDate(start);
+                                    leaveRequest.setToDate(end);
+                                    leaveRequest.setEmployee(empRef);
+                                    leaveRequest.setReason(reason);
+                                    leaveRequestController.addLeaveRequest(leaveRequest, task1 -> {
                                         if (task1.isSuccessful()) {
-                                            subDialog.show();
-                                            subDialog.setQuestion("Thông báo");
-                                            subDialog.setMessage("Đã gửi thành công đơn xin nghỉ");
-                                            LoadingOverlayUtils.hideLoadingOverlay();
-                                            Notification notification = new Notification();
-                                            notification.setRead(false);
-                                            notification.setSender(employeeController.getEmployeeRef(employeeId));
-                                            notification.setTitle("Đơn xin nghỉ");
-                                            String msg = "Một đơn xin nghỉ đến từ nhân viên";
-                                            if (employee != null) {
-                                                msg += " " + employee.getFullName();
-                                            }
-                                            notification.setMessage(msg);
-                                            employeeController.getEmployeeListByRole(UserRole.ADMIN, task2 -> {
-                                                if (task2.isSuccessful()) {
-                                                    notification.setReceivers(task2.getResult());
-                                                    (new NotificationController()).addNotification(notification, task3 -> {
-                                                        if (task3.isSuccessful()) {
-
-                                                        }
-                                                    });
+                                            String leaveRequestId = task1.getResult();
+                                            listViewDetail.setVisibility(View.VISIBLE);
+                                            listViewDetail.post(() -> {
+                                                setHeightListView();
+                                                List<LeaveRequestDetail> detailList = new ArrayList<>();
+                                                int count = listViewDetail.getChildCount();
+                                                for (int i = 0; i < count; i++) {
+                                                    View itemView = listViewDetail.getChildAt(i);
+                                                    TextView tvDate = itemView.findViewById(R.id.text_date);
+                                                    Spinner spinner = itemView.findViewById(R.id.spinner_shift);
+                                                    String selection = spinner.getSelectedItem().toString();
+                                                    String itemDate = tvDate.getText().toString();
+                                                    LeaveRequestDetail leaveRequestDetail = new LeaveRequestDetail();
+                                                    try {
+                                                        leaveRequestDetail.setDate(DateUtils.changeStringToDate(itemDate));
+                                                        leaveRequestDetail.setShift(selection);
+                                                        leaveRequestDetail.setLeaveRequest(leaveRequestController.getLeaveRequestRef(leaveRequestId));
+                                                        detailList.add(leaveRequestDetail);
+                                                    } catch (ParseException e) {
+                                                        throw new RuntimeException(e);
+                                                    }
                                                 }
+                                                leaveRequestDetailController.addLeaveRequestDetails(detailList, task2 -> {
+                                                    CustomDialog subDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                                    if (task2.isSuccessful()) {
+                                                        subDialog.show();
+                                                        subDialog.setQuestion("Thông báo");
+                                                        subDialog.setMessage("Đã gửi thành công đơn xin nghỉ");
+                                                        LoadingOverlayUtils.hideLoadingOverlay();
+                                                        Notification notification = new Notification();
+                                                        notification.setRead(false);
+                                                        notification.setSender(employeeController.getEmployeeRef(employeeId));
+                                                        notification.setTitle("Đơn xin nghỉ");
+                                                        String msg = "Một đơn xin nghỉ đến từ nhân viên";
+                                                        if (employee != null) {
+                                                            msg += " " + employee.getFullName();
+                                                        }
+                                                        notification.setMessage(msg);
+                                                        employeeController.getEmployeeListByRole(UserRole.ADMIN, task3 -> {
+                                                            if (task3.isSuccessful()) {
+                                                                notification.setReceivers(task3.getResult());
+                                                                (new NotificationController()).addNotification(notification, task4 -> {
+                                                                    if (task4.isSuccessful()) {
+
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    } else {
+                                                        subDialog.show();
+                                                        subDialog.setQuestion("Thông báo");
+                                                        subDialog.setMessage("Đã có lỗi xảy ra");
+                                                        LoadingOverlayUtils.hideLoadingOverlay();
+                                                    }
+                                                });
                                             });
-                                        } else {
-                                            subDialog.show();
-                                            subDialog.setQuestion("Thông báo");
-                                            subDialog.setMessage("Đã có lỗi xảy ra");
-                                            LoadingOverlayUtils.hideLoadingOverlay();
+
                                         }
                                     });
-                                });
-
+                                }
+                            } else {
+                                CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                errorDialog.show();
+                                errorDialog.setQuestion("Đã có lỗi xảy ra");
+                                errorDialog.setMessage("Vui lòng thử lại sau!");
+                                finish();
                             }
                         });
+
                     } catch (ParseException e) {
                         LoadingOverlayUtils.hideLoadingOverlay();
                         throw new RuntimeException(e);

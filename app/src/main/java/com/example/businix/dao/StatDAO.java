@@ -3,6 +3,7 @@ package com.example.businix.dao;
 import android.util.Log;
 
 import com.example.businix.models.Attendance;
+import com.example.businix.models.LeaveRequestDetail;
 import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.StatData;
 import com.google.android.gms.tasks.Task;
@@ -23,7 +24,7 @@ public class StatDAO {
         db = FirebaseFirestore.getInstance();
     }
 
-    public Task<List<StatData.AttendanceData>> getAttendancesByDate(Date minTime, Date maxTime, DocumentReference emp) {
+    public Task<List<StatData.AttendanceData>> getAttendancesByDate(Date minTime, Date maxTime, List<LeaveRequestDetail> leaveRequestDetails, DocumentReference emp) {
         Query query = db.collection("attendances");
         if (minTime != null && maxTime != null) {
             query = query.whereGreaterThanOrEqualTo("checkInTime", minTime).whereLessThanOrEqualTo("checkInTime", maxTime)
@@ -48,8 +49,21 @@ public class StatDAO {
                         cal.set(Calendar.SECOND, 0);
                         cal.set(Calendar.MILLISECOND, 0);
                         attendanceData.setDate(cal.getTime());
-
-                        cal.set(Calendar.HOUR_OF_DAY, 8);
+                        LeaveRequestDetail detail = null;
+                        if (leaveRequestDetails != null) {
+                            for (LeaveRequestDetail dtl : leaveRequestDetails) {
+                                if (DateUtils.compareWithoutTime(dtl.getDate(), cal.getTime())) {
+                                    detail = dtl;
+                                    break;
+                                }
+                            }
+                        }
+                        if (detail != null && detail.getShift().equals("Ca sáng")) {
+                            cal.set(Calendar.HOUR_OF_DAY, 13);
+                        }
+                        else {
+                            cal.set(Calendar.HOUR_OF_DAY, 8);
+                        }
                         Date startTime = attendance.getCheckInTime();
                         double lateHours = 0;
 

@@ -22,6 +22,10 @@ public class CustomDialog extends AlertDialog {
         this.layout = layout;
     }
 
+    public void load() {
+        show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,6 +1,5 @@
 package com.example.businix.activities.employee;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -20,7 +19,12 @@ import android.widget.LinearLayout;
 import com.example.businix.R;
 import com.example.businix.controllers.AttendanceController;
 import com.example.businix.controllers.EmployeeController;
+import com.example.businix.controllers.LeaveRequestController;
+import com.example.businix.controllers.LeaveRequestDetailController;
 import com.example.businix.models.Attendance;
+import com.example.businix.models.LeaveRequest;
+import com.example.businix.models.LeaveRequestDetail;
+import com.example.businix.models.LeaveRequestStatus;
 import com.example.businix.ui.ActionBar;
 import com.example.businix.ui.CustomDialog;
 import com.example.businix.utils.DateUtils;
@@ -35,6 +39,8 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TimeAttendanceActivity extends ActionBar {
     private static final int REQUEST_LOCATION_PERMISSION = 1234;
@@ -47,6 +53,8 @@ public class TimeAttendanceActivity extends ActionBar {
     private TextView textDate;
 
     private DocumentReference employeeRef;
+    private LeaveRequestController leaveRequestController;
+    private LeaveRequestDetailController leaveRequestDetailController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,8 @@ public class TimeAttendanceActivity extends ActionBar {
         setContentView(R.layout.activity_time_attendance);
 
         EmployeeController ec = new EmployeeController();
+        leaveRequestController = new LeaveRequestController();
+        leaveRequestDetailController = new LeaveRequestDetailController();
         LoginManager lm = new LoginManager(this);
         employeeRef = ec.getEmployeeRef(lm.getLoggedInUserId());
 
@@ -63,7 +73,7 @@ public class TimeAttendanceActivity extends ActionBar {
         GPSManager gpsManager = new GPSManager(this);
         gpsManager.setOnLocationCheckListener(isAtCompany -> {
             if (isAtCompany) {
-                saveAttandanceAtCheckOut();
+                checkOut();
             } else {
                 CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);
                 dialog.show();
@@ -93,7 +103,7 @@ public class TimeAttendanceActivity extends ActionBar {
                 if (isGpsEnabled()) {
                     gpsManager.setOnLocationCheckListener(isAtCompany -> {
                         if (isAtCompany) {
-                            saveAttandanceAtCheckIn();
+                            checkIn();
                         } else {
                             CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);
                             dialog.show();
@@ -103,8 +113,7 @@ public class TimeAttendanceActivity extends ActionBar {
                     });
 
                     gpsManager.checkInAtCompany();
-                }
-                else {
+                } else {
                     showGpsAlertDialog();
                 }
             }
@@ -117,7 +126,7 @@ public class TimeAttendanceActivity extends ActionBar {
                 if (isGpsEnabled()) {
                     gpsManager.setOnLocationCheckListener(isAtCompany -> {
                         if (isAtCompany) {
-                            saveAttandanceAtCheckOut();
+                            checkOut();
                         } else {
                             CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);
                             dialog.show();
@@ -156,9 +165,9 @@ public class TimeAttendanceActivity extends ActionBar {
                 gpsManager.setOnLocationCheckListener(isAtCompany -> {
                     if (isAtCompany) {
                         if (availableAttend == null)
-                            saveAttandanceAtCheckIn();
+                            checkIn();
                         else
-                            saveAttandanceAtCheckOut();
+                            checkOut();
                     } else {
                         CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);
                         dialog.show();
@@ -176,62 +185,168 @@ public class TimeAttendanceActivity extends ActionBar {
         }
     }
 
-    private void saveAttandanceAtCheckIn() {
+    private void checkIn() {
         Attendance attendance = new Attendance();
-        Calendar cal = Calendar.getInstance();
-        attendance.setCheckInTime(cal.getTime());
+        Calendar checkInCal = Calendar.getInstance();
+        attendance.setCheckInTime(checkInCal.getTime());
         attendance.setEmployee(employeeRef);
+        checkInCal.set(Calendar.MINUTE, 0);
+        checkInCal.set(Calendar.SECOND, 0);
+        checkInCal.set(Calendar.MILLISECOND, 0);
 
         CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);
         dialog.show();
         dialog.setQuestion("Xác nhận chấm công");
         dialog.setMessage("Bạn có chắc chắn muốn chấm công không?");
         dialog.setOnContinueClickListener((dialog1, which) -> {
-            attendanceController.addAttendance(attendance, task1 -> {
-                if (task1.isSuccessful()) {
-                    CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
-                    notificationDialog.show();
-                    notificationDialog.setQuestion("Thông báo");
-                    notificationDialog.setMessage("Chấm công thành công");
-                    disableMyButton(btnCheckIn);
-                    enableMyButton(btnCheckOut);
-                    setStatusTimeLineItem(R.id.part_check_in, DateUtils.formatDate(attendance.getCheckInTime(), "HH:mm"), false);
-                } else {
-                    CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
-                    notificationDialog.show();
-                    notificationDialog.setQuestion("Thông báo");
-                    notificationDialog.setMessage("Chấm công không thành công");
+            Calendar nowCal = Calendar.getInstance();
+            leaveRequestController.getLeaveRequestOverlapping(nowCal.getTime(), nowCal.getTime(), employeeRef, task -> {
+                if (task.isSuccessful()) {
+                    List<LeaveRequest> requests = task.getResult();
+                    requests = requests.stream().filter(request -> request.getStatus() == LeaveRequestStatus.ACCEPT)
+                            .collect(Collectors.toList());
+                    if (requests.size() > 0) {
+                        leaveRequestDetailController.getDetailsByTime(nowCal.getTime(), nowCal.getTime(), requests, task1 -> {
+                            if (task1.isSuccessful()) {
+                                if (task1.getResult().size() > 0) {
+                                    LeaveRequestDetail detail = task1.getResult().get(0);
+                                    if (detail.getShift().equals("Cả ngày")) {
+                                        CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                        errorDialog.show();
+                                        errorDialog.setQuestion("Không thể chấm công");
+                                        errorDialog.setMessage("Bạn có lịch nghỉ cả ngày hôm nay");
+                                        return;
+                                    } else if (detail.getShift().equals("Ca sáng")) {
+                                        checkInCal.set(Calendar.HOUR_OF_DAY, 13);
+                                        if (nowCal.getTime().before(checkInCal.getTime())) {
+                                            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                            errorDialog.show();
+                                            errorDialog.setQuestion("Không thể chấm công");
+                                            errorDialog.setMessage("Bạn có lịch nghỉ ca sáng hôm nay, hãy check in từ 13 giờ");
+                                            return;
+                                        }
+                                        checkInCal.set(Calendar.HOUR_OF_DAY, 15);
+                                        if (nowCal.getTime().after(checkInCal.getTime())) {
+                                            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                            errorDialog.show();
+                                            errorDialog.setQuestion("Không thể chấm công");
+                                            errorDialog.setMessage("Bạn đã trễ hơn 2 tiếng");
+                                            return;
+                                        }
+                                    }
+                                }
+                                saveCheckIn(attendance, checkInCal);
+
+                            }
+                        });
+                    }
+                    else {
+                        saveCheckIn(attendance, checkInCal);
+                    }
                 }
             });
         });
     }
 
-    private void saveAttandanceAtCheckOut() {
+    private void saveCheckIn(Attendance attendance, Calendar checkInCal) {
+        checkInCal.set(Calendar.HOUR_OF_DAY, 10);
+        if (attendance.getCheckInTime().after(checkInCal.getTime())) {
+            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+            errorDialog.show();
+            errorDialog.setQuestion("Không thể chấm công");
+            errorDialog.setMessage("Bạn đã trễ hơn 2 tiếng");
+            return;
+        }
+        attendanceController.addAttendance(attendance, task2 -> {
+            if (task2.isSuccessful()) {
+                CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                notificationDialog.show();
+                notificationDialog.setQuestion("Thông báo");
+                notificationDialog.setMessage("Chấm công thành công");
+                disableMyButton(btnCheckIn);
+                enableMyButton(btnCheckOut);
+                setStatusTimeLineItem(R.id.part_check_in, DateUtils.formatDate(attendance.getCheckInTime(), "HH:mm"), false);
+            } else {
+                CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                notificationDialog.show();
+                notificationDialog.setQuestion("Thông báo");
+                notificationDialog.setMessage("Chấm công không thành công");
+            }
+        });
+    }
+
+    private void saveCheckOut(Attendance attendance, Calendar checkOutCal) {
+        checkOutCal.set(Calendar.HOUR_OF_DAY, 21);
+        if (attendance.getCheckOutTime().after(checkOutCal.getTime())) {
+            attendance.setCheckOutTime(checkOutCal.getTime());
+        }
+        attendanceController.updateAttendance(availableAttend.getId(), attendance, task2 -> {
+            if (task2.isSuccessful()) {
+                CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                notificationDialog.show();
+                notificationDialog.setQuestion("Thông báo");
+                notificationDialog.setMessage("Chấm công thành công");
+                disableMyButton(btnCheckOut);
+                setStatusTimeLineItem(R.id.part_check_out, DateUtils.formatDate(attendance.getCheckOutTime(), "HH:mm"), false);
+                availableAttend.setCheckOutTime(attendance.getCheckOutTime());
+                loadBreakOverTime(availableAttend, true);
+            } else {
+                CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                notificationDialog.show();
+                notificationDialog.setQuestion("Thông báo");
+                notificationDialog.setMessage("Chấm công không thành công");
+            }
+        });
+    }
+
+
+    private void checkOut() {
+        Calendar checkOutCal = Calendar.getInstance();
+        checkOutCal.set(Calendar.MINUTE, 0);
+        checkOutCal.set(Calendar.SECOND, 0);
+        checkOutCal.set(Calendar.MILLISECOND, 0);
+
         Attendance attendance = new Attendance();
-        Calendar cal = Calendar.getInstance();
-        attendance.setCheckOutTime(cal.getTime());
+        attendance.setCheckOutTime(checkOutCal.getTime());
 
         CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);
         dialog.show();
         dialog.setQuestion("Xác nhận chấm công");
         dialog.setMessage("Bạn có chắc chắn muốn chấm công không?");
         dialog.setOnContinueClickListener((dialog1, which) -> {
-            attendanceController.updateAttendance(availableAttend.getId(), attendance, task1 -> {
-                if (task1.isSuccessful()) {
-                    CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
-                    notificationDialog.show();
-                    notificationDialog.setQuestion("Thông báo");
-                    notificationDialog.setMessage("Chấm công thành công");
-                    disableMyButton(btnCheckOut);
-                    setStatusTimeLineItem(R.id.part_check_out, DateUtils.formatDate(attendance.getCheckOutTime(), "HH:mm"), false);
-                    availableAttend.setCheckOutTime(attendance.getCheckOutTime());
-                    loadBreakOverTime(availableAttend, true);
-                } else {
-                    CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
-                    notificationDialog.show();
-                    notificationDialog.setQuestion("Thông báo");
-                    notificationDialog.setMessage("Chấm công không thành công");
+            Calendar nowCal = Calendar.getInstance();
+            leaveRequestController.getLeaveRequestOverlapping(nowCal.getTime(), nowCal.getTime(), employeeRef, task -> {
+                if (task.isSuccessful()) {
+                    List<LeaveRequest> requests = task.getResult();
+                    requests = requests.stream().filter(request -> request.getStatus() == LeaveRequestStatus.ACCEPT)
+                            .collect(Collectors.toList());
+                    if (requests.size() > 0) {
+                        leaveRequestDetailController.getDetailsByTime(nowCal.getTime(), nowCal.getTime(), requests, task1 -> {
+                            if (task1.isSuccessful()) {
+
+                                if (task1.getResult().size() > 0) {
+                                    LeaveRequestDetail detail = task1.getResult().get(0);
+
+                                    if (detail.getShift().equals("Ca chiều")) {
+                                        checkOutCal.set(Calendar.HOUR_OF_DAY, 13);
+                                        if (nowCal.getTime().after(checkOutCal.getTime())) {
+                                            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                            errorDialog.show();
+                                            errorDialog.setQuestion("Không thể chấm công");
+                                            errorDialog.setMessage("Bạn đã muộn giờ check out cho ca sáng, bạn phải check out trước 13 giờ");
+                                            return;
+                                        }
+                                    }
+                                }
+                                saveCheckOut(attendance, checkOutCal);
+                            }
+                        });
+                    }
+                    else {
+                        saveCheckOut(attendance, checkOutCal);
+                    }
                 }
+
             });
         });
     }
@@ -378,8 +493,7 @@ public class TimeAttendanceActivity extends ActionBar {
             attendanceController.getAttandanceById(availableAttend.getId(), attendanceTodayLister);
             Calendar cal = Calendar.getInstance();
             textDate.setText("Ngày " + DateUtils.formatDate(cal.getTime(), "dd-MM-yyyy"));
-        }
-        else {
+        } else {
             Calendar cal = Calendar.getInstance();
             attendanceController.getAttandanceByMonth(cal.getTime(), employeeRef, attendanceTodayLister);
         }
@@ -470,8 +584,7 @@ public class TimeAttendanceActivity extends ActionBar {
                     String calSelected = DateUtils.formatDate(cal.getTime(), "dd-MM-yyyy");
                     if (calDate.equals(calSelected)) {
                         reload();
-                    }
-                    else {
+                    } else {
                         String selectedDate = "Ngày " + calSelected;
                         textDate.setText(selectedDate);
                         attendanceController.getAttandanceByMonth(cal.getTime(), employeeRef, attendanceAnotherLister);
@@ -506,8 +619,7 @@ public class TimeAttendanceActivity extends ActionBar {
                 if (isToday) {
                     setStatusTimeLineItem(R.id.part_break, "12:00", false);
                     setStatusTimeLineItem(R.id.part_after_break, "13:00", false);
-                }
-                else {
+                } else {
                     setStatusBackTimeItem(R.id.part_break, "12:00", true);
                     setStatusBackTimeItem(R.id.part_after_break, "13:00", true);
                 }
@@ -530,6 +642,7 @@ public class TimeAttendanceActivity extends ActionBar {
             ((TextView) findViewById(R.id.overtime_hours)).setText("0 hours");
         }
     }
+
     private boolean isGpsEnabled() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
@@ -537,6 +650,7 @@ public class TimeAttendanceActivity extends ActionBar {
         }
         return false;
     }
+
     private void showGpsAlertDialog() {
         CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);
         dialog.show();
@@ -549,6 +663,7 @@ public class TimeAttendanceActivity extends ActionBar {
             dialog1.dismiss();
         });
     }
+
     private void openGpsSettings() {
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);

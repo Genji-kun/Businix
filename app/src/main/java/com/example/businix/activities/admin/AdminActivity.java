@@ -1,5 +1,6 @@
 package com.example.businix.activities.admin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,6 +12,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import com.example.businix.activities.LoginActivity;
@@ -49,7 +51,12 @@ public class AdminActivity extends ActionBar {
         setSupportMyActionBar("", false, true);
         setTitleText("BUSINIX", 16, R.font.airbeat, R.color.light_purple);
         navView = (NavigationView) findViewById(R.id.nav_view);
-        navView.setNavigationItemSelectedListener(this);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return false;
+            }
+        });
 
         //Thêm fragments vào danh sách
         fragmentMap = new HashMap<>();

@@ -68,7 +68,7 @@ public class SalaryActivity extends ActionBar {
         employeeRef = employeeController.getEmployeeRef(loginManager.getLoggedInUserId());
 
         processBar = findViewById(R.id.progress_bar);
-        btnSelectDate = findViewById(R.id.btn_select_date);
+        btnSelectDate = findViewById(R.id.btn_select_time);
         btnSelectDate.setEnabled(false);
         btnSelectDate.setOnClickListener(v -> {
             btnSelectDate.setEnabled(false);
@@ -93,7 +93,7 @@ public class SalaryActivity extends ActionBar {
 
     private void loadChart(Date dateSelected) {
         List<BarEntry> entries = new ArrayList<>();
-        statController.getAttendancesMonth(dateSelected, employeeRef, task2 -> {
+        statController.getAttendancesMonth(dateSelected, employeeRef, null, task2 -> {
             if (task2.isSuccessful()) {
                 double totalPrimary = 0;
                 double totalOvertime = 0;
@@ -188,6 +188,7 @@ public class SalaryActivity extends ActionBar {
                 btnSelectDate.setEnabled(true);
             }
         }, yearSelected, monthSelected);
+        monthDialog.setCancelable(false);
         monthDialog.show(getSupportFragmentManager(), "MonthYearPickerDialog");
     }
 
