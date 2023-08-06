@@ -23,8 +23,10 @@ import com.example.businix.controllers.PositionController;
 import com.example.businix.models.Department;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Position;
+import com.example.businix.models.Status;
 import com.example.businix.models.UserRole;
 import com.example.businix.utils.FindListener;
+import com.example.businix.utils.PasswordHash;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -46,11 +48,13 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
     private List<Department> departmentList;
     private PositionController positionController;
     private DepartmentController departmentController;
+    private List<TextInputLayout> layoutUsernameList;
 
     public EmployeeMemberAdapter(Context context, int resource, List<Employee> employeeList) {
         super(context, resource, employeeList);
         this.employeeList = employeeList;
         this.context = context;
+        this.layoutUsernameList = new ArrayList<>();
     }
 
     @Override
@@ -68,6 +72,10 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
         return position;
     }
 
+    public List<Employee> employeeList() {
+        return employeeList;
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -77,19 +85,41 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
             view = inflater.inflate(R.layout.list_view_employee_member, null);
         }
         Employee employee = employeeList.get(position);
-
+        employee.setStatus(Status.ACTIVE);
         tvEmplNumber = (TextView) view.findViewById(R.id.tv_empl_number);
         tvEmplNumber.setText("Nhân viên " + (position + 1));
         inputName = (TextInputEditText) view.findViewById(R.id.input_name);
         inputUsername = (TextInputEditText) view.findViewById(R.id.input_username);
         inputPassword = (TextInputEditText) view.findViewById(R.id.input_password);
         layoutUsername = (TextInputLayout) view.findViewById(R.id.layout_username);
+        if (position >= layoutUsernameList.size()) {
+            layoutUsernameList.add(layoutUsername);
+        }
         layoutPassword = (TextInputLayout) view.findViewById(R.id.layout_password);
         dropdownRole = (AutoCompleteTextView) view.findViewById(R.id.dropdown_role);
         dropdownPosition = (AutoCompleteTextView) view.findViewById(R.id.dropdown_position);
         dropdownDepartment = (AutoCompleteTextView) view.findViewById(R.id.dropdown_department);
 
+
         EmployeeController employeeController = new EmployeeController();
+
+        inputName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                employee.setFullName(inputName.getText().toString().strip());
+            }
+        });
+
         inputUsername.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -110,7 +140,25 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
                     @Override
                     public void onNotFound() {
                         layoutUsername.setError("");
-                        employee.setFullName(inputName.getText().toString());
+                        String username = inputUsername.getText().toString().strip().toLowerCase();
+                        employee.setUsername(username);
+                        for(int i = 0; i < employeeList.size(); i++) {
+                            Employee checkedEmployee = employeeList.get(i);
+                            Boolean flag = true;
+                            for (int j = 0; j < employeeList.size(); j++) {
+                                if (j != i) {
+                                    Employee empl = employeeList.get(j);
+                                    if (checkedEmployee.getUsername().equals(empl.getUsername())) {
+                                        layoutUsernameList.get(i).setError("*Username đã tồn tại*");
+                                        layoutUsernameList.get(j).setError("*Username đã tồn tại*");
+                                        flag = false;
+                                    }
+                                }
+                            }
+                            if (flag) {
+                                layoutUsernameList.get(i).setError("");
+                            }
+                        }
                     }
                 });
             }
@@ -131,7 +179,7 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
                     if (isHasSpeChar) {
                         layoutPassword.setHelperText("Mật khẩu mạnh");
                         layoutPassword.setError("");
-                        employee.setPassword(inputPassword.getText().toString());
+                        employee.setPassword(PasswordHash.hashPassword(inputPassword.getText().toString()));
                     } else {
                         layoutPassword.setHelperText("");
                         layoutPassword.setError("Mật khẩu yếu, cần ít nhất 1 ký tự đặc biệt");
@@ -218,9 +266,29 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
         LinearLayout btnDeletePosition = (LinearLayout) view.findViewById(R.id.btn_delete_member);
         btnDeletePosition.setOnClickListener(v -> {
             employeeList.remove(position);
+            layoutUsernameList.remove(position);
             notifyDataSetChanged();
         });
 
+        for(int i = 0; i < employeeList.size(); i++) {
+            Employee checkedEmployee = employeeList.get(i);
+            Boolean flag = true;
+            for (int j = 0; j < employeeList.size(); j++) {
+                if (j != i) {
+                    Employee empl = employeeList.get(j);
+                    if (checkedEmployee.getUsername().equals(empl.getUsername())) {
+                        layoutUsernameList.get(i).setError("*Username đã tồn tại*");
+                        layoutUsernameList.get(j).setError("*Username đã tồn tại*");
+                        flag = false;
+                    }
+                }
+            }
+            if (flag) {
+                layoutUsernameList.get(i).setError("");
+            }
+        }
+
         return view;
     }
+
 }

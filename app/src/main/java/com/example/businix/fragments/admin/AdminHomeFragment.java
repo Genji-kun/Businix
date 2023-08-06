@@ -15,6 +15,7 @@ import com.example.businix.activities.admin.AdminApproveActivity;
 import com.example.businix.activities.admin.AdminDepartmentManagementActivity;
 import com.example.businix.activities.admin.AdminEmployeeManagementActivity;
 import com.example.businix.activities.admin.AdminPositionManagementActivity;
+import com.example.businix.activities.admin.AdminViewChartActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +55,7 @@ public class AdminHomeFragment extends Fragment {
         }
     }
 
-    private LinearLayout btnEmployee, btnPosition, btnDepartment, btnApprove;
+    private LinearLayout btnEmployee, btnPosition, btnDepartment, btnApprove, btnViewChart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +66,7 @@ public class AdminHomeFragment extends Fragment {
         btnPosition = (LinearLayout) view.findViewById(R.id.btn_position);
         btnDepartment = (LinearLayout) view.findViewById(R.id.btn_department);
         btnApprove = (LinearLayout) view.findViewById(R.id.btn_approve);
+        btnViewChart = (LinearLayout) view.findViewById(R.id.btn_view_chart);
 
         btnEmployee.setOnClickListener(v -> {
             Intent empl = new Intent(getActivity(), AdminEmployeeManagementActivity.class);
@@ -81,10 +83,16 @@ public class AdminHomeFragment extends Fragment {
             startActivity(department);
         });
 
+        btnViewChart.setOnClickListener(v -> {
+            Intent chart = new Intent(getActivity(), AdminViewChartActivity.class);
+            startActivity(chart);
+        });
+
         btnApprove.setOnClickListener(v -> {
             Intent approve = new Intent(getActivity(), AdminApproveActivity.class);
             startActivity(approve);
         });
+
 
         return view;
     }

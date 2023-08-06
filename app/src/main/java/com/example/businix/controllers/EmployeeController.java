@@ -34,6 +34,12 @@ public class EmployeeController {
         addEmployeeTask.addOnCompleteListener(onCompleteListener);
     }
 
+    public void addEmployeeList(List<Employee> employeeList, OnCompleteListener<Void> onCompleteListener) {
+        Task<Void> addEmployeeTask = employeeDAO.addEmployeeList(employeeList);
+        addEmployeeTask.addOnCompleteListener(onCompleteListener);
+    }
+
+
     public void updateEmployee(String employeeId, Employee employee, OnCompleteListener<Void> onCompleteListener) {
         Task<Void> updateEmployeeTask = employeeDAO.updateEmployee(employeeId, employee);
         updateEmployeeTask.addOnCompleteListener(onCompleteListener);
@@ -106,5 +112,10 @@ public class EmployeeController {
 
     public DocumentReference getDepartmentRef(String id) {
         return departmentDAO.getDepartmentRef(id);
+    }
+
+    public void getEmployeeListByDepartment(String departmentId, OnCompleteListener<List<Employee>> onCompleteListener){
+        Task<List<Employee>> getEmployeeListTask = employeeDAO.getEmployeeListByDepartment(departmentId);
+        getEmployeeListTask.addOnCompleteListener(onCompleteListener);
     }
 }

@@ -66,22 +66,18 @@ public class AdminAddListEmployeeActivity extends AppCompatActivity {
 
         employeeController = new EmployeeController();
         btnAddListEmployee.setOnClickListener(v -> {
-            for (Employee empl : employeeList) {
-                employeeController.addEmployee(empl, task -> {
-                    if (task.isSuccessful()) {
-                        count += 1;
-                    } else {
-                        normalView();
-                        Toast.makeText(this, "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                });
-            }
-            if (count == employeeList.size()) {
-                Toast.makeText(AdminAddListEmployeeActivity.this, "Thêm danh sách  thành công", Toast.LENGTH_SHORT).show();
-                normalView();
-                finish();
-            }
+            processingView();
+            employeeController.addEmployeeList(employeeList, task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(AdminAddListEmployeeActivity.this, "Thêm danh sách  thành công", Toast.LENGTH_SHORT).show();
+                    normalView();
+                    finish();
+                }
+                else {
+                    Toast.makeText(AdminAddListEmployeeActivity.this, "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                    normalView();
+                }
+            });
         });
 
         btnBack = (ImageView) findViewById(R.id.btn_back);
