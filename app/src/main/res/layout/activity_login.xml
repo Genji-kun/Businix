@@ -127,15 +127,30 @@
             android:background="@drawable/custom_btn"
             android:orientation="horizontal">
 
-            <TextView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/regular_font"
-                android:text="Đăng nhập"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/regular_font"
+                    android:text="Đăng nhập"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:indeterminateDrawable="@drawable/custom_progress_bar"
+                    android:visibility="gone"></ProgressBar>
+            </FrameLayout>
+
         </LinearLayout>
 
         <TextView

@@ -61,8 +61,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
             android:hint="Vị trí">
 
             <AutoCompleteTextView
@@ -87,9 +87,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/medium_font"
                 android:text="Trạng thái"
-                android:textSize="16sp"
-                android:fontFamily="@font/medium_font"/>
+                android:textSize="16sp" />
 
             <RadioButton
                 android:id="@+id/radio_active"
@@ -119,18 +119,31 @@
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="25sp" />
-
-
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_view_employee"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_employee"
-        app:layout_constraintTop_toBottomOf="@+id/pre_layout"></ListView>
+        app:layout_constraintTop_toBottomOf="@+id/pre_layout">
+
+        <ListView
+            android:id="@+id/list_view_employee"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"></ListView>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/custom_progress_bar"
+            android:indeterminateTint="@color/light_purple"
+            android:visibility="visible"></ProgressBar>
+    </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/btn_add_employee"

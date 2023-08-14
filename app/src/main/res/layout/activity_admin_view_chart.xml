@@ -5,153 +5,615 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.admin.AdminViewChartActivity">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/container_toolbar"
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-    </com.google.android.material.appbar.AppBarLayout>
-    <ScrollView
-        app:layout_constraintTop_toBottomOf="@+id/container_toolbar"
-        android:layout_marginVertical="15dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="24dp"
+            android:src="@drawable/ic_arrow_left"
+            app:tint="@color/light_purple"></ImageView>
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_marginRight="30dp"
+            android:fontFamily="@font/medium_font"
+            android:text="Thống kê"
+            android:textAlignment="center"
+            android:textColor="@color/light_purple"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
-                android:id="@+id/stat_employee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="@color/medium_gray"
                 android:orientation="vertical">
+
                 <LinearLayout
+                    android:id="@+id/btn_show_empl_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
+                    android:background="@drawable/round_shape"
+                    android:backgroundTint="@color/sub_purple"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/regular_font"
+                        android:gravity="center_vertical"
                         android:text="Thống kê nhân viên"
-                        android:fontFamily="@font/regular_font"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:layout_weight="1"/>
-                    <Spinner
-                        android:id="@+id/spinner_employee"
-                        android:layout_width="wrap_content"
+                        android:textSize="20sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                    </Spinner>
+                        <LinearLayout
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp"
+                            android:background="@drawable/super_round_shape"
+                            android:backgroundTint="@color/medium_purple">
+
+                            <ImageView
+                                android:id="@+id/img_show_empl_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="15dp"
+                                android:layout="@+id/btn_role"
+                                android:src="@drawable/ic_arrow_down"
+                                app:tint="@color/white" />
+                        </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/employee_chart"
+
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:contentDescription=""
-                    />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/stat_employee"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tv_employee_chart_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/medium_font"
+                            android:text="Theo phòng ban"
+                            android:textAlignment="center"
+                            android:textSize="26sp" />
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/employee_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="350dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="15dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="125dp"
+                                android:layout_height="125dp"
+                                android:layout_margin="10dp"
+                                android:background="@drawable/round_shape"
+                                android:backgroundTint="@color/sub_purple"
+                                android:elevation="2dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/ic_user" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/regular_font"
+                                    android:text="Tổng nhân viên"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_empl_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/medium_font"
+                                    android:text="..."
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="125dp"
+                                android:layout_height="125dp"
+                                android:layout_margin="10dp"
+                                android:background="@drawable/round_shape"
+                                android:backgroundTint="@color/sub_purple"
+                                android:elevation="2dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/img_count"
+                                    android:layout_width="30dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/ic_department" />
+
+                                <TextView
+                                    android:id="@+id/tv_count_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/regular_font"
+                                    android:text="Tổng phòng ban"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/medium_font"
+                                    android:text="..."
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_position"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="40dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/custom_btn"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_position"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/regular_font"
+                                android:text="Theo chức vụ"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_department"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="40dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/custom_btn"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tv_department"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/regular_font"
+                                android:text="Theo phòng ban"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar_empl"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:indeterminateDrawable="@drawable/custom_progress_bar"
+                        android:indeterminateTint="@color/medium_purple"
+                        android:visibility="gone"></ProgressBar>
+                </FrameLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/stat_work"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="@color/medium_gray"
                 android:orientation="vertical">
+
                 <LinearLayout
+                    android:id="@+id/btn_show_attendance_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
+                    android:background="@drawable/round_shape"
+                    android:backgroundTint="@color/sub_purple"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/regular_font"
+                        android:gravity="center_vertical"
                         android:text="Thống kê chấm công"
-                        android:fontFamily="@font/regular_font"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:layout_weight="1"/>
-                    <Spinner
-                        android:id="@+id/spinner_work"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    </Spinner>
+                        android:textSize="20sp" />
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp"
+                            android:background="@drawable/super_round_shape"
+                            android:backgroundTint="@color/medium_purple">
+
+                            <ImageView
+                                android:id="@+id/img_show_attendance_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="15dp"
+                                android:layout="@+id/btn_role"
+                                android:src="@drawable/ic_arrow_down"
+                                app:tint="@color/white" />
+                        </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/work_chart"
+
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:contentDescription=""
-                    />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/stat_attendance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/light_round_shape"
+                            android:backgroundTint="@color/white"
+                            android:elevation="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/medium_font"
+                                android:paddingVertical="15dp"
+                                android:paddingStart="15dp"
+                                android:text="Chọn tháng:"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <LinearLayout
+                                android:id="@+id/btn_select_time"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:padding="15dp">
+
+                                <TextView
+                                    android:id="@+id/tv_month"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="10dp"
+                                    android:fontFamily="@font/regular_font"
+                                    android:text="@string/empty"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_emp_calendar" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/attendance_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="350dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="15dp" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar_attendance"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:indeterminateDrawable="@drawable/custom_progress_bar"
+                        android:indeterminateTint="@color/medium_purple"
+                        android:visibility="gone"></ProgressBar>
+                </FrameLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/stat_salary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="@color/medium_gray"
                 android:orientation="vertical">
+
                 <LinearLayout
+                    android:id="@+id/btn_show_salary_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
+                    android:background="@drawable/round_shape"
+                    android:backgroundTint="@color/sub_purple"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/regular_font"
+                        android:gravity="center_vertical"
                         android:text="Thống kê lương"
-                        android:fontFamily="@font/regular_font"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:layout_weight="1"/>
-                    <Spinner
-                        android:id="@+id/spinner_salary"
-                        android:layout_width="wrap_content"
+                        android:textSize="20sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                    </Spinner>
+
+                        <LinearLayout
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp"
+                            android:background="@drawable/super_round_shape"
+                            android:backgroundTint="@color/medium_purple">
+
+                            <ImageView
+                                android:id="@+id/img_show_salary_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="15dp"
+                                android:src="@drawable/ic_arrow_down"
+                                app:tint="@color/white" />
+                        </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/salary_chart"
+
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:contentDescription=""
-                    />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/stat_salary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tv_salary_chart_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/medium_font"
+                            android:text="Theo phòng ban"
+                            android:textAlignment="center"
+                            android:textSize="26sp" />
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/salary_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="350dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="15dp" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar_salary"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:indeterminateDrawable="@drawable/custom_progress_bar"
+                        android:indeterminateTint="@color/medium_purple"
+                        android:visibility="gone"></ProgressBar>
+                </FrameLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/stat_leave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_shape"
+                android:backgroundTint="@color/medium_gray"
                 android:orientation="vertical">
+
                 <LinearLayout
+                    android:id="@+id/btn_show_leave_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
+                    android:background="@drawable/round_shape"
+                    android:backgroundTint="@color/sub_purple"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Thống kê đơn nghỉ"
-                        android:fontFamily="@font/regular_font"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:layout_weight="1"/>
-                    <Spinner
-                        android:id="@+id/spinner_leave"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/regular_font"
+                        android:gravity="center_vertical"
+                        android:text="Thống kê ngày nghỉ"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                    </Spinner>
+
+                        <LinearLayout
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp"
+                            android:background="@drawable/super_round_shape"
+                            android:backgroundTint="@color/medium_purple">
+
+                            <ImageView
+                                android:id="@+id/img_show_leave_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="15dp"
+                                android:src="@drawable/ic_arrow_down"
+                                app:tint="@color/white" />
+                        </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/barChart"
+
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:contentDescription=""
-                    />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/stat_leave"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/light_round_shape"
+                            android:backgroundTint="@color/white"
+                            android:elevation="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/medium_font"
+                                android:paddingVertical="15dp"
+                                android:paddingStart="15dp"
+                                android:text="Chọn tháng:"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <LinearLayout
+                                android:id="@+id/btn_select_time_leave"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:padding="15dp">
+
+                                <TextView
+                                    android:id="@+id/tv_month_leave"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="10dp"
+                                    android:fontFamily="@font/regular_font"
+                                    android:text="@string/empty"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_emp_calendar" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/leave_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="350dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="15dp" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar_leave"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:indeterminateDrawable="@drawable/custom_progress_bar"
+                        android:indeterminateTint="@color/medium_purple"
+                        android:visibility="gone"></ProgressBar>
+                </FrameLayout>
             </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>

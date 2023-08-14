@@ -3,7 +3,6 @@ package com.example.businix.activities.admin;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +25,11 @@ import com.example.businix.controllers.EmployeeController;
 import com.example.businix.models.Employee;
 import com.example.businix.models.Status;
 import com.example.businix.utils.DateUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomDialogEmployeeDetail extends Dialog {
     private LinearLayout btnAccept;
@@ -33,6 +38,10 @@ public class CustomDialogEmployeeDetail extends Dialog {
     private Employee employee;
     private Context context;
     private ImageView imgAvatar;
+    private ApproveRequestAdapter approveRequestAdapter;
+    private List<Employee> emplPendingList;
+    private int position;
+    private ListView listView;
 
     public CustomDialogEmployeeDetail(Context context, Employee employee) {
         super(context);
@@ -62,8 +71,8 @@ public class CustomDialogEmployeeDetail extends Dialog {
         tvEmail = (TextView) findViewById(R.id.tv_email);
         tvUsername = (TextView) findViewById(R.id.tv_username);
 
-        btnAccept = (LinearLayout) findViewById(R.id.btn_accept);
-        btnDeny = (LinearLayout) findViewById(R.id.btn_deny);
+        btnAccept = (LinearLayout) findViewById(R.id.btn_accept_request);
+        btnDeny = (LinearLayout) findViewById(R.id.btn_deny_request);
 
 
         if (employee.getAvatar() != null) {
@@ -94,19 +103,42 @@ public class CustomDialogEmployeeDetail extends Dialog {
             tvUsername.setText(employee.getUsername());
         }
 
+
         EmployeeController employeeController = new EmployeeController();
+        employeeController.getEmployeeList(new OnCompleteListener<List<Employee>>() {
+            @Override
+            public void onComplete(@NonNull Task<List<Employee>> task) {
+                if (task.isSuccessful()) {
+                    position = 0;
+                    List<Employee> employeeList = task.getResult();
+                    emplPendingList = new ArrayList<>();
+                    for (Employee empl : employeeList) {
+                        if (empl.getStatus() == Status.PENDING)
+                            emplPendingList.add(empl);
+                        if (empl.getId().equals(employee.getId())) {
+                            position = emplPendingList.indexOf(empl);
+                        }
+                    }
+                    approveRequestAdapter = new ApproveRequestAdapter(context, R.layout.list_view_approve_request, emplPendingList);
+                    listView = AdminApproveActivity.getListView();
+                    listView.setAdapter(approveRequestAdapter);
+                } else {
+                    // xử lý lỗi
+                }
+            }
+        });
+
         btnAccept.setOnClickListener(v -> {
             employee.setStatus(Status.ACTIVE);
             employeeController.updateEmployee(employee.getId(), employee, task -> {
                 if (task.isSuccessful()) {
-                    if (task.isSuccessful()) {
-
-                        Toast.makeText(context, "Duyệt thành công!", Toast.LENGTH_SHORT).show();
-                        dismiss();
-                    } else {
-                        Log.e("AdminEmployeeManagement", "Error update employee");
-                        Toast.makeText(context, "Lỗi khi thực hiện!", Toast.LENGTH_SHORT).show();
-                    }
+                    emplPendingList.remove(position);
+                    Toast.makeText(context, "Duyệt thành công!", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                    approveRequestAdapter.notifyDataSetChanged();
+                } else {
+                    Log.e("AdminEmployeeManagement", "Error update employee");
+                    Toast.makeText(context, "Lỗi khi thực hiện!", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -128,6 +160,8 @@ public class CustomDialogEmployeeDetail extends Dialog {
                 // Xác nhận xóa, gọi phương thức deletePosition
                 employeeController.deleteEmployee(employee.getId(), task -> {
                     if (task.isSuccessful()) {
+                        emplPendingList.remove(position);
+                        approveRequestAdapter.notifyDataSetChanged();
                         Toast.makeText(context, "Từ chối thành công!", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     } else {
@@ -146,4 +180,5 @@ public class CustomDialogEmployeeDetail extends Dialog {
 
         setCanceledOnTouchOutside(true);
     }
+
 }

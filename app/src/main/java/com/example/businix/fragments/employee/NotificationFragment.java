@@ -26,34 +26,20 @@ import java.util.List;
  */
 public class NotificationFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
-
     private NotificationController notificationController;
 
     public NotificationFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static NotificationFragment newInstance(String param1, String param2) {
         NotificationFragment fragment = new NotificationFragment();
         Bundle args = new Bundle();
@@ -130,17 +116,20 @@ public class NotificationFragment extends Fragment {
 
     private void updateNotificationData(List<Notification> notificationList) {
         List<Notification> unseenNotificationList = new ArrayList<>();
-        List<Notification> seenNotificaitonList = new ArrayList<>();
+        List<Notification> seenNotificationList = new ArrayList<>();
         notificationList.forEach(notification -> {
             if (notification.getRead()) {
-                seenNotificaitonList.add(notification);
+                seenNotificationList.add(notification);
             } else {
                 unseenNotificationList.add(notification);
+                for (Notification noti :unseenNotificationList){
+                    noti.setRead(true);
+                }
             }
         });
         MyViewPagerAdapter myAdapter = (MyViewPagerAdapter) viewPager.getAdapter();
         ((NotificationItemsFragment) myAdapter.getFragment(0)).setNotificationList(unseenNotificationList);
-        ((NotificationItemsFragment) myAdapter.getFragment(1)).setNotificationList(seenNotificaitonList);
+        ((NotificationItemsFragment) myAdapter.getFragment(1)).setNotificationList(seenNotificationList);
         ((NotificationItemsFragment) myAdapter.getFragment(2)).setNotificationList(notificationList);
 
     }

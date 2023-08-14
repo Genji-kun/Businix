@@ -9,13 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.businix.R;
 import com.example.businix.activities.admin.AdminApproveActivity;
 import com.example.businix.activities.admin.AdminDepartmentManagementActivity;
 import com.example.businix.activities.admin.AdminEmployeeManagementActivity;
+import com.example.businix.activities.admin.AdminLeaveRequestActivity;
 import com.example.businix.activities.admin.AdminPositionManagementActivity;
 import com.example.businix.activities.admin.AdminViewChartActivity;
+import com.example.businix.controllers.EmployeeController;
+import com.example.businix.controllers.LeaveRequestController;
+import com.example.businix.models.LeaveRequest;
+import com.example.businix.models.LeaveRequestStatus;
+import com.example.businix.models.Status;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,7 +62,11 @@ public class AdminHomeFragment extends Fragment {
         }
     }
 
-    private LinearLayout btnEmployee, btnPosition, btnDepartment, btnApprove, btnViewChart;
+    private LinearLayout btnEmployee, btnPosition, btnDepartment, btnApprove, btnLeaveRequest, btnViewChart;
+    private TextView tvCountApprove, tvCountLeaveRequest;
+    private EmployeeController employeeController;
+    private LeaveRequestController leaveRequestController;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +77,26 @@ public class AdminHomeFragment extends Fragment {
         btnPosition = (LinearLayout) view.findViewById(R.id.btn_position);
         btnDepartment = (LinearLayout) view.findViewById(R.id.btn_department);
         btnApprove = (LinearLayout) view.findViewById(R.id.btn_approve);
+        btnLeaveRequest = (LinearLayout) view.findViewById(R.id.btn_leave_request);
         btnViewChart = (LinearLayout) view.findViewById(R.id.btn_view_chart);
+
+        tvCountApprove = (TextView) view.findViewById(R.id.tv_count_approve);
+        tvCountLeaveRequest = (TextView) view.findViewById(R.id.tv_count_leave_request);
+
+        employeeController = new EmployeeController();
+        leaveRequestController = new LeaveRequestController();
+
+        employeeController.getEmployeeListByStatus(Status.PENDING, task -> {
+            if (task.isSuccessful()) {
+                tvCountApprove.setText(String.valueOf(task.getResult().size()));
+            }
+        });
+
+        leaveRequestController.getLeaveRequestListByStatus(LeaveRequestStatus.PENDING, task -> {
+            if (task.isSuccessful()) {
+                tvCountLeaveRequest.setText(String.valueOf(task.getResult().size()));
+            }
+        });
 
         btnEmployee.setOnClickListener(v -> {
             Intent empl = new Intent(getActivity(), AdminEmployeeManagementActivity.class);
@@ -93,7 +123,28 @@ public class AdminHomeFragment extends Fragment {
             startActivity(approve);
         });
 
+        btnLeaveRequest.setOnClickListener(v -> {
+            Intent approve = new Intent(getActivity(), AdminLeaveRequestActivity.class);
+            startActivity(approve);
+        });
+
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        employeeController.getEmployeeListByStatus(Status.PENDING, task -> {
+            if (task.isSuccessful()) {
+                tvCountApprove.setText(String.valueOf(task.getResult().size()));
+            }
+        });
+
+        leaveRequestController.getLeaveRequestListByStatus(LeaveRequestStatus.PENDING, task -> {
+            if (task.isSuccessful()) {
+                tvCountLeaveRequest.setText(String.valueOf(task.getResult().size()));
+            }
+        });
     }
 }

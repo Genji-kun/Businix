@@ -32,6 +32,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,10 +73,6 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
         return position;
     }
 
-    public List<Employee> employeeList() {
-        return employeeList;
-    }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -103,6 +100,18 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
 
         EmployeeController employeeController = new EmployeeController();
 
+        if (employee.getUsername() == null) {
+            inputUsername.setText("");
+        }
+
+        if (employee.getPassword() == null) {
+            inputPassword.setText("");
+        }
+
+        if (employee.getFullName() == null) {
+            inputName.setText("");
+        }
+
         inputName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -116,7 +125,7 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
 
             @Override
             public void afterTextChanged(Editable s) {
-                employee.setFullName(inputName.getText().toString().strip());
+                employee.setFullName(s.toString());
             }
         });
 
@@ -131,34 +140,20 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 employeeController.checkUserExist(s.toString(), new FindListener() {
                     @Override
                     public void onFoundSuccess() {
-                        layoutUsername.setError("*Username đã tồn tại*");
+                        String username = s.toString();
+                        employee.setUsername(username);
+                        layoutUsername.setError("*Username đã tồn tại trong CSDL*");
                     }
 
                     @Override
                     public void onNotFound() {
                         layoutUsername.setError("");
-                        String username = inputUsername.getText().toString().strip().toLowerCase();
+                        String username = s.toString();
                         employee.setUsername(username);
-                        for(int i = 0; i < employeeList.size(); i++) {
-                            Employee checkedEmployee = employeeList.get(i);
-                            Boolean flag = true;
-                            for (int j = 0; j < employeeList.size(); j++) {
-                                if (j != i) {
-                                    Employee empl = employeeList.get(j);
-                                    if (checkedEmployee.getUsername().equals(empl.getUsername())) {
-                                        layoutUsernameList.get(i).setError("*Username đã tồn tại*");
-                                        layoutUsernameList.get(j).setError("*Username đã tồn tại*");
-                                        flag = false;
-                                    }
-                                }
-                            }
-                            if (flag) {
-                                layoutUsernameList.get(i).setError("");
-                            }
-                        }
                     }
                 });
             }
@@ -179,7 +174,7 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
                     if (isHasSpeChar) {
                         layoutPassword.setHelperText("Mật khẩu mạnh");
                         layoutPassword.setError("");
-                        employee.setPassword(PasswordHash.hashPassword(inputPassword.getText().toString()));
+                        employee.setPassword(PasswordHash.hashPassword(password));
                     } else {
                         layoutPassword.setHelperText("");
                         layoutPassword.setError("Mật khẩu yếu, cần ít nhất 1 ký tự đặc biệt");
@@ -196,72 +191,99 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
             }
         });
 
-        posItems = new ArrayList<String>();
-        positionController = new PositionController();
-        posList = new ArrayList<>();
-        positionController.getPositionList(task -> {
-            if (task.isSuccessful()) {
-                posList = task.getResult();
-                for (Position pos : posList) {
-                    posItems.add(pos.getName());
-                }
-                posNameAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_menu, posItems);
-                dropdownPosition.setAdapter(posNameAdapter);
-            } else {
-                // Xử lý lỗi
-            }
-        });
-        dropdownPosition.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (Position pos : posList) {
-                    if (pos.getName().equals(posItems.get(position))) {
-                        employee.setPosition(employeeController.getPositionRef(pos.getId()));
+        if(employee.getPosition() == null){
+            if (dropdownPosition.getAdapter() == null) {
+                posItems = new ArrayList<String>();
+                positionController = new PositionController();
+                posList = new ArrayList<>();
+                positionController.getPositionList(task -> {
+                    if (task.isSuccessful()) {
+                        posList = task.getResult();
+                        for (Position pos : posList) {
+                            posItems.add(pos.getName());
+                        }
+                        posNameAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_menu, posItems);
+                        dropdownPosition.setAdapter(posNameAdapter);
+                    } else {
+                        // Xử lý lỗi
                     }
-                }
-            }
-        });
-
-        departmentItems = new ArrayList<String>();
-        departmentController = new DepartmentController();
-        departmentList = new ArrayList<>();
-        departmentController.getDepartmentList(task -> {
-            if (task.isSuccessful()) {
-                departmentList = task.getResult();
-                for (Department department : departmentList) {
-                    departmentItems.add(department.getName());
-                }
-                departmentNameAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_menu, departmentItems);
-                dropdownDepartment.setAdapter(departmentNameAdapter);
-            } else {
-                //Xử lý lỗi
-            }
-        });
-        dropdownDepartment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (Department department : departmentList) {
-                    if (department.getName().equals(departmentItems.get(position))) {
-                        employee.setDepartment(employeeController.getDepartmentRef(department.getId()));
+                });
+                dropdownPosition.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        for (Position pos : posList) {
+                            if (pos.getName().equals(posItems.get(position))) {
+                                employee.setPosition(employeeController.getPositionRef(pos.getId()));
+                            }
+                        }
                     }
-                }
+                });
+            } else {
+                dropdownPosition.setText("", false);
             }
-        });
 
-        roleItems = new ArrayList<>();
-        UserRole[] roles = UserRole.values();
-        for (UserRole role : roles) {
-            roleItems.add(role.toString());
         }
-        roleAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_menu, roleItems);
-        dropdownRole.setAdapter(roleAdapter);
 
-        dropdownRole.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                employee.setUserRole(UserRole.valueOf(dropdownRole.getText().toString()));
+
+        if (employee.getDepartment() == null) {
+            if (dropdownDepartment.getAdapter() == null) {
+                departmentItems = new ArrayList<String>();
+                departmentController = new DepartmentController();
+                departmentList = new ArrayList<>();
+                departmentController.getDepartmentList(task -> {
+                    if (task.isSuccessful()) {
+                        departmentList = task.getResult();
+                        for (Department department : departmentList) {
+                            departmentItems.add(department.getName());
+                        }
+                        departmentNameAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_menu, departmentItems);
+                        dropdownDepartment.setAdapter(departmentNameAdapter);
+                    } else {
+                        //Xử lý lỗi
+                    }
+                    dropdownDepartment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            for (Department department : departmentList) {
+                                if (department.getName().equals(departmentItems.get(position))) {
+                                    employee.setDepartment(employeeController.getDepartmentRef(department.getId()));
+                                }
+                            }
+                        }
+                    });
+                });
             }
-        });
+            else {
+                dropdownDepartment.setText("", false);
+            }
+
+
+        }
+
+
+        if (employee.getUserRole() == null) {
+            if (dropdownRole.getAdapter() == null) {
+                roleItems = new ArrayList<>();
+                UserRole[] roles = UserRole.values();
+                for (UserRole role : roles) {
+                    roleItems.add(role.toString());
+                }
+                roleAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_menu, roleItems);
+                dropdownRole.setAdapter(roleAdapter);
+                dropdownRole.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        employee.setUserRole(UserRole.valueOf(dropdownRole.getText().toString()));
+                    }
+                });
+            }
+            else {
+                dropdownRole.setText("", false);
+            }
+        }
+
+
+
 
         LinearLayout btnDeletePosition = (LinearLayout) view.findViewById(R.id.btn_delete_member);
         btnDeletePosition.setOnClickListener(v -> {
@@ -270,25 +292,11 @@ public class EmployeeMemberAdapter extends ArrayAdapter<Employee> {
             notifyDataSetChanged();
         });
 
-        for(int i = 0; i < employeeList.size(); i++) {
-            Employee checkedEmployee = employeeList.get(i);
-            Boolean flag = true;
-            for (int j = 0; j < employeeList.size(); j++) {
-                if (j != i) {
-                    Employee empl = employeeList.get(j);
-                    if (checkedEmployee.getUsername().equals(empl.getUsername())) {
-                        layoutUsernameList.get(i).setError("*Username đã tồn tại*");
-                        layoutUsernameList.get(j).setError("*Username đã tồn tại*");
-                        flag = false;
-                    }
-                }
-            }
-            if (flag) {
-                layoutUsernameList.get(i).setError("");
-            }
-        }
-
         return view;
+    }
+
+    public TextInputLayout getLayoutUsername(int position) {
+        return layoutUsernameList.get(position);
     }
 
 }

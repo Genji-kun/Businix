@@ -8,15 +8,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.businix.R;
+import com.example.businix.controllers.AttendanceController;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.controllers.PositionController;
-import com.example.businix.controllers.StatController;
+import com.example.businix.models.Attendance;
 import com.example.businix.models.Employee;
 import com.example.businix.ui.ActionBar;
 import com.example.businix.ui.MonthYearPickerDialog;
 import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.LoginManager;
-import com.example.businix.utils.StatData;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -35,7 +35,7 @@ import java.util.List;
 public class SalaryActivity extends ActionBar {
     private BarChart barChart;
     private TextView tvMonth;
-    private StatController statController;
+    private AttendanceController attendanceController;
     private DocumentReference employeeRef;
     private double salaryCoefficient;
     private Calendar calendar;
@@ -53,7 +53,7 @@ public class SalaryActivity extends ActionBar {
 
         barChart = findViewById(R.id.chart);
         barChart.getDescription().setEnabled(false);
-        statController = new StatController();
+        attendanceController = new AttendanceController();
         calendar = Calendar.getInstance();
         tvMonth = findViewById(R.id.month);
         tvMonth.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
@@ -93,17 +93,23 @@ public class SalaryActivity extends ActionBar {
 
     private void loadChart(Date dateSelected) {
         List<BarEntry> entries = new ArrayList<>();
-        statController.getAttendancesMonth(dateSelected, employeeRef, null, task2 -> {
+        attendanceController.getAttendancesOfEmployeeByMonth(dateSelected, employeeRef, task2 -> {
             if (task2.isSuccessful()) {
                 double totalPrimary = 0;
                 double totalOvertime = 0;
-                for (StatData.AttendanceData data : task2.getResult()) {
-                    calendar.setTime(data.getDate());
-                    double salaryPrimary = data.getWorkHours() * salaryCoefficient;
-                    double salaryOvertime = data.getOverTimeHours() * salaryCoefficient * (150 / 100);
-                    totalPrimary += salaryPrimary;
-                    totalOvertime += salaryOvertime;
-                    entries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), new float[]{(float) (salaryPrimary), (float) (salaryOvertime)}));
+                for (Attendance data : task2.getResult()) {
+                    if (data.getCheckInTime() != null && data.getCheckInTime() != null) {
+                        calendar.setTime(data.getCheckInTime());
+                        double overHours = data.getOvertime();
+                        double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;
+
+                        double salaryPrimary = workHours * salaryCoefficient;
+                        double salaryOvertime = overHours * salaryCoefficient * (150 / 100);
+                        totalPrimary += salaryPrimary;
+                        totalOvertime += salaryOvertime;
+                        entries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), new float[]{(float) (salaryPrimary), (float) (salaryOvertime)}));
+                    }
+
                 }
                 long total = (long) ((totalPrimary + totalOvertime) * 1000);
                 tvSalaryTotal.setText( String.format("%,d", total) + " VNĐ");

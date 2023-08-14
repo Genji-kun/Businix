@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.businix.R;
@@ -26,11 +28,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txtUsername;
     private EditText txtPassword;
     private LinearLayout btnLogin;
-    private TextView tvRegister;
+    private TextView tvRegister, tvBtnLogin;
     private CustomDialog customDialog;
     private EmployeeController employeeController;
 
-
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnLogin = (LinearLayout) findViewById(R.id.btn_login);
+        tvBtnLogin = (TextView) findViewById(R.id.tv_btn_login);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         customDialog = new CustomDialog(LoginActivity.this, R.layout.custom_dialog_2);
 
@@ -63,18 +67,18 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
+            processingView();
             btnLogin.setEnabled(false);
             String username = txtUsername.getText().toString().toLowerCase(Locale.ROOT).trim();
             String password = txtPassword.getText().toString();
 
             if (username.isEmpty() || username.isBlank() || password.isEmpty())
             {
+                normalView();
                 customDialog.show();
                 customDialog.setQuestion("Username hoặc password rỗng");
                 customDialog.setMessage("Vui lòng nhập đầy đủ thông tin để đăng nhập");
-                customDialog.setOnCancelClickListener((dialog, which) -> {
-                    dialog.dismiss();
-                });
+                customDialog.getBtnCancel().setVisibility(View.GONE);
                 customDialog.setOnContinueClickListener((dialog, which) -> {
                     dialog.dismiss();
                 });
@@ -85,12 +89,11 @@ public class LoginActivity extends AppCompatActivity {
             employeeController.checkUser(username, password, new AuthenticationListener() {
                 @Override
                 public void onUsernameNotFound() {
+                    normalView();
                     customDialog.show();
                     customDialog.setQuestion("Username không đúng");
                     customDialog.setMessage("Không tìm thấy tài khoản với username là " + username + ". Vui lòng thử lại.");
-                    customDialog.setOnCancelClickListener((dialog, which) -> {
-                        dialog.dismiss();
-                    });
+                    customDialog.getBtnCancel().setVisibility(View.GONE);
                     customDialog.setOnContinueClickListener((dialog, which) -> {
                         dialog.dismiss();
                     });
@@ -99,12 +102,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onPasswordIncorrect() {
+                    normalView();
                     customDialog.show();
                     customDialog.setQuestion("Mật khẩu không đúng");
                     customDialog.setMessage("Mật khẩu xác thực không khớp với tài khoản " + username + ". Vui lòng thử lại.");
-                    customDialog.setOnCancelClickListener((dialog, which) -> {
-                        dialog.dismiss();
-                    });
+                    customDialog.getBtnCancel().setVisibility(View.GONE);
                     customDialog.setOnContinueClickListener((dialog, which) -> {
                         dialog.dismiss();
                     });
@@ -122,6 +124,32 @@ public class LoginActivity extends AppCompatActivity {
                         goToAdminActivity();
                     finish();
                 }
+
+                @Override
+                public void onUserPending() {
+                    normalView();
+                    customDialog.show();
+                    customDialog.setQuestion("Không thể truy cập");
+                    customDialog.setMessage("Bạn chưa được Administrator cấp quyền, hãy liên hệ để được truy cập");
+                    customDialog.getBtnCancel().setVisibility(View.GONE);
+                    customDialog.setOnContinueClickListener((dialog, which) -> {
+                        dialog.dismiss();
+                    });
+                    btnLogin.setEnabled(true);
+                }
+
+                @Override
+                public void onUserInactive() {
+                    normalView();
+                    customDialog.show();
+                    customDialog.setQuestion("Không thể truy cập");
+                    customDialog.setMessage("Tài khoản đã bị vô hiệu hóa bởi Administrator");
+                    customDialog.getBtnCancel().setVisibility(View.GONE);
+                    customDialog.setOnContinueClickListener((dialog, which) -> {
+                        dialog.dismiss();
+                    });
+                    btnLogin.setEnabled(true);
+                }
             });
 
         });
@@ -135,6 +163,20 @@ public class LoginActivity extends AppCompatActivity {
     private void goToAdminActivity() {
         Intent i = new Intent(LoginActivity.this, AdminActivity.class);
         startActivity(i);
+    }
+
+    public void processingView() {
+        progressBar.setVisibility(View.VISIBLE);
+        tvBtnLogin.setVisibility(View.GONE);
+        btnLogin.setEnabled(false);
+        btnLogin.setBackgroundColor(Color.LTGRAY);
+    }
+
+    public void normalView() {
+        progressBar.setVisibility(View.GONE);
+        tvBtnLogin.setVisibility(View.VISIBLE);
+        btnLogin.setEnabled(true);
+        btnLogin.setBackgroundColor(getResources().getColor(R.color.light_purple));
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.businix.controllers;
 
 import com.example.businix.dao.LeaveRequestDAO;
 import com.example.businix.models.LeaveRequest;
+import com.example.businix.models.LeaveRequestStatus;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -41,7 +42,7 @@ public class LeaveRequestController {
         return leaveRequestDAO.getLeaveRequestRef(id);
     }
 
-    public void getLeaveRequestOverlapping(Date minTime, Date maxTime, DocumentReference emp, OnCompleteListener<List<LeaveRequest>> onCompleteListener) {
+    public void getLeaveRequestOfEmployeeOverlapping(Date minTime, Date maxTime, LeaveRequestStatus status, DocumentReference emp, OnCompleteListener<List<LeaveRequest>> onCompleteListener) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(minTime);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -57,7 +58,32 @@ public class LeaveRequestController {
         cal.set(Calendar.MILLISECOND, 999);
         maxTime = cal.getTime();
 
-        Task<List<LeaveRequest>> getRequestOverlapping = leaveRequestDAO.getLeaveRequestOverlapping(minTime, maxTime, emp);
+        Task<List<LeaveRequest>> getRequestOverlapping = leaveRequestDAO.getLeaveRequestOfEmployeeOverlapping(minTime, maxTime, status ,emp);
         getRequestOverlapping.addOnCompleteListener(onCompleteListener);
+    }
+
+    public void getLeaveRequestOverlapping(Date minTime, Date maxTime, LeaveRequestStatus status, OnCompleteListener<List<LeaveRequest>> onCompleteListener) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(minTime);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        minTime = cal.getTime();
+
+        cal.setTime(maxTime);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        maxTime = cal.getTime();
+
+        Task<List<LeaveRequest>> getRequestOverlapping = leaveRequestDAO.getLeaveRequestOverlapping(minTime, maxTime, status);
+        getRequestOverlapping.addOnCompleteListener(onCompleteListener);
+    }
+
+    public void getLeaveRequestListByStatus(LeaveRequestStatus status, OnCompleteListener<List<LeaveRequest>> onCompleteListener) {
+        Task<List<LeaveRequest>> getLeaveRequestListTask = leaveRequestDAO.getLeaveRequestListByStatus(status);
+        getLeaveRequestListTask.addOnCompleteListener(onCompleteListener);
     }
 }

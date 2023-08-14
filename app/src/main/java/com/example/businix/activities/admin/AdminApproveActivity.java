@@ -33,13 +33,13 @@ public class AdminApproveActivity extends AppCompatActivity {
     private ApproveRequestAdapter approveRequestAdapter;
     private List<Employee> emplPendingList;
     private ProgressBar progressBar;
-    private ListView listView;
+    private static ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_approve);
-        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         listView = (ListView) findViewById(R.id.list_view_approve);
         listView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
@@ -50,9 +50,8 @@ public class AdminApproveActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     List<Employee> employeeList = task.getResult();
                     emplPendingList = new ArrayList<>();
-                    for(Employee employee : employeeList)
-                    {
-                        if(employee.getStatus() == Status.PENDING)
+                    for (Employee employee : employeeList) {
+                        if (employee.getStatus() == Status.PENDING)
                             emplPendingList.add(employee);
                     }
                     progressBar.setVisibility(View.GONE);
@@ -73,8 +72,7 @@ public class AdminApproveActivity extends AppCompatActivity {
 
     }
 
-    public void reloadListView(int position){
-        emplPendingList.remove(position);
-        approveRequestAdapter.notifyDataSetChanged();
+    public static ListView getListView(){
+        return listView;
     }
 }

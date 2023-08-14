@@ -35,7 +35,7 @@ import java.util.List;
 public class ApproveRequestAdapter extends ArrayAdapter<Employee> {
     private List<Employee> employeeList;
     private Context context;
-    EmployeeController employeeController;
+    private EmployeeController employeeController;
 
     public ApproveRequestAdapter(Context context, int resource, List<Employee> employeeList) {
         super(context, resource, employeeList);
@@ -62,14 +62,12 @@ public class ApproveRequestAdapter extends ArrayAdapter<Employee> {
             if (tvApplyDate != null) {
                 tvApplyDate.setText(tvApplyDate.getText().toString().replace("...", DateUtils.formatDate(employee.getCreateAt())));
             }
-            TextView btnShowDetail = (TextView) view.findViewById(R.id.btn_show_detail);
         }
 
         TextView btnShowDetail = (TextView) view.findViewById(R.id.btn_show_detail);
         btnShowDetail.setOnClickListener(v -> {
             CustomDialogEmployeeDetail customDialogEmployeeDetail = new CustomDialogEmployeeDetail(getContext(), employee);
             customDialogEmployeeDetail.show();
-
         });
 
         return view;

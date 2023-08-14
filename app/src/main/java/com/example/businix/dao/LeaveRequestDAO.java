@@ -3,6 +3,7 @@ package com.example.businix.dao;
 import android.util.Log;
 
 import com.example.businix.models.LeaveRequest;
+import com.example.businix.models.LeaveRequestStatus;
 import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
@@ -107,9 +108,14 @@ public class LeaveRequestDAO {
         });
     }
 
-    public Task<List<LeaveRequest>> getLeaveRequestOverlapping(Date start, Date end, DocumentReference emp) {
+    public Task<List<LeaveRequest>> getLeaveRequestOfEmployeeOverlapping(Date start, Date end, LeaveRequestStatus status, DocumentReference emp) {
         Query query = db.collection(collectionPath);
-        query = query.whereGreaterThanOrEqualTo("toDate", start).whereEqualTo("employee", emp);
+        if (status != null) {
+            query = query.whereGreaterThanOrEqualTo("toDate", start).whereEqualTo("status", status).whereEqualTo("employee", emp);
+        } else {
+            query = query.whereGreaterThanOrEqualTo("toDate", start).whereEqualTo("employee", emp);
+        }
+
         return query.get().continueWith(task -> {
             if (task.isSuccessful()) {
                 List<LeaveRequest> leaveRequestList = new ArrayList<>();
@@ -129,7 +135,57 @@ public class LeaveRequestDAO {
         });
     }
 
+    public Task<List<LeaveRequest>> getLeaveRequestOverlapping(Date start, Date end, LeaveRequestStatus status) {
+        Query query = db.collection(collectionPath);
+        if (status != null) {
+            query = query.whereGreaterThanOrEqualTo("toDate", start).whereEqualTo("status", status);
+        } else {
+            query = query.whereGreaterThanOrEqualTo("toDate", start);
+        }
+
+        return query.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                List<LeaveRequest> leaveRequestList = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    LeaveRequest leaveRequest = document.toObject(LeaveRequest.class);
+                    if (leaveRequest.getFromDate().before(end) || DateUtils.compareWithoutTime(leaveRequest.getFromDate(), end)) {
+                        leaveRequest.setId(document.getId());
+                        leaveRequestList.add(leaveRequest);
+                    }
+
+                }
+                return leaveRequestList;
+            } else {
+                Log.e("LeaveRequestDAO", "Lỗi", task.getException());
+                throw task.getException();
+            }
+        });
+    }
+
+
+
     public DocumentReference getLeaveRequestRef(String id) {
         return db.collection(collectionPath).document(id);
     }
+
+    public Task<List<LeaveRequest>> getLeaveRequestListByStatus(LeaveRequestStatus status) {
+        CollectionReference leaveRequestsRef = db.collection(collectionPath);
+        return leaveRequestsRef
+                .whereEqualTo("status", status)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        List<LeaveRequest> leaveRequestList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            LeaveRequest leaveRequest = document.toObject(LeaveRequest.class);
+                            leaveRequest.setId(document.getId());
+                            leaveRequestList.add(leaveRequest);
+                        }
+                        return leaveRequestList;
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
 }

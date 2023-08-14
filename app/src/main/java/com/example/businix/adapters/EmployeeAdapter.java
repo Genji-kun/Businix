@@ -59,15 +59,22 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
             if (tvEmplName != null) {
                 tvEmplName.setText(employee.getFullName());
             }
+
+            LinearLayout btnEditEmployee = (LinearLayout) view.findViewById(R.id.btn_edit_employee);
+            LinearLayout btnDeleteEmployee = (LinearLayout) view.findViewById(R.id.btn_delete_employee);
+            if(employee.getUserRole().toString().equals("ADMIN")){
+                btnEditEmployee.setVisibility(View.GONE);
+                btnDeleteEmployee.setVisibility(View.GONE);
+            }
             TextView tvPosName = (TextView) view.findViewById(R.id.tv_position_name);
             if (tvPosName != null) {
                 employee.getPosition().get().addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         Position pos = documentSnapshot.toObject(Position.class);
                         String positionName = pos.getName();
-                        if (employee.getUserRole().toString().equals("ADMIN"))
+                        if (employee.getUserRole().toString().equals("ADMIN")) {
                             tvPosName.setText("Admin");
-                        else
+                        } else
                             tvPosName.setText(positionName);
                     } else {
                         tvPosName.setText("Chưa có chức vụ");
@@ -75,7 +82,6 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 });
             }
 
-            LinearLayout btnEditEmployee = (LinearLayout) view.findViewById(R.id.btn_edit_employee);
             btnEditEmployee.setOnClickListener(v -> {
                 Employee currentEmployee = filteredList.get(position);
 
@@ -85,7 +91,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
                 intent.putExtra("employeeUsername", currentEmployee.getUsername());
                 context.startActivity(intent);
             });
-            LinearLayout btnDeleteEmployee = (LinearLayout) view.findViewById(R.id.btn_delete_employee);
+
             btnDeleteEmployee.setOnClickListener(v -> {
                 String employeeId = employeeList.get(position).getId(); // Lấy id của nhân viên từ nút xóa
 

@@ -312,7 +312,7 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
                 showErrorMessege("Username không hợp lệ");
                 return;
             } else if (!inputPassword.getText().toString().trim().equals(emplBeforeUpdate.getPassword())) {
-                updateEmpl.setPassword(inputPassword.getText().toString().trim());
+                updateEmpl.setPassword(PasswordHash.hashPassword(inputPassword.getText().toString().trim()));
             }
             if (!inputDOB.getText().toString().isBlank()) {
                 if (emplBeforeUpdate.getDob() == null || !DateUtils.formatDate(emplBeforeUpdate.getDob()).equals(inputDOB.getText().toString())) {
@@ -473,8 +473,9 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
         btnCancel.setVisibility(View.GONE);
         alertDialog.show();
 
-        TextView btnConfirmDelete = (TextView) dialogView.findViewById(R.id.btn_continue);
-        btnConfirmDelete.setOnClickListener(v -> {
+        TextView btnConfirm = (TextView) dialogView.findViewById(R.id.btn_continue);
+        btnConfirm.setOnClickListener(v -> {
+            alertDialog.dismiss();
             finish();
         });
     }

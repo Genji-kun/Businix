@@ -1,7 +1,5 @@
 package com.example.businix.activities.employee;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -10,10 +8,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.businix.R;
+import com.example.businix.controllers.AttendanceController;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.controllers.LeaveRequestController;
 import com.example.businix.controllers.LeaveRequestDetailController;
-import com.example.businix.controllers.StatController;
+import com.example.businix.models.Attendance;
 import com.example.businix.models.LeaveRequest;
 import com.example.businix.models.LeaveRequestDetail;
 import com.example.businix.models.LeaveRequestStatus;
@@ -21,11 +20,7 @@ import com.example.businix.ui.ActionBar;
 import com.example.businix.ui.MonthYearPickerDialog;
 import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.LoginManager;
-import com.example.businix.utils.StatData;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -42,7 +37,7 @@ public class StatActivity extends ActionBar {
     private LineChart chart;
     private TextView tvWorkHours, tvOvertimeHours, tvLateHours, tvLeaveRequests, tvMonth;
     private DocumentReference employeeRef;
-    private StatController statController;
+    private AttendanceController attendanceController;
     private LeaveRequestController requestController;
     private LeaveRequestDetailController detailController;
     private LinearLayout btnChangeTime, layoutData;
@@ -71,7 +66,7 @@ public class StatActivity extends ActionBar {
         LoginManager loginManager = new LoginManager(this);
         employeeRef = (new EmployeeController()).getEmployeeRef(loginManager.getLoggedInUserId());
 
-        statController = new StatController();
+        attendanceController = new AttendanceController();
         requestController = new LeaveRequestController();
         detailController = new LeaveRequestDetailController();
         calendar = Calendar.getInstance();
@@ -88,6 +83,7 @@ public class StatActivity extends ActionBar {
                     calendar.set(year, month, 15);
                     tvMonth.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
                     setLoading();
+                    loadChart();
                     loadData(calendar.getTime());
                 }
 
@@ -99,6 +95,7 @@ public class StatActivity extends ActionBar {
             monthDialog.setCancelable(false);
             monthDialog.show(getSupportFragmentManager(), "MonthYearPickerDialog");
         });
+        loadChart();
         loadData(calendar.getTime());
         tvMonth.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
 
@@ -111,15 +108,13 @@ public class StatActivity extends ActionBar {
         Date start = cal.getTime();
         cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date end = cal.getTime();
-        requestController.getLeaveRequestOverlapping(start, end, employeeRef, task -> {
+        requestController.getLeaveRequestOfEmployeeOverlapping(start, end, LeaveRequestStatus.ACCEPT ,employeeRef, task -> {
             if (task.isSuccessful()) {
                 List<LeaveRequest> requests = task.getResult();
                 requests = requests.stream().filter(request -> request.getStatus() == LeaveRequestStatus.ACCEPT)
                         .collect(Collectors.toList());
-                if (requests.size() <= 0) {
+                if (requests.size() <= 0)
                     tvLeaveRequests.setText("0");
-                    loadChart(null);
-                }
                 else {
                     detailController.getDetailsByTime(start, end, requests, task1 -> {
                         if (task1.isSuccessful()) {
@@ -131,7 +126,6 @@ public class StatActivity extends ActionBar {
                                     count++;
                             }
                             tvLeaveRequests.setText(count);
-                            loadChart(task1.getResult());
                         }
                     });
                 }
@@ -139,8 +133,8 @@ public class StatActivity extends ActionBar {
         });
     }
 
-    private void loadChart(List<LeaveRequestDetail> details) {
-        statController.getAttendancesMonth(calendar.getTime(), employeeRef, details, task2 -> {
+    private void loadChart() {
+        attendanceController.getAttendancesOfEmployeeByMonth(calendar.getTime(), employeeRef, task2 -> {
             if (task2.isSuccessful()) {
                 List<Entry> workEntries = new ArrayList<>();
                 List<Entry> overTimeEntries = new ArrayList<>();
@@ -148,15 +142,18 @@ public class StatActivity extends ActionBar {
                 double totalWorkHours = 0;
                 double totalOvertimeHours = 0;
                 double totalLateHours = 0;
-                for (StatData.AttendanceData data : task2.getResult()) {
+                for (Attendance data : task2.getResult()) {
                     Calendar temp = Calendar.getInstance();
-                    temp.setTime(data.getDate());
-                    totalWorkHours += data.getWorkHours();
-                    totalOvertimeHours += data.getOverTimeHours();
-                    totalLateHours += data.getLateHours();
-                    workEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (data.getWorkHours())));
-                    overTimeEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (data.getOverTimeHours())));
-                    lateEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (data.getLateHours())));
+                    temp.setTime(data.getCheckInTime());
+                    double overHours = data.getOvertime();
+                    double lateHours = data.getLate();
+                    double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;
+                    totalWorkHours += workHours;
+                    totalOvertimeHours += overHours;
+                    totalLateHours += lateHours;
+                    workEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (workHours)));
+                    overTimeEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (overHours)));
+                    lateEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (lateHours)));
                 }
                 tvLateHours.setText(String.format("%.2f giờ", totalLateHours));
                 tvOvertimeHours.setText(String.format("%.2f giờ", totalOvertimeHours));

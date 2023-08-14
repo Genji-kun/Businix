@@ -11,7 +11,10 @@ public class Attendance {
     private String id;
     private Date checkInTime;
     private Date  checkOutTime;
+    private Double late;
+    private Double overtime;
     private DocumentReference employee;
+
     @Exclude
     public String getId() {
         return id;
@@ -43,5 +46,21 @@ public class Attendance {
 
     public void setEmployee(DocumentReference employee) {
         this.employee = employee;
+    }
+
+    public Double getOvertime() {
+        return overtime;
+    }
+
+    public void setOvertime(Double overtime) {
+        this.overtime = overtime;
+    }
+
+    public Double getLate() {
+        return late;
+    }
+
+    public void setLate(Double late) {
+        this.late = late;
     }
 }

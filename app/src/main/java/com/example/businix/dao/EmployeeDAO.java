@@ -190,6 +190,9 @@ public class EmployeeDAO {
                 });
     }
 
+    public DocumentReference getEmployeeRef(String id) {
+        return db.collection(collectionPath).document(id);
+    }
 
     public Task<List<DocumentReference>> getEmployeeListByRole(UserRole userRole) {
         CollectionReference employeesRef = db.collection(collectionPath);
@@ -227,8 +230,23 @@ public class EmployeeDAO {
                 });
     }
 
-    public DocumentReference getEmployeeRef(String id) {
-        return db.collection(collectionPath).document(id);
+    public Task<List<Employee>> getEmployeeListByPosition(String posId) {
+        DocumentReference posRef = db.collection("positions").document(posId);
+        return db.collection(collectionPath)
+                .whereEqualTo("position", posRef)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        List<Employee> employeeList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Employee employee = document.toObject(Employee.class);
+                            employee.setId(document.getId());
+                            employeeList.add(employee);
+                        }
+                        return employeeList;
+                    } else {
+                        throw task.getException();
+                    }
+                });
     }
-
 }

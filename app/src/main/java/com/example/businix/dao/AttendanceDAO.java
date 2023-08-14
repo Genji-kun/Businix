@@ -3,12 +3,9 @@ package com.example.businix.dao;
 import android.util.Log;
 
 import com.example.businix.models.Attendance;
-import com.example.businix.models.Employee;
-import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,6 +15,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +60,7 @@ public class AttendanceDAO {
         });
     }
 
-    public Task<Void> updateAttandance(String id, Attendance attendance) {
+    public Task<Void> updateAttendance(String id, Attendance attendance) {
         if (attendance == null || id.isEmpty()) {
             Log.e("AttendanceDAO", "id không hợp lệ");
             return Tasks.forException(new IllegalArgumentException("id không hợp lệ"));
@@ -89,7 +87,7 @@ public class AttendanceDAO {
                 });
     }
 
-    public Task<Attendance> getAttandanceByDate(Date minTime, Date maxTime, DocumentReference emp) {
+    public Task<Attendance> getAttendanceByDate(Date minTime, Date maxTime, DocumentReference emp) {
         Query query = db.collection(collectionPath);
         if (minTime != null && maxTime != null) {
             query = query.whereGreaterThanOrEqualTo("checkInTime", minTime).whereLessThanOrEqualTo("checkInTime", maxTime)
@@ -108,6 +106,59 @@ public class AttendanceDAO {
                 } else {
                     return null;
                 }
+            } else {
+                Log.e("AttendanceDAO", "Lỗi khi truy xuất", task.getException());
+                throw task.getException();
+            }
+        });
+    }
+
+    public Task<List<Attendance>> getAttendancesOfEmployeeByDate(Date minTime, Date maxTime, DocumentReference emp) {
+        Query query = db.collection(collectionPath);
+        if (minTime != null && maxTime != null && emp != null) {
+            query = query.whereGreaterThanOrEqualTo("checkInTime", minTime).whereLessThanOrEqualTo("checkInTime", maxTime)
+                    .whereEqualTo("employee", emp);
+        } else {
+            return null;
+        }
+
+        return query.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                List<Attendance> attendances = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Attendance attendance = document.toObject(Attendance.class);
+                    attendance.setId(document.getId());
+                    attendances.add(attendance);
+                }
+                return attendances;
+            } else {
+                Log.e("AttendanceDAO", "Lỗi khi truy xuất", task.getException());
+                throw task.getException();
+            }
+        });
+    }
+
+    public Task<Map<Date, List<Attendance>>> getStatAttendanceGroupByDate(Date minTime, Date maxTime) {
+        Query query = db.collection(collectionPath);
+        query = query.whereGreaterThanOrEqualTo("checkInTime", minTime).whereLessThanOrEqualTo("checkInTime", maxTime);
+        return query.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                Map<Date, List<Attendance>> attendanceByDate = new HashMap<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Attendance attendance = document.toObject(Attendance.class);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(attendance.getCheckInTime());
+                    cal.set(Calendar.HOUR_OF_DAY, 0);
+                    cal.set(Calendar.MINUTE, 0);
+                    cal.set(Calendar.SECOND, 0);
+                    cal.set(Calendar.MILLISECOND, 0);
+                    Date date = cal.getTime();
+                    if (!attendanceByDate.containsKey(date)) {
+                        attendanceByDate.put(date, new ArrayList<>());
+                    }
+                    attendanceByDate.get(date).add(attendance);
+                }
+                return attendanceByDate;
             } else {
                 Log.e("AttendanceDAO", "Lỗi khi truy xuất", task.getException());
                 throw task.getException();

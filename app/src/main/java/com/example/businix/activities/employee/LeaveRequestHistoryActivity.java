@@ -32,7 +32,7 @@ public class LeaveRequestHistoryActivity  extends ActionBar {
                 try {
                     listViewRequests.setAdapter(adapter);
                 } catch (Exception e) {
-                    Log.e("BUG GI NE", "LỖI", e);
+                    Log.e("BUG", "LỖI", e);
                 }
             }
         });

@@ -71,7 +71,12 @@ public class EmployeeController {
                     String hashPass = employee.getPassword();
                     if (PasswordHash.checkPassword(password, hashPass)) {
                         //Mật khẩu đúng
-                        listener.onAuthenticationSuccess(employee);
+                        if (employee.getStatus() == Status.PENDING)
+                            listener.onUserPending();
+                        else if (employee.getStatus() == Status.INACTIVE)
+                            listener.onUserPending();
+                        else
+                            listener.onAuthenticationSuccess(employee);
                     } else {
                         //Sai mật khẩu
                         listener.onPasswordIncorrect();
@@ -86,17 +91,16 @@ public class EmployeeController {
     public DocumentReference getEmployeeRef(String id) {
         return employeeDAO.getEmployeeRef(id);
     }
-    public void checkUserExist(String username, FindListener findListener){
+
+    public void checkUserExist(String username, FindListener findListener) {
         Task<Employee> getEmployeeTask = employeeDAO.getEmployeeByUsername(username);
         getEmployeeTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (task.getResult() != null) {
                     findListener.onFoundSuccess();
-                }
-                else
+                } else
                     findListener.onNotFound();
-            }
-            else
+            } else
                 Log.e("EmployeeController", "Lỗi", task.getException());
         });
     }
@@ -114,8 +118,13 @@ public class EmployeeController {
         return departmentDAO.getDepartmentRef(id);
     }
 
-    public void getEmployeeListByDepartment(String departmentId, OnCompleteListener<List<Employee>> onCompleteListener){
+    public void getEmployeeListByDepartment(String departmentId, OnCompleteListener<List<Employee>> onCompleteListener) {
         Task<List<Employee>> getEmployeeListTask = employeeDAO.getEmployeeListByDepartment(departmentId);
+        getEmployeeListTask.addOnCompleteListener(onCompleteListener);
+    }
+
+    public void getEmployeeListByPosition(String posId, OnCompleteListener<List<Employee>> onCompleteListener) {
+        Task<List<Employee>> getEmployeeListTask = employeeDAO.getEmployeeListByPosition(posId);
         getEmployeeListTask.addOnCompleteListener(onCompleteListener);
     }
 }

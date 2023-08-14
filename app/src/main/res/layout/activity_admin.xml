@@ -37,7 +37,7 @@
             app:layout_constraintBottom_toTopOf="@+id/nav_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></FrameLayout>
+            app:layout_constraintTop_toBottomOf="@+id/container_toolbar"></FrameLayout>
 
         <!-- Navigation Bar -->
         <com.google.android.material.bottomnavigation.BottomNavigationView

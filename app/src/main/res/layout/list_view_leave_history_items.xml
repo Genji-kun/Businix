@@ -1,138 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="7dp"
-        android:padding="10dp"
-        android:orientation="vertical"
+        android:layout_margin="10dp"
         android:background="@drawable/light_round_shape"
-        android:layout_margin="10dp">
+        android:elevation="7dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="Đơn xin nghỉ"
+                android:layout_weight="1"
                 android:fontFamily="@font/medium_font"
+                android:text="Đơn xin nghỉ"
                 android:textColor="@color/medium_purple"
-                android:textSize="21sp"/>
+                android:textSize="21sp" />
+
             <LinearLayout
                 android:id="@+id/status_container"
                 android:layout_width="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_height="match_parent"
                 android:background="@drawable/tiny_round_shape"
                 android:backgroundTint="@color/waiting"
-                android:paddingHorizontal="15dp"
-                android:layout_height="match_parent">
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp">
+
                 <TextView
                     android:id="@+id/status"
-                    android:text="Chờ duyệt"
-                    android:textSize="16sp"
-                    android:textColor="@color/waiting_line"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"/>
+                    android:layout_marginEnd="5dp"
+                    android:text="Chờ duyệt"
+                    android:textColor="@color/waiting_line"
+                    android:textSize="16sp" />
+
                 <ImageView
                     android:id="@+id/ic_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_status_waiting"
-                    app:tint="@color/waiting_line"/>
+                    app:tint="@color/waiting_line" />
             </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ngày tạo:"
                 android:layout_marginEnd="5dp"
                 android:fontFamily="@font/regular_font"
+                android:text="Ngày tạo:"
                 android:textColor="@color/dark_gray"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/created_at"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="22/7/2023"
+                android:layout_weight="1"
                 android:fontFamily="@font/regular_font"
+                android:text="22/7/2023"
                 android:textColor="@color/dark_gray"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="15dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="15dp">
+
             <TextView
                 android:id="@+id/start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/medium_font"
                 android:padding="5dp"
                 android:text="02/7/2023"
-                android:fontFamily="@font/medium_font"
                 android:textColor="@color/black"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:src="@drawable/ic_length_arrow_right"
-                app:tint="@color/black"/>
+                app:tint="@color/black" />
+
             <TextView
                 android:id="@+id/end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
                 android:background="@drawable/tiny_round_shape"
-                android:text="02/7/2023"
                 android:fontFamily="@font/medium_font"
+                android:padding="5dp"
+                android:text="02/7/2023"
                 android:textColor="@color/black"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
         </LinearLayout>
-        <RelativeLayout
+
+        <LinearLayout
+            android:id="@+id/layout_empl_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="15dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                app:cardBackgroundColor="@color/gray"
+                app:cardCornerRadius="999dp">
+
+                <ImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avt" />
+            </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_empl_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/tiny_round_shape"
+                    android:fontFamily="@font/medium_font"
+                    android:padding="5dp"
+                    android:text="Võ Phú Bin"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/medium_purple"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/tv_empl_job"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/tiny_round_shape"
+                    android:fontFamily="@font/regular_font"
+                    android:text="Lập trình viên/IT"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
+
+
             <TextView
                 android:id="@+id/btn_show_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hiện chi tiết"
-                android:fontFamily="@font/regular_font"
-                android:textSize="16sp"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/medium_purple"/>
+                android:fontFamily="@font/regular_font"
+                android:text="Hiện chi tiết"
+                android:textColor="@color/medium_purple"
+                android:textSize="16sp" />
         </RelativeLayout>
+
         <ListView
             android:id="@+id/list_view_detail"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/light_round_shape"
             android:layout_margin="15dp"
-            android:padding="5dp"
+            android:background="@drawable/light_round_shape"
             android:elevation="5dp"
+            android:orientation="vertical"
+            android:padding="5dp"
             android:scrollbars="none"
-            android:orientation="vertical">
-        </ListView>
+            android:visibility="gone"></ListView>
+
+        <LinearLayout
+            android:id="@+id/layout_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btn_accept_request"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/medium_purple"
+                android:fontFamily="@font/regular_font"
+                android:text="Duyệt đơn"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_deny_request"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:backgroundTint="@color/waiting_line"
+                android:fontFamily="@font/regular_font"
+                android:text="Từ chối"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

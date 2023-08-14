@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -168,7 +167,7 @@ public class LeaveActivity extends ActionBar implements OnSpinnerChangeListener 
                         }
                         String employeeId = loginManager.getLoggedInUserId();
                         DocumentReference empRef = employeeController.getEmployeeRef(employeeId);
-                        leaveRequestController.getLeaveRequestOverlapping(start, end, empRef, task -> {
+                        leaveRequestController.getLeaveRequestOfEmployeeOverlapping(start, end, null,empRef, task -> {
                             if (task.isSuccessful()) {
                                 if (task.getResult().size() > 0) {
                                     CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
@@ -355,8 +354,6 @@ public class LeaveActivity extends ActionBar implements OnSpinnerChangeListener 
 
     private void selectShiftAllDay() {
         changeStatusBtn(btnAllDay);
-
-
         currentSelectedItem = btnAllDay;
         int count = listViewDetail.getChildCount();
         for (int i = 0; i < count; i++) {

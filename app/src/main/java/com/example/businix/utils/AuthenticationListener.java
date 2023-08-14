@@ -6,4 +6,6 @@ public interface AuthenticationListener {
     void onUsernameNotFound();
     void onPasswordIncorrect();
     void onAuthenticationSuccess(Employee employee);
+    void onUserPending();
+    void onUserInactive();
 }

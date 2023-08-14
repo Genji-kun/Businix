@@ -25,6 +25,12 @@
         tools:replace="android:fullBackupContent"
         tools:targetApi="31">
         <activity
+            android:name=".activities.admin.AdminViewHistoryLeaveRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminLeaveRequestActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.employee.ChangePasswordActivity"
             android:exported="false" />
         <activity
@@ -80,7 +86,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.admin.AdminViewChartActivity"
-            android:exported="false" /> <!-- Employee -->
+            android:exported="true" /> <!-- Employee -->
         <activity
             android:name=".activities.employee.EmployeeActivity"
             android:exported="false" />

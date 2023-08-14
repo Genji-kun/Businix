@@ -40,7 +40,6 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TimeAttendanceActivity extends ActionBar {
     private static final int REQUEST_LOCATION_PERMISSION = 1234;
@@ -94,7 +93,7 @@ public class TimeAttendanceActivity extends ActionBar {
 
         Calendar cal = Calendar.getInstance();
         textDate.setText("Ngày " + DateUtils.formatDate(cal.getTime(), "dd-MM-yyyy"));
-        attendanceController.getAttandanceByMonth(cal.getTime(), employeeRef, attendanceTodayLister);
+        attendanceController.getAttendanceByMonth(cal.getTime(), employeeRef, attendanceTodayLister);
 
         btnCheckIn.setOnClickListener(v -> {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -190,6 +189,7 @@ public class TimeAttendanceActivity extends ActionBar {
         Calendar checkInCal = Calendar.getInstance();
         attendance.setCheckInTime(checkInCal.getTime());
         attendance.setEmployee(employeeRef);
+        attendance.setLate(0.0);
         checkInCal.set(Calendar.MINUTE, 0);
         checkInCal.set(Calendar.SECOND, 0);
         checkInCal.set(Calendar.MILLISECOND, 0);
@@ -200,11 +200,9 @@ public class TimeAttendanceActivity extends ActionBar {
         dialog.setMessage("Bạn có chắc chắn muốn chấm công không?");
         dialog.setOnContinueClickListener((dialog1, which) -> {
             Calendar nowCal = Calendar.getInstance();
-            leaveRequestController.getLeaveRequestOverlapping(nowCal.getTime(), nowCal.getTime(), employeeRef, task -> {
+            leaveRequestController.getLeaveRequestOfEmployeeOverlapping(nowCal.getTime(), nowCal.getTime(), LeaveRequestStatus.ACCEPT, employeeRef, task -> {
                 if (task.isSuccessful()) {
                     List<LeaveRequest> requests = task.getResult();
-                    requests = requests.stream().filter(request -> request.getStatus() == LeaveRequestStatus.ACCEPT)
-                            .collect(Collectors.toList());
                     if (requests.size() > 0) {
                         leaveRequestDetailController.getDetailsByTime(nowCal.getTime(), nowCal.getTime(), requests, task1 -> {
                             if (task1.isSuccessful()) {
@@ -217,46 +215,65 @@ public class TimeAttendanceActivity extends ActionBar {
                                         errorDialog.setMessage("Bạn có lịch nghỉ cả ngày hôm nay");
                                         return;
                                     } else if (detail.getShift().equals("Ca sáng")) {
-                                        checkInCal.set(Calendar.HOUR_OF_DAY, 13);
-                                        if (nowCal.getTime().before(checkInCal.getTime())) {
-                                            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
-                                            errorDialog.show();
-                                            errorDialog.setQuestion("Không thể chấm công");
-                                            errorDialog.setMessage("Bạn có lịch nghỉ ca sáng hôm nay, hãy check in từ 13 giờ");
-                                            return;
-                                        }
                                         checkInCal.set(Calendar.HOUR_OF_DAY, 15);
-                                        if (nowCal.getTime().after(checkInCal.getTime())) {
+                                        if (attendance.getCheckInTime().after(checkInCal.getTime())) {
                                             CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
                                             errorDialog.show();
                                             errorDialog.setQuestion("Không thể chấm công");
                                             errorDialog.setMessage("Bạn đã trễ hơn 2 tiếng");
                                             return;
                                         }
+                                        checkInCal.set(Calendar.HOUR_OF_DAY, 12);
+                                        if (attendance.getCheckInTime().before(checkInCal.getTime())) {
+                                            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                            errorDialog.show();
+                                            errorDialog.setQuestion("Không thể chấm công");
+                                            errorDialog.setMessage("Hãy check in ca chiều sau 12:00 pm");
+                                            return;
+                                        }
+                                        checkInCal.set(Calendar.HOUR_OF_DAY, 13);
+                                        if (attendance.getCheckInTime().before(checkInCal.getTime())) {
+                                            attendance.setCheckInTime(checkInCal.getTime());
+                                        } else {
+                                            Double lateHours = DateUtils.getDiffHours(attendance.getCheckInTime(), checkInCal.getTime());
+                                            if (lateHours * 60 > 15) {
+                                                attendance.setLate(lateHours);
+                                            }
+                                        }
+                                    } else {
+                                        checkInCal.set(Calendar.HOUR_OF_DAY, 8);
+                                        if (attendance.getCheckInTime().before(checkInCal.getTime())) {
+                                            attendance.setCheckInTime(checkInCal.getTime());
+                                        } else {
+                                            Double lateHours = DateUtils.getDiffHours(attendance.getCheckInTime(), checkInCal.getTime());
+                                            if (lateHours * 60 > 15) {
+                                                attendance.setLate(lateHours);
+                                            }
+                                        }
                                     }
+                                    saveCheckIn(attendance);
                                 }
-                                saveCheckIn(attendance, checkInCal);
-
                             }
                         });
+                    } else {
+                        checkInCal.set(Calendar.HOUR_OF_DAY, 8);
+                        if (attendance.getCheckInTime().before(checkInCal.getTime())) {
+                            attendance.setCheckInTime(checkInCal.getTime());
+                        } else {
+                            Double lateHours = DateUtils.getDiffHours(attendance.getCheckInTime(), checkInCal.getTime());
+                            if (lateHours * 60 > 15) {
+                                attendance.setLate(lateHours);
+                            }
+                        }
+                        saveCheckIn(attendance);
                     }
-                    else {
-                        saveCheckIn(attendance, checkInCal);
-                    }
+
                 }
             });
         });
     }
 
-    private void saveCheckIn(Attendance attendance, Calendar checkInCal) {
-        checkInCal.set(Calendar.HOUR_OF_DAY, 10);
-        if (attendance.getCheckInTime().after(checkInCal.getTime())) {
-            CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
-            errorDialog.show();
-            errorDialog.setQuestion("Không thể chấm công");
-            errorDialog.setMessage("Bạn đã trễ hơn 2 tiếng");
-            return;
-        }
+    private void saveCheckIn(Attendance attendance) {
         attendanceController.addAttendance(attendance, task2 -> {
             if (task2.isSuccessful()) {
                 CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
@@ -276,10 +293,6 @@ public class TimeAttendanceActivity extends ActionBar {
     }
 
     private void saveCheckOut(Attendance attendance, Calendar checkOutCal) {
-        checkOutCal.set(Calendar.HOUR_OF_DAY, 21);
-        if (attendance.getCheckOutTime().after(checkOutCal.getTime())) {
-            attendance.setCheckOutTime(checkOutCal.getTime());
-        }
         attendanceController.updateAttendance(availableAttend.getId(), attendance, task2 -> {
             if (task2.isSuccessful()) {
                 CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
@@ -308,6 +321,7 @@ public class TimeAttendanceActivity extends ActionBar {
 
         Attendance attendance = new Attendance();
         attendance.setCheckOutTime(checkOutCal.getTime());
+        attendance.setOvertime(0.0);
 
         CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);
         dialog.show();
@@ -315,11 +329,9 @@ public class TimeAttendanceActivity extends ActionBar {
         dialog.setMessage("Bạn có chắc chắn muốn chấm công không?");
         dialog.setOnContinueClickListener((dialog1, which) -> {
             Calendar nowCal = Calendar.getInstance();
-            leaveRequestController.getLeaveRequestOverlapping(nowCal.getTime(), nowCal.getTime(), employeeRef, task -> {
+            leaveRequestController.getLeaveRequestOfEmployeeOverlapping(nowCal.getTime(), nowCal.getTime(), LeaveRequestStatus.ACCEPT, employeeRef, task -> {
                 if (task.isSuccessful()) {
                     List<LeaveRequest> requests = task.getResult();
-                    requests = requests.stream().filter(request -> request.getStatus() == LeaveRequestStatus.ACCEPT)
-                            .collect(Collectors.toList());
                     if (requests.size() > 0) {
                         leaveRequestDetailController.getDetailsByTime(nowCal.getTime(), nowCal.getTime(), requests, task1 -> {
                             if (task1.isSuccessful()) {
@@ -333,16 +345,37 @@ public class TimeAttendanceActivity extends ActionBar {
                                             CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
                                             errorDialog.show();
                                             errorDialog.setQuestion("Không thể chấm công");
-                                            errorDialog.setMessage("Bạn đã muộn giờ check out cho ca sáng, bạn phải check out trước 13 giờ");
+                                            errorDialog.setMessage("Bạn đã muộn giờ check out cho ca sáng, bạn phải check out trước 13:00 pm");
                                             return;
+                                        }
+                                    }
+                                    else {
+                                        checkOutCal.set(Calendar.HOUR_OF_DAY, 17);
+                                        if (nowCal.getTime().after(checkOutCal.getTime())) {
+                                            checkOutCal.set(Calendar.HOUR_OF_DAY, 21);
+                                            if (nowCal.getTime().after(checkOutCal.getTime()))
+                                                attendance.setCheckOutTime(checkOutCal.getTime());
+                                            Double overHours = DateUtils.getDiffHours(attendance.getCheckOutTime(), checkOutCal.getTime());
+                                            if (overHours*60 > 30) {
+                                                attendance.setOvertime(overHours);
+                                            }
                                         }
                                     }
                                 }
                                 saveCheckOut(attendance, checkOutCal);
                             }
                         });
-                    }
-                    else {
+                    } else {
+                        checkOutCal.set(Calendar.HOUR_OF_DAY, 17);
+                        if (nowCal.getTime().after(checkOutCal.getTime())) {
+                            checkOutCal.set(Calendar.HOUR_OF_DAY, 21);
+                            if (nowCal.getTime().after(checkOutCal.getTime()))
+                                attendance.setCheckOutTime(checkOutCal.getTime());
+                            Double overHours = DateUtils.getDiffHours(attendance.getCheckOutTime(), checkOutCal.getTime());
+                            if (overHours*60 > 30) {
+                                attendance.setOvertime(overHours);
+                            }
+                        }
                         saveCheckOut(attendance, checkOutCal);
                     }
                 }
@@ -490,12 +523,12 @@ public class TimeAttendanceActivity extends ActionBar {
 
     private void reload() {
         if (availableAttend != null) {
-            attendanceController.getAttandanceById(availableAttend.getId(), attendanceTodayLister);
+            attendanceController.getAttendanceById(availableAttend.getId(), attendanceTodayLister);
             Calendar cal = Calendar.getInstance();
             textDate.setText("Ngày " + DateUtils.formatDate(cal.getTime(), "dd-MM-yyyy"));
         } else {
             Calendar cal = Calendar.getInstance();
-            attendanceController.getAttandanceByMonth(cal.getTime(), employeeRef, attendanceTodayLister);
+            attendanceController.getAttendanceByMonth(cal.getTime(), employeeRef, attendanceTodayLister);
         }
     }
 
@@ -587,7 +620,7 @@ public class TimeAttendanceActivity extends ActionBar {
                     } else {
                         String selectedDate = "Ngày " + calSelected;
                         textDate.setText(selectedDate);
-                        attendanceController.getAttandanceByMonth(cal.getTime(), employeeRef, attendanceAnotherLister);
+                        attendanceController.getAttendanceByMonth(cal.getTime(), employeeRef, attendanceAnotherLister);
                     }
 
                 },

@@ -2,8 +2,10 @@ package com.example.businix.activities.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -38,7 +40,6 @@ public class AdminAddListEmployeeActivity extends AppCompatActivity {
     private ListView listView;
     private TextView tvAddListEmployee;
     private ProgressBar progressBar;
-    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,56 @@ public class AdminAddListEmployeeActivity extends AppCompatActivity {
         employeeController = new EmployeeController();
         btnAddListEmployee.setOnClickListener(v -> {
             processingView();
+            EmployeeMemberAdapter adapter = (EmployeeMemberAdapter) listView.getAdapter();
+            for (int i = 0; i < employeeList.size(); i++) {
+                Employee empl = employeeList.get(i);
+                if (empl.getFullName() == null) {
+                    showNotification("Bạn chưa điền họ tên nhân viên");
+                    normalView();
+                    return;
+                }
+                if (empl.getUsername() == null) {
+                    showNotification("Bạn chưa điền username");
+                    normalView();
+                    return;
+                }
+                if (adapter.getLayoutUsername(i).getError() != null && !adapter.getLayoutUsername(i).getError().toString().isEmpty()) {
+                    showNotification("Username không hợp lệ");
+                    normalView();
+                    return;
+                }
+                if (empl.getPassword() == null) {
+                    showNotification("Bạn chưa điền username");
+                    normalView();
+                    return;
+                }
+                if (empl.getDepartment() == null) {
+                    showNotification("Bạn chưa chọn phòng ban");
+                    normalView();
+                    return;
+                }
+                if (empl.getPosition() == null) {
+                    showNotification("Bạn chưa chọn vị trí");
+                    normalView();
+                    return;
+                }
+                if (empl.getStatus() == null) {
+                    showNotification("Bạn chưa chọn trạng thái");
+                    normalView();
+                    return;
+                }
+            }
+            if (!checkDuplicateUsername()) {
+                showNotification("Có username bị trùng trong danh sách");
+                normalView();
+                return;
+            }
             employeeController.addEmployeeList(employeeList, task -> {
                 if (task.isSuccessful()) {
-                    Toast.makeText(AdminAddListEmployeeActivity.this, "Thêm danh sách  thành công", Toast.LENGTH_SHORT).show();
+                    showNotification("Thêm danh sách thành công");
                     normalView();
                     finish();
-                }
-                else {
+                } else {
                     Toast.makeText(AdminAddListEmployeeActivity.this, "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
                     normalView();
                 }
@@ -100,5 +144,40 @@ public class AdminAddListEmployeeActivity extends AppCompatActivity {
         btnAddListEmployee.setEnabled(true);
         btnAddListEmployee.setBackgroundColor(getResources().getColor(R.color.light_purple));
         btnBack.setEnabled(true);
+    }
+
+    public boolean checkDuplicateUsername() {
+        for (int i = 0; i < employeeList.size(); i++) {
+            Employee e = employeeList.get(i);
+            String un = e.getUsername().strip().toLowerCase();
+            for (int j = i + 1; j < employeeList.size(); j++) {
+                Employee e2 = employeeList.get(j);
+                String un2 = e2.getUsername().strip().toLowerCase();
+                if (un.equals(un2)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void showNotification(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AdminAddListEmployeeActivity.this);
+        View dialogView = LayoutInflater.from(AdminAddListEmployeeActivity.this).inflate(R.layout.custom_dialog_2, null);
+        builder.setView(dialogView);
+
+        AlertDialog alertDialog = builder.create();
+        TextView tvQuestion = (TextView) dialogView.findViewById(R.id.question);
+        tvQuestion.setText("Sai thông tin");
+        TextView tvMsg = (TextView) dialogView.findViewById(R.id.msg);
+        tvMsg.setText(msg);
+        TextView btnCancel = (TextView) dialogView.findViewById(R.id.btn_cancel);
+        btnCancel.setVisibility(View.GONE);
+        alertDialog.show();
+
+        TextView btnConfirm = (TextView) dialogView.findViewById(R.id.btn_continue);
+        btnConfirm.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
     }
 }

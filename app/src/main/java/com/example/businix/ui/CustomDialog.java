@@ -82,4 +82,8 @@ public class CustomDialog extends AlertDialog {
     public void setTextBtnCancel(String text) {
         btnCancel.setText(text);
     }
+
+    public TextView getBtnCancel(){
+        return btnCancel;
+    }
 }
