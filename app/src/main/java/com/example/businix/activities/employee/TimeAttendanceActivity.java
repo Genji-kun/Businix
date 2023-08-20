@@ -355,6 +355,7 @@ public class TimeAttendanceActivity extends ActionBar {
                                             checkOutCal.set(Calendar.HOUR_OF_DAY, 21);
                                             if (nowCal.getTime().after(checkOutCal.getTime()))
                                                 attendance.setCheckOutTime(checkOutCal.getTime());
+                                            checkOutCal.set(Calendar.HOUR_OF_DAY, 17);
                                             Double overHours = DateUtils.getDiffHours(attendance.getCheckOutTime(), checkOutCal.getTime());
                                             if (overHours*60 > 30) {
                                                 attendance.setOvertime(overHours);

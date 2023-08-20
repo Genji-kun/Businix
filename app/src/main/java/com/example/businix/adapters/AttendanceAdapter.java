@@ -93,8 +93,6 @@ public class AttendanceAdapter extends ArrayAdapter<Attendance> {
                 // Gửi thông tin của vị trí hiện tại qua Activity mới
                 Intent intent = new Intent(context, AdminEditAttendanceActivity.class);
                 intent.putExtra("attendanceId", currentAttendance.getId());
-                intent.putExtra("checkIn", DateUtils.formatDate(currentAttendance.getCheckInTime(), "dd/MM/yyyy HH:mm:ss"));
-                intent.putExtra("checkOut", DateUtils.formatDate(currentAttendance.getCheckOutTime(), "dd/MM/yyyy HH:mm:ss"));
                 context.startActivity(intent);
             });
         }
