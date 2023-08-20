@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.admin.AdminDepartmentManagementActivity">
+    tools:context=".activities.admin.AdminAttendanceManagementActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:layout_marginVertical="20dp"
                 android:layout_marginRight="30dp"
                 android:fontFamily="@font/medium_font"
-                android:text="Quản lý phòng ban"
+                android:text="Quản lý chấm công"
                 android:textAlignment="center"
                 android:textColor="@color/light_purple"
                 android:textSize="25dp" />
@@ -46,12 +46,12 @@
             android:layout_marginHorizontal="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_department"
+                android:id="@+id/input_empl_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_search"
                 android:drawablePadding="10dp"
-                android:hint="Phòng ban" />
+                android:hint="Tên nhân viên" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -60,42 +60,18 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:fontFamily="@font/medium_font"
-            android:text="Danh sách phòng ban"
+            android:text="Danh sách nhân viên"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="25sp" />
 
         <ListView
-            android:id="@+id/list_view_department"
+            android:id="@+id/list_view_attendance"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="20dp">
         </ListView>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/btn_add_department"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/custom_btn"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/tv_btn_add_employee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/regular_font"
-            android:text="Thêm phòng ban mới"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,6 +25,12 @@
         tools:replace="android:fullBackupContent"
         tools:targetApi="31">
         <activity
+            android:name=".activities.admin.AdminEditAttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.AdminAttendanceManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.admin.AdminViewHistoryLeaveRequestsActivity"
             android:exported="false" />
         <activity

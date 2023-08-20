@@ -13,7 +13,7 @@ public class Notification {
     private String message;
     private DocumentReference sender;
     private List<DocumentReference> receivers;
-    private Boolean isRead;
+    private Boolean read;
     private Date createdAt;
 
     @Exclude
@@ -59,11 +59,11 @@ public class Notification {
     }
 
     public Boolean getRead() {
-        return isRead;
+        return read;
     }
 
     public void setRead(Boolean read) {
-        isRead = read;
+        this.read = read;
     }
 
     public Date getCreatedAt() {

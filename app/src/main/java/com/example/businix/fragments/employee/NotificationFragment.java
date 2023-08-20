@@ -122,11 +122,16 @@ public class NotificationFragment extends Fragment {
                 seenNotificationList.add(notification);
             } else {
                 unseenNotificationList.add(notification);
-                for (Notification noti :unseenNotificationList){
-                    noti.setRead(true);
-                }
             }
         });
+        for (Notification noti : unseenNotificationList) {
+            Notification no = new Notification();
+            no.setRead(true);
+            notificationController.updateNotification(noti.getId(), no, task -> {
+                if (task.isSuccessful()) {
+                }
+            });
+        }
         MyViewPagerAdapter myAdapter = (MyViewPagerAdapter) viewPager.getAdapter();
         ((NotificationItemsFragment) myAdapter.getFragment(0)).setNotificationList(unseenNotificationList);
         ((NotificationItemsFragment) myAdapter.getFragment(1)).setNotificationList(seenNotificationList);
