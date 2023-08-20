@@ -1,5 +1,6 @@
 package com.example.businix.fragments.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +8,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.businix.R;
+import com.example.businix.activities.LoginActivity;
+import com.example.businix.activities.employee.EmployeeActivity;
+import com.example.businix.ui.CustomDialog;
+import com.example.businix.utils.LoginManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +27,8 @@ public class AdminProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private LinearLayout btnLogout;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -61,6 +69,22 @@ public class AdminProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_profile, container, false);
+        btnLogout = view.findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(view1 -> {
+            CustomDialog confirmDialog = new CustomDialog(getContext(), R.layout.custom_dialog_2);
+            confirmDialog.show();
+            confirmDialog.setQuestion("Xác nhận đăng xuất");
+            confirmDialog.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
+            confirmDialog.setOnContinueClickListener((dialog, which) -> {
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                LoginManager loginManager = new LoginManager(getContext());
+                loginManager.clearLogged();
+                getActivity().finish();
+                startActivity(i);
+            });
+
+        });
+        return view;
     }
 }

@@ -107,7 +107,7 @@ public class SignUpStepThreeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String password = s.toString();
                 if (password.length() >= 8) {
-                    Pattern pattern = Pattern.compile("[^a-zA-z0-9]");
+                    Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*_\\-+=])[A-Za-z\\d!@#$%^&*_\\-+=]+$");
                     Matcher matcher = pattern.matcher(password);
                     boolean isHasSpeChar = matcher.find();
                     if (isHasSpeChar) {

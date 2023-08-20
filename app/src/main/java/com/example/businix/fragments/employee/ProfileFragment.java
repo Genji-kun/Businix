@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment {
     private ImageView ivAvatar;
 
     private TextView tvName, tvStartDate, tvPosition;
-    private EditText inputName, inputDOB, inputIdentityNum, inputAddress, inputPhone, inputEmail, inputPosition, inputDepartment, inputStartDate;
+    private EditText inputName, inputDOB, inputIdentityNum, inputPhone, inputEmail, inputPosition, inputDepartment, inputStartDate;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -104,7 +104,6 @@ public class ProfileFragment extends Fragment {
         inputName = (EditText) view.findViewById(R.id.input_name);
         inputDOB = (EditText) view.findViewById(R.id.input_dob);
         inputIdentityNum = (EditText) view.findViewById(R.id.input_identity_num);
-        inputAddress = (EditText) view.findViewById(R.id.input_address);
         inputPhone = (EditText) view.findViewById(R.id.input_phone);
         inputEmail = (EditText) view.findViewById(R.id.input_email);
         inputPosition = (EditText) view.findViewById(R.id.input_position);

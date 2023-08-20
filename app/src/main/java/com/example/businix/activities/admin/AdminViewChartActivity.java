@@ -17,6 +17,7 @@ import com.example.businix.controllers.EmployeeController;
 import com.example.businix.controllers.LeaveRequestController;
 import com.example.businix.controllers.LeaveRequestDetailController;
 import com.example.businix.controllers.PositionController;
+import com.example.businix.controllers.StatController;
 import com.example.businix.models.Attendance;
 import com.example.businix.models.Department;
 import com.example.businix.models.LeaveRequestDetail;
@@ -25,6 +26,7 @@ import com.example.businix.models.Position;
 import com.example.businix.ui.MonthYearPickerDialog;
 import com.example.businix.utils.DateUtils;
 import com.example.businix.utils.LeaveStat;
+import com.example.businix.utils.SalaryData;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -42,28 +44,31 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AdminViewChartActivity extends AppCompatActivity {
     private PieChart chartEmployee;
     private LineChart chartAttendance;
-    private BarChart chartLeave;
+    private BarChart chartLeave, chartSalary;
     private EmployeeController employeeController;
     private DepartmentController departmentController;
     private PositionController positionController;
     private AttendanceController attendanceController;
+    private StatController statController;
     private LeaveRequestController leaveRequestController;
     private LeaveRequestDetailController leaveRequestDetailController;
     private LinearLayout statEmployee, statAttendance, statSalary, statLeave;
-    private LinearLayout btnEmployeeChart, btnByPosition, btnByDepartment, btnAttendanceChart, btnChangeTime, btnSalaryChart, btnLeaveChart, btnChangeTimeLeave;
+    private LinearLayout btnEmployeeChart, btnByPosition, btnByDepartment, btnAttendanceChart, btnChangeTime, btnSalaryChart, btnLeaveChart, btnChangeTimeLeave, btnChangeTimeSalary;
     private ImageView imgEmployeeChart, imgAttendanceChart, imgSalaryChart, imgLeaveChart;
-    private TextView tvEmplTitle, tvEmplCount, tvCountName, tvCount, tvMonth, tvMonthLeave;
+    private TextView tvEmplTitle, tvEmplCount, tvCountName, tvCount, tvMonth, tvMonthLeave, tvSalaryTime;
     private ProgressBar pbEmpl, pbAttendance, pbSalary, pbLeave;
     private Calendar calendar;
 
@@ -78,6 +83,7 @@ public class AdminViewChartActivity extends AppCompatActivity {
         departmentController = new DepartmentController();
         positionController = new PositionController();
         attendanceController = new AttendanceController();
+        statController = new StatController();
 
         //Employee Chart
         statEmployee = findViewById(R.id.stat_employee);
@@ -139,69 +145,110 @@ public class AdminViewChartActivity extends AppCompatActivity {
                 imgAttendanceChart.setImageResource(R.drawable.ic_arrow_down);
                 statAttendance.setVisibility(View.GONE);
             } else {
-                btnChangeTime.setOnClickListener(v1 -> {
-                    btnChangeTime.setEnabled(false);
-                    int yearSelected = calendar.get(Calendar.YEAR);
-                    int monthSelected = calendar.get(Calendar.MONTH);
-
-                    MonthYearPickerDialog monthDialog = new MonthYearPickerDialog(new MonthYearPickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            calendar.set(year, month, 15);
-                            tvMonth.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
-                            loadAttendanceChart(calendar.getTime());
-                        }
-
-                        @Override
-                        public void onCancel() {
-                            btnChangeTime.setEnabled(true);
-                        }
-                    }, yearSelected, monthSelected);
-                    monthDialog.setCancelable(false);
-                    monthDialog.show(getSupportFragmentManager(), "MonthYearPickerDialog");
-                });
                 loadAttendanceChart(calendar.getTime());
                 tvMonth.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
-
             }
 
+        });
+        btnChangeTime.setOnClickListener(v1 -> {
+            btnChangeTime.setEnabled(false);
+            int yearSelected = calendar.get(Calendar.YEAR);
+            int monthSelected = calendar.get(Calendar.MONTH);
+
+            MonthYearPickerDialog monthDialog = new MonthYearPickerDialog(new MonthYearPickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    calendar.set(year, month, 15);
+                    tvMonth.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
+                    loadAttendanceChart(calendar.getTime());
+                }
+
+                @Override
+                public void onCancel() {
+                    btnChangeTime.setEnabled(true);
+                }
+            }, yearSelected, monthSelected);
+            monthDialog.setCancelable(false);
+            monthDialog.show(getSupportFragmentManager(), "MonthYearPickerDialog");
+        });
+
+        //Salary Chart
+        statSalary = findViewById(R.id.stat_salary);
+        chartSalary = findViewById(R.id.salary_chart);
+        pbSalary = findViewById(R.id.progress_bar_salary);
+        tvSalaryTime = findViewById(R.id.tv_salary_time);
+        imgSalaryChart = findViewById(R.id.img_show_salary_chart);
+        btnSalaryChart = findViewById(R.id.btn_show_salary_chart);
+        btnChangeTimeSalary = findViewById(R.id.btn_select_time_salary);
+        btnSalaryChart.setOnClickListener(v -> {
+            if (statSalary.getVisibility() == View.VISIBLE) {
+                imgSalaryChart.setImageResource(R.drawable.ic_arrow_down);
+                statSalary.setVisibility(View.GONE);
+            } else {
+                loadSalaryChart(calendar.getTime());
+                statSalary.setVisibility(View.VISIBLE);
+                tvSalaryTime.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
+            }
+        });
+        btnChangeTimeSalary.setOnClickListener(view -> {
+            btnChangeTimeSalary.setEnabled(false);
+            int yearSelected = calendar.get(Calendar.YEAR);
+            int monthSelected = calendar.get(Calendar.MONTH);
+
+            MonthYearPickerDialog monthDialog = new MonthYearPickerDialog(new MonthYearPickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    calendar.set(year, month, 15);
+                    tvSalaryTime.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
+                    loadSalaryChart(calendar.getTime());
+                }
+
+                @Override
+                public void onCancel() {
+                    btnChangeTimeSalary.setEnabled(true);
+                }
+            }, yearSelected, monthSelected);
+            monthDialog.setCancelable(false);
+            monthDialog.show(getSupportFragmentManager(), "MonthYearPickerDialog");
         });
 
         leaveRequestController = new LeaveRequestController();
         leaveRequestDetailController = new LeaveRequestDetailController();
-        btnSalaryChart = findViewById(R.id.btn_show_salary_chart);
         btnLeaveChart = findViewById(R.id.btn_show_leave_chart);
         btnLeaveChart.setOnClickListener(v -> {
             if (statLeave.getVisibility() == View.VISIBLE) {
                 imgLeaveChart.setImageResource(R.drawable.ic_arrow_down);
                 statLeave.setVisibility(View.GONE);
             } else {
+                imgLeaveChart.setImageResource(R.drawable.ic_arrow_up);
+                statLeave.setVisibility(View.VISIBLE);
                 loadLeaveRequestChart(calendar.getTime());
-                btnChangeTimeLeave.setOnClickListener(v1 -> {
-                    btnChangeTimeLeave.setEnabled(false);
-                    int yearSelected = calendar.get(Calendar.YEAR);
-                    int monthSelected = calendar.get(Calendar.MONTH);
-
-                    MonthYearPickerDialog monthDialog = new MonthYearPickerDialog(new MonthYearPickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            calendar.set(year, month, 15);
-                            tvMonth.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
-                            loadLeaveRequestChart(calendar.getTime());
-                        }
-
-                        @Override
-                        public void onCancel() {
-                            btnChangeTime.setEnabled(true);
-                        }
-                    }, yearSelected, monthSelected);
-                    monthDialog.setCancelable(false);
-                    monthDialog.show(getSupportFragmentManager(), "MonthYearPickerDialog");
-                });
                 tvMonthLeave.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
                 btnChangeTimeLeave.setEnabled(true);
 
             }
+        });
+        btnChangeTimeLeave.setOnClickListener(v1 -> {
+            btnChangeTimeLeave.setEnabled(false);
+            int yearSelected = calendar.get(Calendar.YEAR);
+            int monthSelected = calendar.get(Calendar.MONTH);
+
+            MonthYearPickerDialog monthDialog = new MonthYearPickerDialog(new MonthYearPickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    calendar.set(year, month, 15);
+                    tvMonthLeave.setText(DateUtils.formatDate(calendar.getTime(), "MM/yyyy"));
+                    loadLeaveRequestChart(calendar.getTime());
+
+                }
+
+                @Override
+                public void onCancel() {
+                    btnChangeTimeLeave.setEnabled(true);
+                }
+            }, yearSelected, monthSelected);
+            monthDialog.setCancelable(false);
+            monthDialog.show(getSupportFragmentManager(), "MonthYearPickerDialog");
         });
 
         findViewById(R.id.btn_back).setOnClickListener(v -> {
@@ -324,7 +371,8 @@ public class AdminViewChartActivity extends AppCompatActivity {
                 List<Entry> workEntries = new ArrayList<>();
                 List<Entry> overTimeEntries = new ArrayList<>();
                 List<Entry> lateEntries = new ArrayList<>();
-                Map<Date, List<Attendance>> datas = task.getResult();
+                Map<Date, List<Attendance>> datas = new TreeMap<>(task.getResult());
+
                 for (Date dateKey : datas.keySet()) {
                     double workHours = 0;
                     double lateHours = 0;
@@ -376,85 +424,57 @@ public class AdminViewChartActivity extends AppCompatActivity {
             }
             imgAttendanceChart.setImageResource(R.drawable.ic_arrow_up);
             statAttendance.setVisibility(View.VISIBLE);
+            btnChangeTime.setEnabled(true);
         });
     }
 
-//    private void loadSalaryChart(Date dateSelected) {
-//        List<BarEntry> entries = new ArrayList<>();
-//        attendanceController.getAttendancesOfEmployeeByMonth(dateSelected, employeeRef, task2 -> {
-//            if (task2.isSuccessful()) {
-//                double totalPrimary = 0;
-//                double totalOvertime = 0;
-//                for (Attendance data : task2.getResult()) {
-//                    if (data.getCheckInTime() != null && data.getCheckInTime() != null) {
-//                        calendar.setTime(data.getCheckInTime());
-//                        double overHours = data.getOvertime();
-//                        double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;
-//
-//                        double salaryPrimary = workHours * salaryCoefficient;
-//                        double salaryOvertime = overHours * salaryCoefficient * (150 / 100);
-//                        totalPrimary += salaryPrimary;
-//                        totalOvertime += salaryOvertime;
-//                        entries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), new float[]{(float) (salaryPrimary), (float) (salaryOvertime)}));
-//                    }
-//
-//                }
-//                long total = (long) ((totalPrimary + totalOvertime) * 1000);
-//                tvSalaryTotal.setText( String.format("%,d", total) + " VNĐ");
-//
-//                long totalPrimaryValue = (long) (totalPrimary * 1000);
-//                tvSalaryPrimary.setText(String.format("%,d", totalPrimaryValue));
-//
-//                long totalOvertimeValue = (long) (totalOvertime * 1000);
-//                tvSalaryOvertime.setText(String.format("%,d", totalOvertimeValue));
-//
-//                BarDataSet dataSet = new BarDataSet(entries, "");
-//                dataSet.setColors(getColor(R.color.sub_purple), getColor(R.color.light_purple));
-//                dataSet.setValueTextColor(getColor(R.color.black));
-//                dataSet.setHighLightColor(getColor(R.color.waiting));
-//                dataSet.setHighLightAlpha(255);
-//                dataSet.setValueTextSize(8);
-//                dataSet.setDrawValues(true);
-//                dataSet.setValueFormatter(new ValueFormatter() {
-//                    @Override
-//                    public String getFormattedValue(float value) {
-//                        if (value == 0.0)
-//                            return "";
-//                        DecimalFormat df = new DecimalFormat("#.###");
-//                        return df.format(value) + "k";
-//                    }
-//                });
-//                dataSet.setStackLabels(new String[]{"Lương chính", "Lương tăng ca"});
-//                BarData barDate = new BarData(dataSet);
-//
-//                barChart.getAxisRight().setEnabled(false);
-//                barChart.setData(barDate);
-//                barChart.setDrawValueAboveBar(false);
-//                barChart.getAxisLeft().setValueFormatter(new ValueFormatter() {
-//                    @Override
-//                    public String getAxisLabel(float value, AxisBase axis) {
-//                        DecimalFormat df = new DecimalFormat("#.###");
-//                        return df.format(value) + "k";
-//                    }
-//                });
-//                XAxis xAxis = barChart.getXAxis();
-//                xAxis.setTextSize(11);
-//                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//                xAxis.setGranularity(1f);
-//                xAxis.setValueFormatter(new ValueFormatter() {
-//                    @Override
-//                    public String getAxisLabel(float value, AxisBase axis) {
-//                        int dayOfMonth = (int) value;
-//                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//                        return DateUtils.formatDate(calendar.getTime(), "dd/MM");
-//                    }
-//                });
-//                barChart.invalidate();
-//            }
-//            btnSelectDate.setEnabled(true);
-//            setStopLoading();
-//        });
-//    }
+    private void loadSalaryChart(Date dateSelected) {
+        statController.statSlary(dateSelected, dateSalaryDataMap -> {
+            List<BarEntry> entries = new ArrayList<>();
+            Calendar cal = Calendar.getInstance();
+            for (Date date : dateSalaryDataMap.keySet()) {
+                cal.setTime(date);
+                SalaryData data = dateSalaryDataMap.get(date);
+                entries.add(new BarEntry(cal.get(Calendar.DAY_OF_MONTH),
+                        new float[]{(float) (data.getNormalSalary()),
+                                (float) (data.getOvertimeSalary())}));
+            }
+            BarDataSet dataSet = new BarDataSet(entries, "");
+            dataSet.setColors(getColor(R.color.sub_purple), getColor(R.color.light_purple));
+            dataSet.setValueTextColor(getColor(R.color.black));
+            dataSet.setHighLightColor(getColor(R.color.waiting));
+            dataSet.setHighLightAlpha(255);
+            dataSet.setValueTextSize(8);
+            dataSet.setDrawValues(true);
+            dataSet.setStackLabels(new String[]{"Lương hành chính", "Lương overtime"});
+            BarData barDate = new BarData(dataSet);
+
+            chartSalary.getAxisRight().setEnabled(false);
+            chartSalary.setData(barDate);
+            chartSalary.setDrawValueAboveBar(false);
+            chartSalary.getAxisLeft().setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getAxisLabel(float value, AxisBase axis) {
+                    DecimalFormat df = new DecimalFormat("#.###");
+                    return df.format(value) + "k";
+                }
+            });
+            XAxis xAxis = chartSalary.getXAxis();
+            xAxis.setTextSize(11);
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setGranularity(1f);
+            xAxis.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getAxisLabel(float value, AxisBase axis) {
+                    int dayOfMonth = (int) value;
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    return DateUtils.formatDate(calendar.getTime(), "dd/MM");
+                }
+            });
+            chartSalary.invalidate();
+        });
+        btnChangeTimeSalary.setEnabled(true);
+    }
 
     private void loadLeaveRequestChart(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -537,12 +557,13 @@ public class AdminViewChartActivity extends AppCompatActivity {
                                 chartLeave.invalidate();
                             }
                         }
-                        imgLeaveChart.setImageResource(R.drawable.ic_arrow_up);
-                        statLeave.setVisibility(View.VISIBLE);
+
                     });
                 }
             }
-
+            chartLeave.setData(null);
+            chartLeave.invalidate();
+            btnChangeTimeLeave.setEnabled(true);
         });
     }
 }

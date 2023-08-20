@@ -104,7 +104,7 @@ public class SalaryActivity extends ActionBar {
                         double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;
 
                         double salaryPrimary = workHours * salaryCoefficient;
-                        double salaryOvertime = overHours * salaryCoefficient * (150 / 100);
+                        double salaryOvertime = overHours * salaryCoefficient * 1.5;
                         totalPrimary += salaryPrimary;
                         totalOvertime += salaryOvertime;
                         entries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), new float[]{(float) (salaryPrimary), (float) (salaryOvertime)}));

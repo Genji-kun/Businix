@@ -254,30 +254,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Địa chỉ"
-                    android:fontFamily="@font/regular_font"
-                    android:textColor="@color/medium_purple"
-                    android:textSize="16sp"
-                    />
-                <EditText
-                    android:id="@+id/input_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:layout_marginVertical="5dp"
-                    android:background="@drawable/custom_edit_text"
-                    android:padding="10dp"
-
-                    android:inputType="text"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:enabled="false"
-                    android:fontFamily="@font/regular_font"
-                    android:text="@string/empty"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="SĐT"
                     android:fontFamily="@font/regular_font"
                     android:textColor="@color/medium_purple"

@@ -125,7 +125,7 @@ public class StatActivity extends ActionBar {
                                 else
                                     count++;
                             }
-                            tvLeaveRequests.setText(count);
+                            tvLeaveRequests.setText(count + "");
                         }
                     });
                 }
@@ -136,62 +136,72 @@ public class StatActivity extends ActionBar {
     private void loadChart() {
         attendanceController.getAttendancesOfEmployeeByMonth(calendar.getTime(), employeeRef, task2 -> {
             if (task2.isSuccessful()) {
-                List<Entry> workEntries = new ArrayList<>();
-                List<Entry> overTimeEntries = new ArrayList<>();
-                List<Entry> lateEntries = new ArrayList<>();
-                double totalWorkHours = 0;
-                double totalOvertimeHours = 0;
-                double totalLateHours = 0;
-                for (Attendance data : task2.getResult()) {
-                    Calendar temp = Calendar.getInstance();
-                    temp.setTime(data.getCheckInTime());
-                    double overHours = data.getOvertime();
-                    double lateHours = data.getLate();
-                    double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;
-                    totalWorkHours += workHours;
-                    totalOvertimeHours += overHours;
-                    totalLateHours += lateHours;
-                    workEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (workHours)));
-                    overTimeEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (overHours)));
-                    lateEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (lateHours)));
+                if (task2.getResult().size() > 0) {
+                    List<Entry> workEntries = new ArrayList<>();
+                    List<Entry> overTimeEntries = new ArrayList<>();
+                    List<Entry> lateEntries = new ArrayList<>();
+                    double totalWorkHours = 0;
+                    double totalOvertimeHours = 0;
+                    double totalLateHours = 0;
+                    for (Attendance data : task2.getResult()) {
+                        Calendar temp = Calendar.getInstance();
+                        temp.setTime(data.getCheckInTime());
+                        double overHours = data.getOvertime();
+                        double lateHours = data.getLate();
+                        double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;
+                        totalWorkHours += workHours;
+                        totalOvertimeHours += overHours;
+                        totalLateHours += lateHours;
+                        workEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (workHours)));
+                        overTimeEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (overHours)));
+                        lateEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (lateHours)));
+                    }
+                    tvLateHours.setText(String.format("%.2f giờ", totalLateHours));
+                    tvOvertimeHours.setText(String.format("%.2f giờ", totalOvertimeHours));
+                    tvWorkHours.setText(String.format("%.2f giờ", totalWorkHours));
+
+
+                    LineDataSet workSet = new LineDataSet(workEntries, "Giờ làm");
+                    workSet.setColors(getColor(R.color.light_purple));
+                    workSet.setValueTextColor(getColor(R.color.black));
+                    workSet.setValueTextSize(8);
+                    workSet.setCircleColor(R.color.light_purple);
+                    workSet.setLineWidth(3);
+                    workSet.setDrawValues(true);
+
+                    LineDataSet overtimeSet = new LineDataSet(overTimeEntries, "Giờ tăng ca");
+                    overtimeSet.setColors(getColor(R.color.accept_line));
+                    overtimeSet.setValueTextColor(getColor(R.color.black));
+                    overtimeSet.setValueTextSize(8);
+                    overtimeSet.setCircleColor(R.color.accept_line);
+                    overtimeSet.setLineWidth(3);
+                    overtimeSet.setDrawValues(true);
+
+                    LineDataSet lateSet = new LineDataSet(lateEntries, "Giờ đi trễ");
+                    lateSet.setColors(getColor(R.color.reject_line));
+                    lateSet.setValueTextColor(getColor(R.color.black));
+                    lateSet.setValueTextSize(8);
+                    lateSet.setCircleColor(R.color.reject_line);
+                    lateSet.setLineWidth(3);
+                    lateSet.setDrawValues(true);
+
+                    List<ILineDataSet> setList = new ArrayList<>();
+                    setList.add(workSet);
+                    setList.add(overtimeSet);
+                    setList.add(lateSet);
+                    LineData lineData = new LineData(setList);
+                    chart.setData(lineData);
+                    btnChangeTime.setEnabled(true);
+                    setStopLoading();
                 }
-                tvLateHours.setText(String.format("%.2f giờ", totalLateHours));
-                tvOvertimeHours.setText(String.format("%.2f giờ", totalOvertimeHours));
-                tvWorkHours.setText(String.format("%.2f giờ", totalWorkHours));
-
-
-                LineDataSet workSet = new LineDataSet(workEntries, "Giờ làm");
-                workSet.setColors(getColor(R.color.light_purple));
-                workSet.setValueTextColor(getColor(R.color.black));
-                workSet.setValueTextSize(8);
-                workSet.setCircleColor(R.color.light_purple);
-                workSet.setLineWidth(3);
-                workSet.setDrawValues(true);
-
-                LineDataSet overtimeSet = new LineDataSet(overTimeEntries, "Giờ tăng ca");
-                overtimeSet.setColors(getColor(R.color.accept_line));
-                overtimeSet.setValueTextColor(getColor(R.color.black));
-                overtimeSet.setValueTextSize(8);
-                overtimeSet.setCircleColor(R.color.accept_line);
-                overtimeSet.setLineWidth(3);
-                overtimeSet.setDrawValues(true);
-
-                LineDataSet lateSet = new LineDataSet(lateEntries, "Giờ đi trễ");
-                lateSet.setColors(getColor(R.color.reject_line));
-                lateSet.setValueTextColor(getColor(R.color.black));
-                lateSet.setValueTextSize(8);
-                lateSet.setCircleColor(R.color.reject_line);
-                lateSet.setLineWidth(3);
-                lateSet.setDrawValues(true);
-
-                List<ILineDataSet> setList = new ArrayList<>();
-                setList.add(workSet);
-                setList.add(overtimeSet);
-                setList.add(lateSet);
-                LineData lineData = new LineData(setList);
-                chart.setData(lineData);
-                btnChangeTime.setEnabled(true);
-                setStopLoading();
+                else {
+                    chart.setData(null);
+                    tvLateHours.setText("0.00 giờ");
+                    tvOvertimeHours.setText("0.00 giờ");
+                    tvWorkHours.setText("0.00 giờ");
+                    btnChangeTime.setEnabled(true);
+                    setStopLoading();
+                }
             }
         });
     }

@@ -4,7 +4,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,14 +14,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.businix.activities.employee.ChangePasswordActivity;
+import com.example.businix.activities.ChangePasswordActivity;
 import com.example.businix.activities.employee.EditProfileActivity;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.fragments.admin.AdminHomeFragment;
 import com.example.businix.fragments.admin.AdminNotificationFragment;
 import com.example.businix.R;
 import com.example.businix.fragments.admin.AdminProfileFragment;
-import com.example.businix.fragments.employee.NotificationFragment;
 import com.example.businix.fragments.employee.ProfileFragment;
 import com.example.businix.models.Employee;
 import com.example.businix.ui.ActionBar;
@@ -62,18 +60,10 @@ public class AdminActivity extends ActionBar implements NavigationView.OnNavigat
         employeeController = new EmployeeController();
         loginManager = new LoginManager(this);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.admin_drawer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportMyActionBar("", false, true);
+        setSupportMyActionBar("", false, false);
         setTitleText("BUSINIX", 20, R.font.airbeat, R.color.light_purple);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        navView = (NavigationView) findViewById(R.id.nav_view);
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                return false;
-            }
-        });
 
         //Thêm fragments vào danh sách
         fragmentMap = new HashMap<>();

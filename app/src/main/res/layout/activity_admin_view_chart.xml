@@ -459,15 +459,51 @@
                         android:orientation="vertical"
                         android:visibility="gone">
 
-                        <TextView
-                            android:id="@+id/tv_salary_chart_title"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:fontFamily="@font/medium_font"
-                            android:text="Theo phòng ban"
-                            android:textAlignment="center"
-                            android:textSize="26sp" />
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/light_round_shape"
+                            android:backgroundTint="@color/white"
+                            android:elevation="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/medium_font"
+                                android:paddingVertical="15dp"
+                                android:paddingStart="15dp"
+                                android:text="Chọn tháng:"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <LinearLayout
+                                android:id="@+id/btn_select_time_salary"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:padding="15dp">
+
+                                <TextView
+                                    android:id="@+id/tv_salary_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="10dp"
+                                    android:fontFamily="@font/regular_font"
+                                    android:text="@string/empty"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_emp_calendar" />
+                            </LinearLayout>
+                        </LinearLayout>
+
 
                         <com.github.mikephil.charting.charts.BarChart
                             android:id="@+id/salary_chart"
