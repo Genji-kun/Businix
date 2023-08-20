@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,8 +27,9 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AdminEditAttendanceActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class AdminEditAttendanceActivity extends AppCompatActivity {
     private TextInputEditText inputCheckIn, inputCheckOut;
+    private ImageView btnBack;
     private LinearLayout btnEdit;
     private TextView tvBtnEdit;
     private Context context;
@@ -44,6 +46,8 @@ public class AdminEditAttendanceActivity extends AppCompatActivity implements Ti
         inputCheckOut = findViewById(R.id.input_check_out);
         progressBar = findViewById(R.id.progress_bar);
         tvBtnEdit = findViewById(R.id.tv_btn_edit);
+        btnBack = findViewById(R.id.btn_back);
+
 
         try {
             checkInTime = DateUtils.changeStringToDate(getIntent().getStringExtra("checkIn"), "dd/MM/yyyy HH:mm:ss");
@@ -52,11 +56,14 @@ public class AdminEditAttendanceActivity extends AppCompatActivity implements Ti
             throw new RuntimeException(e);
         }
         inputCheckIn.setText(DateUtils.formatDate(checkInTime, "HH:mm"));
+        inputCheckOut.setText(DateUtils.formatDate(checkOutTime, "HH:mm"));
 
-        String checkIn = inputCheckIn.getText().toString();
-        String[] CheckInTimeParts = checkIn.split(":");
-        int checkInHour = Integer.parseInt(CheckInTimeParts[0]);
-        int checkInMinute = Integer.parseInt(CheckInTimeParts[1]);
+        String[] checkInBefore = inputCheckIn.getText().toString().split(":");
+        int checkInHour = Integer.parseInt(checkInBefore[0]);
+        int checkInMinute = Integer.parseInt(checkInBefore[1]);
+        String[] checkOutBefore = inputCheckOut.getText().toString().split(":");
+        int checkOutHour = Integer.parseInt(checkOutBefore[0]);
+        int checkOutMinute = Integer.parseInt(checkOutBefore[1]);
 
         inputCheckIn.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
@@ -70,13 +77,6 @@ public class AdminEditAttendanceActivity extends AppCompatActivity implements Ti
                 timePickerDialog.show();
             }
         });
-
-        inputCheckOut.setText(DateUtils.formatDate(checkOutTime, "HH:mm"));
-
-        String checkout = inputCheckOut.getText().toString();
-        String[] checkOutTimeParts = checkout.split(":");
-        int checkOutHour = Integer.parseInt(checkOutTimeParts[0]);
-        int checkOutMinute = Integer.parseInt(checkOutTimeParts[1]);
 
         inputCheckOut.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
@@ -104,29 +104,25 @@ public class AdminEditAttendanceActivity extends AppCompatActivity implements Ti
                 return;
             }
 
-            String checkOut = inputCheckOut.getText().toString();
-            String[] checkoutParts = checkOut.split(":");
-            int checkOutH = Integer.parseInt(checkoutParts[0]);
-            int checkOutM = Integer.parseInt(checkoutParts[1]);
+            String[] checkInAfter = inputCheckIn.getText().toString().split(":");
+            int checkInH = Integer.parseInt(checkInAfter[0]);
+            int checkInM = Integer.parseInt(checkInAfter[1]);
 
-            String checkin = inputCheckIn.getText().toString();
-            String[] checkinParts = checkin.split(":");
-            int checkInH = Integer.parseInt(checkinParts[0]);
-            int checkInM = Integer.parseInt(checkinParts[1]);
+            String[] checkOutAfter = inputCheckOut.getText().toString().split(":");
+            int checkOutH = Integer.parseInt(checkOutAfter[0]);
+            int checkOutM = Integer.parseInt(checkOutAfter[1]);
 
             Attendance attend = new Attendance();
 
             Calendar calendar = Calendar.getInstance();
+            calendar.setTime(checkInTime);
+            calendar.set(Calendar.HOUR_OF_DAY, checkInH);
+            calendar.set(Calendar.MINUTE, checkInM);
+            attend.setCheckInTime(calendar.getTime());
             calendar.setTime(checkOutTime);
             calendar.set(Calendar.HOUR_OF_DAY, checkOutH);
             calendar.set(Calendar.MINUTE, checkOutM);
             attend.setCheckOutTime(calendar.getTime());
-            calendar.setTime(checkInTime);
-            calendar.set(Calendar.HOUR_OF_DAY, checkInH);
-            calendar.set(Calendar.MINUTE, checkInM);
-            attend.setCheckOutTime(calendar.getTime());
-
-
 
             attendanceController.updateAttendance(getIntent().getStringExtra("attendanceId"), attend, task -> {
                 if (task.isSuccessful()) {
@@ -134,6 +130,9 @@ public class AdminEditAttendanceActivity extends AppCompatActivity implements Ti
                     finish();
                 }
             });
+        });
+        btnBack.setOnClickListener(v -> {
+            finish();
         });
     }
 
@@ -151,8 +150,4 @@ public class AdminEditAttendanceActivity extends AppCompatActivity implements Ti
         btnEdit.setBackgroundColor(context.getResources().getColor(R.color.light_purple));
     }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-    }
 }

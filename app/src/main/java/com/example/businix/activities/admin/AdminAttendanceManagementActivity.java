@@ -45,7 +45,7 @@ public class AdminAttendanceManagementActivity extends AppCompatActivity {
         AttendanceController attendanceController = new AttendanceController();
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        attendanceController.getAttendancesByDate(date,new OnCompleteListener<List<Attendance>>() {
+        attendanceController.getAttendancesByDate(date, new OnCompleteListener<List<Attendance>>() {
             @Override
             public void onComplete(@NonNull Task<List<Attendance>> task) {
                 if (task.isSuccessful()) {
@@ -82,6 +82,29 @@ public class AdminAttendanceManagementActivity extends AppCompatActivity {
         btnHome = (ImageView) findViewById(R.id.btn_home);
         btnHome.setOnClickListener(v -> {
             finish();
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        AttendanceController attendanceController = new AttendanceController();
+        attendanceController.getAttendancesByDate(date, new OnCompleteListener<List<Attendance>>() {
+            @Override
+            public void onComplete(@NonNull Task<List<Attendance>> task) {
+                if (task.isSuccessful()) {
+                    attendanceList = task.getResult();
+                    if (attendanceAdapter != null) {
+                        attendanceAdapter.clear(); // Xóa dữ liệu cũ trong adapter
+                        attendanceAdapter.addAll(attendanceList); // Thêm dữ liệu mới vào adapter
+                        attendanceAdapter.notifyDataSetChanged(); // Cập nhật lại ListView
+                    }
+                } else {
+                    // Xử lý lỗi
+                }
+            }
         });
     }
 }
