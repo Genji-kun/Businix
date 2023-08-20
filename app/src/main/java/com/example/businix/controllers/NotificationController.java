@@ -23,4 +23,9 @@ public class NotificationController {
         Task<List<Notification>> getNotificationsTask = notificationDao.getNotifications(id);
         getNotificationsTask.addOnCompleteListener(onCompleteListener);
     }
+
+    public void updateNotification(String id, Notification notification , OnCompleteListener<Void> onCompleteListener) {
+        Task<Void> addNotificationTask = notificationDao.updateNotification(id,notification);
+        addNotificationTask.addOnCompleteListener(onCompleteListener);
+    }
 }

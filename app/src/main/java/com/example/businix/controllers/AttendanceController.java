@@ -8,12 +8,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class AttendanceController {
     private AttendanceDAO attendanceDAO;
+
     public AttendanceController() {
         attendanceDAO = new AttendanceDAO();
     }
@@ -27,6 +29,7 @@ public class AttendanceController {
         Task<Void> updateAttendanceTask = attendanceDAO.updateAttendance(id, attendance);
         updateAttendanceTask.addOnCompleteListener(onCompleteListener);
     }
+
     public void getAttendanceByMonth(Date date, DocumentReference emp, MyFindListener myFindListener) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -40,40 +43,36 @@ public class AttendanceController {
         cal.set(Calendar.SECOND, 59);
         cal.set(Calendar.MILLISECOND, 999);
         Date maxTime = cal.getTime();
-        Task<Attendance>  getAttendanceByDateTask = attendanceDAO.getAttendanceByDate(minTime, maxTime, emp);
+        Task<Attendance> getAttendanceByDateTask = attendanceDAO.getAttendanceByDate(minTime, maxTime, emp);
         getAttendanceByDateTask.addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
                 if (task.getResult() == null) {
                     myFindListener.onNotFound();
-                }
-                else {
+                } else {
                     Attendance attendance = task.getResult();
                     myFindListener.onFoundSuccess(attendance);
                 }
-            }
-            else
+            } else
                 myFindListener.onFail();
         });
     }
 
     public void getAttendanceById(String id, MyFindListener myFindListener) {
-        Task<Attendance>  getAttendanceByIdTask = attendanceDAO.getAttendanceById(id);
+        Task<Attendance> getAttendanceByIdTask = attendanceDAO.getAttendanceById(id);
         getAttendanceByIdTask.addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
                 if (task.getResult() != null) {
                     Attendance attendance = task.getResult();
                     myFindListener.onFoundSuccess(attendance);
-                }
-                else {
+                } else {
                     myFindListener.onNotFound();
                 }
-            }
-            else
+            } else
                 myFindListener.onFail();
         });
     }
 
-    public void getAttendancesOfEmployeeByMonth(Date date, DocumentReference emp , OnCompleteListener<List<Attendance>> onCompleteListener) {
+    public void getAttendancesOfEmployeeByMonth(Date date, DocumentReference emp, OnCompleteListener<List<Attendance>> onCompleteListener) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -110,4 +109,23 @@ public class AttendanceController {
         Task<Map<Date, List<Attendance>>> getAttendancesDataTask = attendanceDAO.getStatAttendanceGroupByDate(minTime, maxTime);
         getAttendancesDataTask.addOnCompleteListener(onCompleteListener);
     }
+
+    public void getAttendancesByDate(Date date, OnCompleteListener<List<Attendance>> onCompleteListener) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date minTime = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        Date maxTime = cal.getTime();
+        Task<List<Attendance>> getAttendTask = attendanceDAO.getAttendancesByDate(minTime,maxTime);
+        getAttendTask.addOnCompleteListener(onCompleteListener);
+    }
+
+
 }

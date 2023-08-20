@@ -26,10 +26,7 @@ public class AdminEditDepartmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_edit_department);
 
-
         inputDepartmentName = (TextInputEditText) findViewById(R.id.input_department_name);
-
-
         inputDepartmentName.setText(getIntent().getStringExtra("departmentName"));
 
         btnEditDepartment = (LinearLayout) findViewById(R.id.btn_edit_department);

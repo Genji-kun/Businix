@@ -28,9 +28,12 @@ public class DateUtils {
         return sdf.parse(dateString);
     }
 
-    public static boolean checkIsGreater(Date dateA, Date dateB) {
-        long a = dateA.getTime() - dateB.getTime();
-        return a > 0;
+    public static Date changeDatePattern(String timeString,String inputPattern, String outputPattern) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat osdf = new SimpleDateFormat(outputPattern);
+        Date date = sdf.parse(timeString);
+        String formattedTime = osdf.format(date);
+        return osdf.parse(formattedTime);
     }
 
     public static double getDiffHours(Date dateA, Date dateB) {

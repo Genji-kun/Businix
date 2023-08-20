@@ -8,8 +8,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.businix.R;
+import com.example.businix.activities.admin.AdminActivity;
 import com.example.businix.adapters.MyViewPagerAdapter;
 import com.example.businix.controllers.NotificationController;
 import com.example.businix.fragments.employee.NotificationFragment;
@@ -114,15 +116,20 @@ public class AdminNotificationFragment extends Fragment {
         List<Notification> unseenNotificationList = new ArrayList<>();
         List<Notification> seenNotificationList = new ArrayList<>();
         notificationList.forEach(notification -> {
-            if (notification.getRead()) {
+            if (notification.getRead() == true) {
                 seenNotificationList.add(notification);
             } else {
                 unseenNotificationList.add(notification);
-                for (Notification noti :unseenNotificationList){
-                    noti.setRead(true);
-                }
             }
         });
+        for (Notification noti : unseenNotificationList) {
+            Notification no = new Notification();
+            no.setRead(true);
+            notificationController.updateNotification(noti.getId(), no, task -> {
+                if (task.isSuccessful()) {
+                }
+            });
+        }
         MyViewPagerAdapter myAdapter = (MyViewPagerAdapter) viewPager.getAdapter();
         ((NotificationItemsFragment) myAdapter.getFragment(0)).setNotificationList(unseenNotificationList);
         ((NotificationItemsFragment) myAdapter.getFragment(1)).setNotificationList(seenNotificationList);

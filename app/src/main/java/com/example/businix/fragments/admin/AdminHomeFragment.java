@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.businix.R;
 import com.example.businix.activities.admin.AdminApproveActivity;
+import com.example.businix.activities.admin.AdminAttendanceManagementActivity;
 import com.example.businix.activities.admin.AdminDepartmentManagementActivity;
 import com.example.businix.activities.admin.AdminEmployeeManagementActivity;
 import com.example.businix.activities.admin.AdminLeaveRequestActivity;
@@ -62,7 +63,7 @@ public class AdminHomeFragment extends Fragment {
         }
     }
 
-    private LinearLayout btnEmployee, btnPosition, btnDepartment, btnApprove, btnLeaveRequest, btnViewChart;
+    private LinearLayout btnEmployee, btnPosition, btnDepartment, btnWork, btnApprove, btnLeaveRequest, btnViewChart;
     private TextView tvCountApprove, tvCountLeaveRequest;
     private EmployeeController employeeController;
     private LeaveRequestController leaveRequestController;
@@ -79,6 +80,7 @@ public class AdminHomeFragment extends Fragment {
         btnApprove = (LinearLayout) view.findViewById(R.id.btn_approve);
         btnLeaveRequest = (LinearLayout) view.findViewById(R.id.btn_leave_request);
         btnViewChart = (LinearLayout) view.findViewById(R.id.btn_view_chart);
+        btnWork = (LinearLayout) view.findViewById(R.id.btn_work);
 
         tvCountApprove = (TextView) view.findViewById(R.id.tv_count_approve);
         tvCountLeaveRequest = (TextView) view.findViewById(R.id.tv_count_leave_request);
@@ -111,6 +113,11 @@ public class AdminHomeFragment extends Fragment {
         btnDepartment.setOnClickListener(v -> {
             Intent department = new Intent(getActivity(), AdminDepartmentManagementActivity.class);
             startActivity(department);
+        });
+
+        btnWork.setOnClickListener(v -> {
+            Intent work = new Intent(getActivity(), AdminAttendanceManagementActivity.class);
+            startActivity(work);
         });
 
         btnViewChart.setOnClickListener(v -> {

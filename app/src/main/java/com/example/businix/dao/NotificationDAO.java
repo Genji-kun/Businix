@@ -2,10 +2,14 @@ package com.example.businix.dao;
 
 import android.util.Log;
 
+import com.example.businix.models.Department;
 import com.example.businix.models.LeaveRequest;
 import com.example.businix.models.Notification;
+import com.example.businix.utils.FirestoreUtils;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -13,6 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 public class NotificationDAO {
     private FirebaseFirestore db;
@@ -57,4 +62,33 @@ public class NotificationDAO {
             }
         });
     }
+
+    public Task<Void> updateNotification(String id, Notification notification) {
+
+        if (notification == null || id.isEmpty()) {
+            Log.e("NotificationDAO", "notiId không hợp lệ");
+            return Tasks.forException(new IllegalArgumentException("employeeId không hợp lệ"));
+        }
+
+        Map<String, Object> updates;
+        try {
+            updates = FirestoreUtils.prepareUpdates(notification);
+        } catch (IllegalAccessException e) {
+            Log.e("NotificationDAO", "Không lấy được dữ liệu updates.", e);
+            return Tasks.forException(e);
+        }
+
+        DocumentReference documentRef = db.collection(collectionPath).document(id);
+        return documentRef.update(updates)
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("NotificationDAO", "Notification cập nhật thành công.");
+                        return null; // Trả về null để biểu thị việc thành công
+                    } else {
+                        Log.e("NotificationDAO", "Notification cập nhật thất bại.", task.getException());
+                        throw task.getException();
+                    }
+                });
+    }
+
 }

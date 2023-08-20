@@ -159,10 +159,36 @@ public class AttendanceDAO {
                     attendanceByDate.get(date).add(attendance);
                 }
                 return attendanceByDate;
+
             } else {
                 Log.e("AttendanceDAO", "Lỗi khi truy xuất", task.getException());
                 throw task.getException();
             }
         });
     }
+
+    public Task<List<Attendance>> getAttendancesByDate(Date minTime, Date maxTime) {
+        Query query = db.collection(collectionPath);
+        if (minTime != null && maxTime != null) {
+            query = query.whereGreaterThanOrEqualTo("checkInTime", minTime).whereLessThanOrEqualTo("checkInTime", maxTime);
+        } else {
+            return null;
+        }
+
+        return query.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                List<Attendance> attendances = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Attendance attendance = document.toObject(Attendance.class);
+                    attendance.setId(document.getId());
+                    attendances.add(attendance);
+                }
+                return attendances;
+            } else {
+                Log.e("AttendanceDAO", "Lỗi khi truy xuất", task.getException());
+                throw task.getException();
+            }
+        });
+    }
+
 }

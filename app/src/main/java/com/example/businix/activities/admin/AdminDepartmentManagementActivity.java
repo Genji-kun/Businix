@@ -25,7 +25,6 @@ public class AdminDepartmentManagementActivity extends AppCompatActivity {
 
     private ImageView btnHome;
     private LinearLayout btnAddDepartment;
-
     private TextInputEditText inputDepartment;
     private DepartmentAdapter departmentAdapter;
     private List<Department> departmentList;

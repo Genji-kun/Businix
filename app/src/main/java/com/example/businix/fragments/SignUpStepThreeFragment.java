@@ -56,9 +56,6 @@ public class SignUpStepThreeFragment extends Fragment {
         return inputPassword;
     }
 
-    public TextInputEditText getInputConfirm() {
-        return inputConfirm;
-    }
 
 
     public SignUpStepThreeFragment() {
