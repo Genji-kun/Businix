@@ -10,6 +10,7 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,10 +61,14 @@ public class AttendanceAdapter extends ArrayAdapter<Attendance> {
         if (attendance != null) {
             TextView tvIn = (TextView) view.findViewById(R.id.tv_in);
             Date checkInTime = attendance.getCheckInTime();
-            tvIn.setText("in: " + DateUtils.formatDate(checkInTime,"HH:mm"));
+            tvIn.setText("in: " + DateUtils.formatDate(checkInTime, "HH:mm"));
             TextView tvOut = (TextView) view.findViewById(R.id.tv_out);
-            Date checkOutTime = attendance.getCheckOutTime();
-            tvOut.setText("out: " + DateUtils.formatDate(checkOutTime,"HH:mm"));
+            if (attendance.getCheckOutTime() == null) {
+                tvOut.setText("out: Đang cập nhật");
+            } else {
+                Date checkOutTime = attendance.getCheckOutTime();
+                tvOut.setText("out: " + DateUtils.formatDate(checkOutTime, "HH:mm"));
+            }
             attendance.getEmployee().get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
                     Employee employee = documentSnapshot.toObject(Employee.class);
@@ -89,12 +94,13 @@ public class AttendanceAdapter extends ArrayAdapter<Attendance> {
 
             btnEdit.setOnClickListener(v -> {
                 Attendance currentAttendance = filteredList.get(position);
-
+                if (currentAttendance.getCheckOutTime() == null) {
+                    Toast.makeText(getContext(),"Đang trong giờ làm không thể chỉnh sửa",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 // Gửi thông tin của vị trí hiện tại qua Activity mới
                 Intent intent = new Intent(context, AdminEditAttendanceActivity.class);
                 intent.putExtra("attendanceId", currentAttendance.getId());
-                intent.putExtra("checkIn", DateUtils.formatDate(currentAttendance.getCheckInTime(), "dd/MM/yyyy HH:mm:ss"));
-                intent.putExtra("checkOut", DateUtils.formatDate(currentAttendance.getCheckOutTime(), "dd/MM/yyyy HH:mm:ss"));
                 context.startActivity(intent);
             });
         }
@@ -119,7 +125,7 @@ public class AttendanceAdapter extends ArrayAdapter<Attendance> {
                     List<Attendance> filteredAttendances = new ArrayList<>();
                     for (Attendance attendance : attendanceList) {
                         attendance.getEmployee().get().addOnSuccessListener(documentSnapshot -> {
-                            if(documentSnapshot.exists()){
+                            if (documentSnapshot.exists()) {
                                 Employee employee = documentSnapshot.toObject(Employee.class);
                                 boolean matchName = employee.getFullName().toLowerCase().contains(constraint.toString().toLowerCase());
                                 if (matchName) {

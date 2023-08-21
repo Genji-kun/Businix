@@ -3,7 +3,6 @@ package com.example.businix.activities.employee;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -18,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.businix.activities.ChangePasswordActivity;
 import com.example.businix.activities.LoginActivity;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.fragments.employee.HomeFragment;
@@ -27,8 +27,6 @@ import com.example.businix.R;
 import com.example.businix.models.Employee;
 import com.example.businix.ui.ActionBar;
 import com.example.businix.ui.CustomDialog;
-import com.example.businix.utils.DateUtils;
-import com.example.businix.utils.FirestoreUtils;
 import com.example.businix.utils.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -227,7 +225,11 @@ public class EmployeeActivity extends ActionBar implements NavigationView.OnNavi
             confirmDialog.setQuestion("Xác nhận đăng xuất");
             confirmDialog.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
             confirmDialog.setOnContinueClickListener((dialog, which) -> {
+                Intent i = new Intent(EmployeeActivity.this, LoginActivity.class);
+                loginManager.clearLogged();
                 finish();
+                startActivity(i);
+
             });
         } else if (itemId == R.id.nav_edit_personal) {
             Intent i = new Intent(EmployeeActivity.this, EditProfileActivity.class);
