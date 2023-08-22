@@ -137,7 +137,9 @@ public class TimeAttendanceActivity extends ActionBar {
 
                     gpsManager.checkInAtCompany();
                 }
-                showGpsAlertDialog();
+                else {
+                    showGpsAlertDialog();
+                }
 
             }
         });
@@ -331,12 +333,13 @@ public class TimeAttendanceActivity extends ActionBar {
 
     private void checkOut() {
         Calendar checkOutCal = Calendar.getInstance();
+        Attendance attendance = new Attendance();
+        attendance.setCheckOutTime(checkOutCal.getTime());
         checkOutCal.set(Calendar.MINUTE, 0);
         checkOutCal.set(Calendar.SECOND, 0);
         checkOutCal.set(Calendar.MILLISECOND, 0);
 
-        Attendance attendance = new Attendance();
-        attendance.setCheckOutTime(checkOutCal.getTime());
+
         attendance.setOvertime(0.0);
 
         CustomDialog dialog = new CustomDialog(this, R.layout.custom_dialog_2);

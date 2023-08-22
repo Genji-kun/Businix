@@ -42,6 +42,7 @@ public class SalaryActivity extends ActionBar {
     private LinearLayout btnSelectDate;
     private ProgressBar processBar;
     private TextView tvSalaryTotal, tvSalaryPrimary, tvSalaryOvertime, tvDescription;
+    private String empId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +64,14 @@ public class SalaryActivity extends ActionBar {
         tvSalaryOvertime = findViewById(R.id.salary_overtime);
         tvDescription = findViewById(R.id.tv_description);
 
-        LoginManager loginManager = new LoginManager(this);
+        empId = getIntent().getStringExtra("employeeId");
+        if (empId == null) {
+            LoginManager loginManager = new LoginManager(this);
+            empId = loginManager.getLoggedInUserId();
+        }
+
         EmployeeController employeeController = new EmployeeController();
-        employeeRef = employeeController.getEmployeeRef(loginManager.getLoggedInUserId());
+        employeeRef = employeeController.getEmployeeRef(empId);
 
         processBar = findViewById(R.id.progress_bar);
         btnSelectDate = findViewById(R.id.btn_select_time);
@@ -75,7 +81,7 @@ public class SalaryActivity extends ActionBar {
             selectMonth();
         });
         setLoading();
-        employeeController.getEmployeeById(loginManager.getLoggedInUserId(), task -> {
+        employeeController.getEmployeeById(empId, task -> {
             if (task.isSuccessful()) {
                 Employee employee = task.getResult();
                 (new PositionController()).getPositionById(employee.getPosition().getId(), task1 -> {
