@@ -131,7 +131,10 @@ public class SignUpStepOneFragment extends Fragment {
 
     }
     public int checkStepOne() {
-        int result = utils.CheckStepOne(inputName.getText().toString(), inputDOB.getText().toString(), Gender.valueOf(dropdownGender.getText().toString()), inputIdentityCard.getText().toString());
+        int result = utils.CheckStepOne(inputName.getText().toString(), inputDOB.getText().toString(), inputIdentityCard.getText().toString());
+        if(dropdownGender.getText().toString().isEmpty()){
+            result = 1;
+        }
         return result;
     }
     @Override

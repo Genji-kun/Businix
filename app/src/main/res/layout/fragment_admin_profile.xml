@@ -14,29 +14,7 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         android:layout_margin="30dp">
-        <LinearLayout
-            android:id="@+id/btn_user_setting"
-            android:layout_width="125dp"
-            android:layout_height="125dp"
-            android:background="@drawable/round_shape"
-            android:backgroundTint="@color/sub_purple"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="10dp"
-            android:elevation="1dp">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_edit_user"
-                ></ImageView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sửa thông tin"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/medium_font"
-                android:textColor="@color/black"></TextView>
-        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/btn_logout"
             android:layout_width="125dp"

@@ -107,6 +107,9 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
         dropdownDepartment = (AutoCompleteTextView) findViewById(R.id.dropdown_department);
         dropdownStatus = (AutoCompleteTextView) findViewById(R.id.dropdown_status);
 
+        emplBeforeUpdate = new Employee();
+        departmentController = new DepartmentController();
+        positionController = new PositionController();
 
         btnEditEmployee = (LinearLayout) findViewById(R.id.btn_edit_employee);
         tvBtnEditEmployee = (TextView) findViewById(R.id.tv_btn_edit_employee);
@@ -122,7 +125,6 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
         });
 
         posItems = new ArrayList<String>();
-        positionController = new PositionController();
         positionController.getPositionList(task -> {
             if (task.isSuccessful()) {
                 posList = task.getResult();
@@ -140,12 +142,12 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
             for (Position pos : posList) {
                 if (pos.getName().equals(posItems.get(position))) {
                     positionId = pos.getId();
+                    emplBeforeUpdate.setPosition(employeeController.getPositionRef(positionId));
                 }
             }
         });
 
         departmentItems = new ArrayList<String>();
-        departmentController = new DepartmentController();
         departmentController.getDepartmentList(task -> {
             if (task.isSuccessful()) {
                 departmentList = task.getResult();
@@ -163,6 +165,7 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
             for (Department department : departmentList) {
                 if (department.getName().equals(departmentItems.get(position))) {
                     departmentId = department.getId();
+                    emplBeforeUpdate.setDepartment(employeeController.getDepartmentRef(departmentId));
                 }
             }
         });
@@ -192,7 +195,6 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
         dropdownStatus.setAdapter(statusAdapter);
 
         employeeController = new EmployeeController();
-        emplBeforeUpdate = new Employee();
         employeeController.getEmployeeById(getIntent().getStringExtra("employeeId"), task -> {
             emplBeforeUpdate = task.getResult();
 
@@ -213,19 +215,23 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
             dropdownRole.setText(emplBeforeUpdate.getUserRole().toString(), false);
             dropdownStatus.setText(emplBeforeUpdate.getStatus().toString(), false);
 
+            if (emplBeforeUpdate.getPosition() != null){
+                emplBeforeUpdate.getPosition().get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        dropdownPosition.setText(documentSnapshot.getString("name"), false);
+                    }
+                });
+            }
 
-            emplBeforeUpdate.getPosition().get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    dropdownPosition.setText(documentSnapshot.getString("name"), false);
-                }
-            });
-            emplBeforeUpdate.getDepartment().get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    dropdownDepartment.setText(documentSnapshot.getString("name"), false);
-                }
-            });
+            if (emplBeforeUpdate.getDepartment() != null){
+                emplBeforeUpdate.getDepartment().get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        dropdownDepartment.setText(documentSnapshot.getString("name"), false);
+                    }
+                });
+            }
         });
         inputUsername.addTextChangedListener(new TextWatcher() {
             @Override
@@ -352,17 +358,22 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
             if (!dropdownRole.getText().toString().equals(emplBeforeUpdate.getUserRole().toString())) {
                 updateEmpl.setUserRole(UserRole.valueOf(dropdownRole.getText().toString()));
             }
-            if (!dropdownPosition.getText().toString().equals(emplBeforeUpdate.getPosition().toString())) {
-                updateEmpl.setPosition(employeeController.getPositionRef(positionId));
+
+            if (emplBeforeUpdate.getPosition() != null) {
+                if (!dropdownPosition.getText().toString().equals(emplBeforeUpdate.getPosition().toString())) {
+                    updateEmpl.setPosition(employeeController.getPositionRef(positionId));
+                }
             } else {
-                Toast.makeText(AdminEditEmployeeActivity.this, "Bạn chưa chọn vị trí", Toast.LENGTH_SHORT).show();
+                showErrorMessege("Bạn chưa chọn chức vụ");
                 return;
             }
 
-            if (!dropdownDepartment.getText().toString().equals(emplBeforeUpdate.getDepartment().toString())) {
-                updateEmpl.setDepartment(employeeController.getDepartmentRef(departmentId));
+            if (emplBeforeUpdate.getDepartment() != null) {
+                if (!dropdownDepartment.getText().toString().equals(emplBeforeUpdate.getDepartment().toString())) {
+                    updateEmpl.setDepartment(employeeController.getDepartmentRef(departmentId));
+                }
             } else {
-                Toast.makeText(AdminEditEmployeeActivity.this, "Bạn chưa chọn phòng ban", Toast.LENGTH_SHORT).show();
+                showErrorMessege("Bạn chưa chọn phòng ban");
                 return;
             }
 
@@ -447,18 +458,11 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
 
     public void showErrorMessege(String msg) {
         Toast.makeText(AdminEditEmployeeActivity.this, msg, Toast.LENGTH_SHORT).show();
-        tvBtnEditEmployee.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        btnEditEmployee.setEnabled(true);
-        btnBack.setEnabled(true);
+        normalView();
     }
 
     public void showSuccessDialog() {
-        tvBtnEditEmployee.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        btnEditEmployee.setEnabled(false);
-        btnEditEmployee.setBackgroundColor(Color.GRAY);
-        btnBack.setEnabled(true);
+        normalView();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AdminEditEmployeeActivity.this);
         View dialogView = LayoutInflater.from(AdminEditEmployeeActivity.this).inflate(R.layout.custom_dialog_2, null);
@@ -478,5 +482,21 @@ public class AdminEditEmployeeActivity extends AppCompatActivity {
             alertDialog.dismiss();
             finish();
         });
+    }
+
+    public void processingView() {
+        progressBar.setVisibility(View.VISIBLE);
+        tvBtnEditEmployee.setVisibility(View.GONE);
+        btnEditEmployee.setEnabled(false);
+        btnEditEmployee.setBackgroundColor(Color.LTGRAY);
+        btnBack.setEnabled(false);
+    }
+
+    public void normalView() {
+        progressBar.setVisibility(View.GONE);
+        tvBtnEditEmployee.setVisibility(View.VISIBLE);
+        btnEditEmployee.setEnabled(true);
+        btnEditEmployee.setBackgroundColor(getResources().getColor(R.color.light_purple));
+        btnBack.setEnabled(true);
     }
 }
