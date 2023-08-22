@@ -98,7 +98,7 @@ public class SalaryActivity extends ActionBar {
                 double totalPrimary = 0;
                 double totalOvertime = 0;
                 for (Attendance data : task2.getResult()) {
-                    if (data.getCheckInTime() != null && data.getCheckInTime() != null) {
+                    if (data.getCheckInTime() != null && data.getCheckOutTime() != null) {
                         calendar.setTime(data.getCheckInTime());
                         double overHours = data.getOvertime();
                         double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;

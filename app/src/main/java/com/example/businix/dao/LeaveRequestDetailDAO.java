@@ -16,6 +16,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,7 @@ public class LeaveRequestDetailDAO {
                             detail.setId(document.getId());
                             detailList.add(detail);
                         }
+                        detailList.sort(Comparator.comparing(LeaveRequestDetail::getDate));
                         return detailList;
                     } else {
                         Log.e("LeaveRequestDetailDAO", "Lỗi khi lấy list LeaveRequestDetail", task.getException());
@@ -89,6 +91,7 @@ public class LeaveRequestDetailDAO {
                     detail.setId(document.getId());
                     detailList.add(detail);
                 }
+                detailList.sort(Comparator.comparing(LeaveRequestDetail::getDate));
                 return detailList;
             } else {
                 Log.e("LeaveRequestDAO", "Lỗi", task.getException());

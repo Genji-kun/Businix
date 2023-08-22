@@ -147,6 +147,11 @@ public class AdminEditAttendanceActivity extends AppCompatActivity {
             calendar.set(Calendar.MINUTE, checkInM);
             attend.setCheckInTime(calendar.getTime());
             attend.setEmployee(attend.getEmployee());
+
+            calendar.setTime(checkOutTime);
+            calendar.set(Calendar.HOUR_OF_DAY, checkOutH);
+            calendar.set(Calendar.MINUTE, checkOutM);
+            attend.setCheckOutTime(calendar.getTime());
             checkTime(attend);
         });
         btnBack.setOnClickListener(v -> {

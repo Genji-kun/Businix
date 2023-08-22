@@ -49,7 +49,7 @@ public class TimeAttendanceActivity extends ActionBar {
 
     private Attendance availableAttend;
     private MyFindListener attendanceTodayLister, attendanceAnotherLister;
-    private TextView textDate;
+    private TextView textDate, defaultCheckInTime, defaultCheckOutTIme;
 
     private DocumentReference employeeRef;
     private LeaveRequestController leaveRequestController;
@@ -82,7 +82,8 @@ public class TimeAttendanceActivity extends ActionBar {
         });
         attendanceController = new AttendanceController();
         textDate = findViewById(R.id.text_date);
-
+        defaultCheckInTime = findViewById(R.id.default_time_check_in);
+        defaultCheckOutTIme = findViewById(R.id.default_time_check_out);
         btnCheckIn = findViewById(R.id.btn_check_in);
         btnCheckOut = findViewById(R.id.btn_check_out);
         disableMyButton(btnCheckOut);
@@ -246,7 +247,14 @@ public class TimeAttendanceActivity extends ActionBar {
                                             attendance.setCheckInTime(checkInCal.getTime());
                                         } else {
                                             Double lateHours = DateUtils.getDiffHours(attendance.getCheckInTime(), checkInCal.getTime());
-                                            if (lateHours * 60 > 15) {
+                                            if (lateHours * 60 > 2) {
+                                                CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                                errorDialog.show();
+                                                errorDialog.setQuestion("Không thể chấm công");
+                                                errorDialog.setMessage("Bạn đã trễ hơn 2 tiếng");
+                                                return;
+                                            }
+                                            else if (lateHours * 60 > 15) {
                                                 attendance.setLate(lateHours);
                                             }
                                         }
@@ -261,7 +269,14 @@ public class TimeAttendanceActivity extends ActionBar {
                             attendance.setCheckInTime(checkInCal.getTime());
                         } else {
                             Double lateHours = DateUtils.getDiffHours(attendance.getCheckInTime(), checkInCal.getTime());
-                            if (lateHours * 60 > 15) {
+                            if (lateHours * 60 > 2) {
+                                CustomDialog errorDialog = new CustomDialog(this, R.layout.custom_dialog_2);
+                                errorDialog.show();
+                                errorDialog.setQuestion("Không thể chấm công");
+                                errorDialog.setMessage("Bạn đã trễ hơn 2 tiếng");
+                                return;
+                            }
+                            else if (lateHours * 60 > 15) {
                                 attendance.setLate(lateHours);
                             }
                         }
@@ -283,6 +298,7 @@ public class TimeAttendanceActivity extends ActionBar {
                 disableMyButton(btnCheckIn);
                 enableMyButton(btnCheckOut);
                 setStatusTimeLineItem(R.id.part_check_in, DateUtils.formatDate(attendance.getCheckInTime(), "HH:mm"), false);
+                loadBreakOverTime(attendance, true);
             } else {
                 CustomDialog notificationDialog = new CustomDialog(this, R.layout.custom_dialog_2);
                 notificationDialog.show();
@@ -414,10 +430,10 @@ public class TimeAttendanceActivity extends ActionBar {
                 disableMyButton(btnCheckIn);
                 availableAttend = (Attendance) object;
                 setStatusTimeLineItem(R.id.part_check_in, DateUtils.formatDate(availableAttend.getCheckInTime(), "HH:mm"), false);
+                loadBreakOverTime(availableAttend, true);
                 if (availableAttend.getCheckOutTime() != null) {
                     disableMyButton(btnCheckOut);
                     setStatusTimeLineItem(R.id.part_check_out, DateUtils.formatDate(availableAttend.getCheckOutTime(), "HH:mm"), false);
-                    loadBreakOverTime(availableAttend, true);
                 } else {
                     ((TextView) findViewById(R.id.overtime_hours)).setText("0 hours");
                     setStatusTimeLineItem(R.id.part_check_out, "...", true);
@@ -439,9 +455,6 @@ public class TimeAttendanceActivity extends ActionBar {
                     } else {
                         setStatusTimeLineItem(R.id.part_after_break, "13:00", true);
                     }
-                    (findViewById(R.id.part_break)).setVisibility(View.VISIBLE);
-                    (findViewById(R.id.part_after_break)).setVisibility(View.VISIBLE);
-
                 }
             }
 
@@ -487,9 +500,9 @@ public class TimeAttendanceActivity extends ActionBar {
                 btnReload.setBackgroundTintList(AppCompatResources.getColorStateList(TimeAttendanceActivity.this, R.color.medium_purple));
                 Attendance attendance = (Attendance) object;
                 setStatusBackTimeItem(R.id.part_check_in, DateUtils.formatDate(attendance.getCheckInTime(), "HH:mm"), true);
+                loadBreakOverTime(attendance, false);
                 if (attendance.getCheckOutTime() != null) {
                     setStatusBackTimeItem(R.id.part_check_out, DateUtils.formatDate(attendance.getCheckOutTime(), "HH:mm"), true);
-                    loadBreakOverTime(attendance, false);
                 } else {
                     setStatusBackTimeItem(R.id.part_check_out, "...", false);
                     (findViewById(R.id.part_break)).setVisibility(View.VISIBLE);
@@ -511,6 +524,8 @@ public class TimeAttendanceActivity extends ActionBar {
                 (findViewById(R.id.part_break)).setVisibility(View.VISIBLE);
                 (findViewById(R.id.part_after_break)).setVisibility(View.VISIBLE);
                 btnReload.setBackgroundTintList(AppCompatResources.getColorStateList(TimeAttendanceActivity.this, R.color.medium_purple));
+                defaultCheckInTime.setText("8:00 AM");
+                defaultCheckOutTIme.setText("5:00 PM");
                 btnReload.setEnabled(true);
                 ((TextView) findViewById(R.id.overtime_hours)).setText("0 hours");
             }
@@ -523,12 +538,11 @@ public class TimeAttendanceActivity extends ActionBar {
     }
 
     private void reload() {
+        Calendar cal = Calendar.getInstance();
+        textDate.setText("Ngày " + DateUtils.formatDate(cal.getTime(), "dd-MM-yyyy"));
         if (availableAttend != null) {
             attendanceController.getAttendanceById(availableAttend.getId(), attendanceTodayLister);
-            Calendar cal = Calendar.getInstance();
-            textDate.setText("Ngày " + DateUtils.formatDate(cal.getTime(), "dd-MM-yyyy"));
         } else {
-            Calendar cal = Calendar.getInstance();
             attendanceController.getAttendanceByMonth(cal.getTime(), employeeRef, attendanceTodayLister);
         }
     }
@@ -639,15 +653,21 @@ public class TimeAttendanceActivity extends ActionBar {
         if (!isToday) {
             cal.setTime(attendance.getCheckInTime());
         }
-        cal.set(Calendar.HOUR_OF_DAY, 13);
+        cal.set(Calendar.HOUR_OF_DAY, 12);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         if (attendance.getCheckInTime().after(cal.getTime())) {
+            cal.set(Calendar.HOUR_OF_DAY, 13);
+            defaultCheckInTime.setText("1:00 PM");
             (findViewById(R.id.part_break)).setVisibility(View.GONE);
             (findViewById(R.id.part_after_break)).setVisibility(View.GONE);
         } else {
-            if (attendance.getCheckOutTime().after(cal.getTime())) {
+            defaultCheckInTime.setText("8:00 AM");
+
+            (findViewById(R.id.part_break)).setVisibility(View.VISIBLE);
+            (findViewById(R.id.part_after_break)).setVisibility(View.VISIBLE);
+            if (attendance.getCheckOutTime() != null && attendance.getCheckOutTime().after(cal.getTime())) {
                 (findViewById(R.id.part_break)).setVisibility(View.VISIBLE);
                 (findViewById(R.id.part_after_break)).setVisibility(View.VISIBLE);
                 if (isToday) {
@@ -663,8 +683,16 @@ public class TimeAttendanceActivity extends ActionBar {
                 (findViewById(R.id.part_after_break)).setVisibility(View.GONE);
             }
         }
+        cal.set(Calendar.HOUR_OF_DAY, 13);
+        if (attendance.getCheckOutTime() != null && attendance.getCheckOutTime().before(cal.getTime())) {
+            defaultCheckOutTIme.setText("12:00 AM");
+        }
+        else {
+            defaultCheckOutTIme.setText("5:00 PM");
+        }
+
         cal.set(Calendar.HOUR_OF_DAY, 17);
-        if (attendance.getCheckOutTime().after(cal.getTime())) {
+        if (attendance.getCheckOutTime() != null && attendance.getCheckOutTime().after(cal.getTime())) {
             double hours = DateUtils.getDiffHours(attendance.getCheckOutTime(), cal.getTime());
             if (hours >= 1) {
                 ((TextView) findViewById(R.id.overtime_hours)).setText(hours + " hours");

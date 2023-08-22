@@ -144,17 +144,20 @@ public class StatActivity extends ActionBar {
                     double totalOvertimeHours = 0;
                     double totalLateHours = 0;
                     for (Attendance data : task2.getResult()) {
-                        Calendar temp = Calendar.getInstance();
-                        temp.setTime(data.getCheckInTime());
-                        double overHours = data.getOvertime();
-                        double lateHours = data.getLate();
-                        double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;
-                        totalWorkHours += workHours;
-                        totalOvertimeHours += overHours;
-                        totalLateHours += lateHours;
-                        workEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (workHours)));
-                        overTimeEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (overHours)));
-                        lateEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (lateHours)));
+                        if (data.getCheckInTime() != null && data.getCheckOutTime() != null) {
+                            Calendar temp = Calendar.getInstance();
+                            temp.setTime(data.getCheckInTime());
+                            double overHours = data.getOvertime();
+                            double lateHours = data.getLate();
+                            double workHours = DateUtils.getDiffHours(data.getCheckInTime(), data.getCheckOutTime()) - overHours;
+                            totalWorkHours += workHours;
+                            totalOvertimeHours += overHours;
+                            totalLateHours += lateHours;
+                            workEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (workHours)));
+                            overTimeEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (overHours)));
+                            lateEntries.add(new Entry(temp.get(Calendar.DAY_OF_MONTH), (float) (lateHours)));
+                        }
+
                     }
                     tvLateHours.setText(String.format("%.2f giờ", totalLateHours));
                     tvOvertimeHours.setText(String.format("%.2f giờ", totalOvertimeHours));

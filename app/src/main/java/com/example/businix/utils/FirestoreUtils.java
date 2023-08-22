@@ -16,7 +16,7 @@ public class FirestoreUtils {
             field.setAccessible(true);
             String propertyName = field.getName();
             Object value = field.get(object);
-            if (value != null) {
+            if (value != null && !propertyName.equals("id")) {
                 updates.put(propertyName, value);
             }
         }

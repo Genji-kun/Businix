@@ -33,6 +33,11 @@ public class LeaveRequestController {
         getLeaveRequestListTask.addOnCompleteListener(onCompleteListener);
     }
 
+    public void getLeaveRequestListOfEmployee(DocumentReference emp, OnCompleteListener<List<LeaveRequest>> onCompleteListener) {
+        Task<List<LeaveRequest>> getLeaveRequestListTask = leaveRequestDAO.getLeaveRequestListOfEmployee(emp);
+        getLeaveRequestListTask.addOnCompleteListener(onCompleteListener);
+    }
+
     public void getLeaveRequestById(String leaveRequestId, OnCompleteListener<LeaveRequest> onCompleteListener) {
         Task<LeaveRequest> getLeaveRequestTask = leaveRequestDAO.getLeaveRequestById(leaveRequestId);
         getLeaveRequestTask.addOnCompleteListener(onCompleteListener);

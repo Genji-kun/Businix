@@ -89,6 +89,25 @@ public class LeaveRequestDAO {
         });
     }
 
+    public Task<List<LeaveRequest>> getLeaveRequestListOfEmployee(DocumentReference emp) {
+        Query query = db.collection(collectionPath);
+        query = query.whereEqualTo("employee", emp);
+        return query.get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                List<LeaveRequest> leaveRequestList = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    LeaveRequest leaveRequest = document.toObject(LeaveRequest.class);
+                    leaveRequest.setId(document.getId());
+                    leaveRequestList.add(leaveRequest);
+                }
+                return leaveRequestList;
+            } else {
+                Log.e("LeaveRequestDAO", "Lỗi khi lấy list LeaveRequest", task.getException());
+                throw task.getException();
+            }
+        });
+    }
+
     public Task<LeaveRequest> getLeaveRequestById(String id) {
         DocumentReference leaveRequestRef = db.collection(collectionPath).document(id);
         return leaveRequestRef.get().continueWith(task -> {
