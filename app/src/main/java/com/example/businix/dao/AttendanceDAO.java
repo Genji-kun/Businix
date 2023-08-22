@@ -146,6 +146,8 @@ public class AttendanceDAO {
                 Map<Date, List<Attendance>> attendanceByDate = new HashMap<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Attendance attendance = document.toObject(Attendance.class);
+                    if (attendance.getCheckInTime() == null || attendance.getCheckOutTime() == null)
+                        continue;
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(attendance.getCheckInTime());
                     cal.set(Calendar.HOUR_OF_DAY, 0);
