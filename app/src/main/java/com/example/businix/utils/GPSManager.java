@@ -20,8 +20,8 @@ public class GPSManager {
 
     private final Context context;
     private final FusedLocationProviderClient fusedLocationClient;
-    private final double companyLatitude = 10.762068; // Vĩ độ công ty
-    private final double companyLongitude = 106.692808; // Kinh độ công ty
+    private final double companyLatitude = 10.8170184; // Vĩ độ công ty
+    private final double companyLongitude = 106.6769151; // Kinh độ công ty
     private OnLocationCheckListener onLocationCheckListener;
     private LocationCallback locationCallback;
 
@@ -30,7 +30,7 @@ public class GPSManager {
     }
 
     //10.762068, 106.692808
-    //10.8170599, 106.6768298
+    //10.8170184,106.6769151
     public GPSManager(Context context) {
         this.context = context;
 
