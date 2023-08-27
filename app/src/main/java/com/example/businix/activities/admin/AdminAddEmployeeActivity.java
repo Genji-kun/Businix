@@ -58,7 +58,6 @@ public class AdminAddEmployeeActivity extends AppCompatActivity {
     private LinearLayout btnAddEmployee;
     private TextView tvBtnAddEmployee;
     private ProgressBar progressBar;
-
     private EmployeeController employeeController;
     private PositionController positionController;
     private DepartmentController departmentController;

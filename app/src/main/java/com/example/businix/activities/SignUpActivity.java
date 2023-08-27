@@ -202,42 +202,41 @@ public class SignUpActivity extends AppCompatActivity {
                         employee.setAvatar(null);
                         employee.setUserRole(UserRole.USER);
                         employee.setStatus(Status.PENDING);
-                        i.putExtra("employee", employee);
-                        startActivity(i);
-//                        ImageView imgAvatar = stepFourFragment.getImgAvatar();
-//                        if (imgAvatar.getDrawable() != null) {
-//                            Uri imageUri = stepFourFragment.getImgUri();
-//                            if (imageUri != null) {
-//                                MediaManager.get().upload(imageUri).callback(new UploadCallback() {
-//                                    @Override
-//                                    public void onStart(String requestId) {
-//                                    }
-//                                    @Override
-//                                    public void onProgress(String requestId, long bytes, long totalBytes) {
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(String requestId, Map resultData) {
-//                                        String imageUrl = resultData.get("secure_url").toString();
-//                                        employee.setAvatar(imageUrl);
-//                                        employee.setUserRole(UserRole.USER);
-//                                        employee.setStatus(Status.PENDING);
-//                                        i.putExtra("employee", employee);
-//                                        startActivity(i);
-//                                    }
-//                                    @Override
-//                                    public void onError(String requestId, ErrorInfo error) {
-//                                        Toast.makeText(SignUpActivity.this, "Đã có lỗi xảy ra", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                    @Override
-//                                    public void onReschedule(String requestId, ErrorInfo error) {
-//
-//                                    }
-//                                }).dispatch();
-//                            }
-//                        } else {
-//                            stepIndex--;
-//                        }
+                        ImageView imgAvatar = stepFourFragment.getImgAvatar();
+                        if (imgAvatar.getDrawable() != null) {
+                            Uri imageUri = stepFourFragment.getImgUri();
+                            if (imageUri != null) {
+                                MediaManager.get().upload(imageUri).callback(new UploadCallback() {
+                                    @Override
+                                    public void onStart(String requestId) {
+                                    }
+                                    @Override
+                                    public void onProgress(String requestId, long bytes, long totalBytes) {
+                                    }
+
+                                    @Override
+                                    public void onSuccess(String requestId, Map resultData) {
+                                        String imageUrl = resultData.get("secure_url").toString();
+                                        employee.setAvatar(imageUrl);
+                                        employee.setUserRole(UserRole.USER);
+                                        employee.setStatus(Status.PENDING);
+                                        i.putExtra("employee", employee);
+                                        startActivity(i);
+                                    }
+                                    @Override
+                                    public void onError(String requestId, ErrorInfo error) {
+                                        Toast.makeText(SignUpActivity.this, "Đã có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                                    }
+                                    @Override
+                                    public void onReschedule(String requestId, ErrorInfo error) {
+
+                                    }
+                                }).dispatch();
+                            }
+                        } else {
+                            Toast.makeText(SignUpActivity.this, "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                            stepIndex--;
+                        }
                         break;
                     default:
                         break;
@@ -298,6 +297,7 @@ public class SignUpActivity extends AppCompatActivity {
             ((SignUpStepFourFragment) stepFourFragment).handleActivityResult(requestCode, resultCode, data);
         }
     }
+
 
 
 }

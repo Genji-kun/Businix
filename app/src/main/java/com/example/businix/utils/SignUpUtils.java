@@ -3,8 +3,8 @@ package com.example.businix.utils;
 import com.example.businix.models.Gender;
 
 public class SignUpUtils {
-    public int CheckStepOne(String name, String dob, Gender gender, String identityCard) {
-        if ((name.trim().isEmpty() || gender == null || dob.isEmpty() || identityCard.trim().isEmpty())) {
+    public int CheckStepOne(String name, String dob, String identityCard) {
+        if ((name.trim().isEmpty() || dob.isEmpty() || identityCard.trim().isEmpty())) {
             return 1;
         }
         return 0;

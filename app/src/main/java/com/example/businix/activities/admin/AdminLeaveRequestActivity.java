@@ -47,6 +47,7 @@ public class AdminLeaveRequestActivity extends AppCompatActivity {
                 List<LeaveRequest> leaveRequestList = task.getResult();
                 leaveRequestHistoryAdapter = new LeaveRequestHistoryAdapter(AdminLeaveRequestActivity.this, leaveRequestList);
                 listView.setAdapter(leaveRequestHistoryAdapter);
+                leaveRequestHistoryAdapter.setIsVisibleForHistory(true);
                 leaveRequestHistoryAdapter.setIsVisible(true);
                 progressBar.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);

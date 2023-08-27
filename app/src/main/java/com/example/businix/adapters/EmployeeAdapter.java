@@ -68,18 +68,21 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
             }
             TextView tvPosName = (TextView) view.findViewById(R.id.tv_position_name);
             if (tvPosName != null) {
-                employee.getPosition().get().addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        Position pos = documentSnapshot.toObject(Position.class);
-                        String positionName = pos.getName();
-                        if (employee.getUserRole().toString().equals("ADMIN")) {
-                            tvPosName.setText("Admin");
-                        } else
-                            tvPosName.setText(positionName);
-                    } else {
-                        tvPosName.setText("Chưa có chức vụ");
-                    }
-                });
+                if(employee.getPosition() != null){
+                    employee.getPosition().get().addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            Position pos = documentSnapshot.toObject(Position.class);
+                            String positionName = pos.getName();
+                            if (employee.getUserRole().toString().equals("ADMIN")) {
+                                tvPosName.setText("Admin");
+                            } else
+                                tvPosName.setText(positionName);
+                        }
+                    });
+                }
+                else {
+                    tvPosName.setText("Chưa có chức vụ");
+                }
             }
 
             btnEditEmployee.setOnClickListener(v -> {
