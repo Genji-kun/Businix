@@ -49,7 +49,6 @@ public class AttendanceAdapter extends ArrayAdapter<Attendance> {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.list_view_attendance, null);
         }
-        AttendanceController attendanceController = new AttendanceController();
         Attendance attendance = filteredList.get(position);
 
         ImageView imgAvatar = (ImageView) view.findViewById(R.id.img_avatar);
