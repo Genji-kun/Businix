@@ -18,6 +18,7 @@ import com.example.businix.R;
 import com.example.businix.controllers.EmployeeController;
 import com.example.businix.models.Employee;
 import com.example.businix.ui.CustomDialog;
+import com.example.businix.utils.PasswordHash;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -103,6 +104,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                             tvBtnVerify.setVisibility(View.VISIBLE);
                             if (task.isSuccessful()) {
+                                newEmpl.setPassword(PasswordHash.hashPassword(newEmpl.getPassword()));
                                 employeeController.addEmployee(newEmpl, addTask -> {
                                     if (addTask.isSuccessful()) {
                                         customDialog = new CustomDialog(VerifyOtpActivity.this, R.layout.custom_dialog_2);
